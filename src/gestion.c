@@ -3,7 +3,19 @@
 #include "gestion.h"
 
 struct Meeple * creerMeeple(int position, char couleur){
+    /* Input : int position (position dans une tuile compris dans [0,5]), char couleur
+    Output : struct Meeple *
+    But : créer un struct Meeple 
+    */
+    struct Meeple * meeple = (struct Meeple *) malloc(sizeof(struct Meeple));
 
+    if (meeple == NULL){
+        return NULL;
+    }
+    
+    meeple->position = position;
+    meeple->couleur = couleur;
+    return meeple;
 }
 
 int poserMeeple(int x, int y, int position, char couleur){

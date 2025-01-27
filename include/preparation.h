@@ -3,7 +3,7 @@
 
 #include "structure.h"
 
-struct Tuile * creerTuile(char * elements);
+struct Tuile * creerTuile(char elements[5]);
 void detruireTuile(struct Tuile tuile);
 int poserTuile();
 void rotationTuile(struct Tuile tuile, int sens);

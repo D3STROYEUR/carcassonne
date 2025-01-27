@@ -2,9 +2,33 @@
 #include <stdlib.h>
 #include "preparation.h"
 
-struct Tuile * creerTuile(char * elements){
+/*
+route = 'r'
+ville = 'v'
+blason (ville avec blason) = 'b'
+pré = 'p'
+village = 'c'
+abbaye = 'a'
+*/
 
+struct Tuile * creerTuile(char elements[5]){
+    /* Input : char elements[5] (les 5 cases représentant les bâtiment de la Tuile dans l'ordre Nord, Est, Sud, Ouest, Centre. Les caractères codant les bâtiment se trouvent en haut du fichier)
+    Output : struct Tuile *
+    But : créer un struct Tuile 
+    */
+    struct Tuile * tuile = (struct Tuile *) malloc(sizeof(struct Tuile));
+    tuile->elements = (char *) malloc(5*sizeof(char));
+    if (tuile == NULL){
+        return NULL;
+    }
+    
+    for(int i = 0; i<5; ++i){
+        tuile->elements[i] = elements[i];
+    }
+    tuile->meeple = NULL;
+    return tuile;
 }
+
 void detruireTuile(struct Tuile tuile){
 
 }
