@@ -29,10 +29,54 @@ struct Tuile * creerTuile(char elements[5]){
     return tuile;
 }
 
-void detruireTuile(struct Tuile tuile){
-
+void detruireTuile(struct Tuile ** tuile){
+    /* Input : struct Tuile ** tuile 
+    Output : void
+    But : détruire et désallouer la tuile
+    */
+    if((*tuile)->elements != NULL){
+        free((*tuile)->elements);
+    }
+    if((*tuile)->meeple != NULL){
+        free((*tuile)->meeple);
+    }
+    if(*tuile != NULL){
+        free(*tuile);
+        *tuile=NULL;
+    }
+    //// DETRUIRE  LE MEEPLEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 }
-int poserTuile(int x, int y){
+
+struct Tuile *** creerGrille(int n){
+    /* Input : int n
+    Output : struct Tuile ***
+    But : créer une grille (c'est à dire une liste 2D de pointeurs vers des struct Tuile)
+    */
+    struct Tuile *** grille = (struct Tuile ***) malloc(n*sizeof(struct Tuile **));
+    for(int i=0; i<n; ++i){
+        grille[i] = (struct Tuile **) malloc(n*sizeof(struct Tuile *));
+    }
+    return grille;
+}
+
+void detruireGrille(struct Tuile **** grille, int n){
+    /* Input : struct Tuile **** grille, int n
+    Output : void
+    But : détruire une grille, ainsi que toutes les Tuiles quelle contient
+    */
+    for(int i=0; i<n; ++i){
+        for(int j=0; j<n; ++j){
+            if((*grille)[i][j]!=NULL){
+                detruireTuile(&((*grille)[i][j]));
+            }
+        }
+        free((*grille)[i]);
+    }
+    free((*grille));
+    *grille = NULL;
+}
+
+int poserTuile(struct Tuile* grille, int x, int y){
 
 }
 void rotationTuile(struct Tuile tuile, int sens){

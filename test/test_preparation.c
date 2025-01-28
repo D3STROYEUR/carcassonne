@@ -27,6 +27,52 @@ int testPreparation(int debug){
         }
     }
 
+    //detuireTuile() /!\ Vérifie seulement s'il renvoie NULL, faire un valgrind du fichier pour vérifier les leaks de mémoire
+    detruireTuile(&tuile1);
+    if (tuile1==NULL){
+        ++reussi;
+        if (debug){
+            printf("[DEBUG]\033[48;5;22m\033[97mV\033[0m detruireTuile 1\n");
+        }
+    }else{
+        ++echoue;
+        if (debug){
+            printf("[DEBUG]\033[48;5;52m\033[97mX\033[0m detruireTuile 1\n");
+        }
+    }
+
+    //creerGrille()
+    struct Tuile *** grille1 = creerGrille(143);
+    int i =0;
+    while(grille1 != NULL && i<143 && grille1[i]!=NULL){
+        ++i;
+    }
+    if(i==143){
+        ++reussi;
+        if (debug){
+            printf("[DEBUG]\033[48;5;22m\033[97mV\033[0m creerGrille 1\n");
+        }
+    }else{
+        ++echoue;
+        if (debug){
+            printf("[DEBUG]\033[48;5;52m\033[97mX\033[0m creerGrille 1\n");
+        }
+    }
+
+    //detruireGrille() /!\ Vérifie seulement s'il renvoie NULL, faire un valgrind du fichier pour vérifier les leaks de mémoire
+    detruireGrille(&grille1,143);
+    if(grille1==NULL){
+        ++reussi;
+        if (debug){
+            printf("[DEBUG]\033[48;5;22m\033[97mV\033[0m detruireGrille 1\n");
+        }
+    }else{
+        ++echoue;
+        if (debug){
+            printf("[DEBUG]\033[48;5;52m\033[97mX\033[0m detruireGrille 1\n");
+        }
+    }
+
 
     
     // printf final
