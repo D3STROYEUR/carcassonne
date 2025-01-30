@@ -120,11 +120,11 @@ int testPreparation(int debug){
         }
     }
 
-    poserTuile(grille2,&tuile2, 49,49);
+    poserTuile(grille2,&tuile2, 51,49);
     int test6=1;
     for(int i=0; i<143; ++i){
         for(int j=0; j<143; ++j){
-            if(((i!=50 || j!=50) && (i!=49 || j!=49)) && grille2[i][j]!=NULL){
+            if(((i!=50 || j!=50) && (i!=51 || j!=49)) && grille2[i][j]!=NULL){
                 test2=0;
             }
         }
@@ -134,17 +134,16 @@ int testPreparation(int debug){
     int test7=1;
     for(int i=0; i<143; ++i){
         for(int j=0; j<143; ++j){
-            if(((i!=50 || j!=50) && (i!=49 || j!=49) && (i!=52 || j!=50)) && grille2[i][j]!=NULL){
+            if(((i!=50 || j!=50) && (i!=51 || j!=49) && (i!=52 || j!=50)) && grille2[i][j]!=NULL){
                 test3=0;
             }
         }
     }
 
-    int testemplacement1 = verifierEmplacementTuile(grille2,tuile4,51,51);
+    int testemplacement1 = verifierEmplacementTuile(grille2,tuile4,51,50);
     int testemplacement2 = verifierEmplacementTuile(grille2,tuile4,10,10);
     int testemplacement3 = verifierEmplacementTuile(grille2,tuile4,50,51);
     
-    poserTuile(grille2,&tuile3, 51,51);
     int test8=1;
     for(int i=0; i<143; ++i){
         for(int j=0; j<143; ++j){
@@ -222,6 +221,49 @@ int testPreparation(int debug){
         if (debug)
             printf("[DEBUG]\033[48;5;52m\033[97mX\033[0m verifierEmplacementTuile 3\n");
     }
+
+    //rotationTuile
+
+    char char_tuile1_rotation[5] = {'p','r','v','b','a'};
+    rotationTuile(*tuile1,1);
+    int test_rotation1=0;
+    for(int i=0; i<5; ++i){
+        if(tuile1->elements[i] == char_tuile1_rotation[i]){
+            ++test_rotation1;
+        }
+    }
+
+    rotationTuile(*tuile1,-1);
+    int test_rotation2=0;
+    for(int i=0; i<5; ++i){
+        if(tuile1->elements[i] == char_tuile1[i]){
+            ++test_rotation2;
+        }
+    }
+
+    if(test_rotation1 == 5){
+        ++reussi;
+        if (debug)
+            printf("[DEBUG]\033[48;5;22m\033[97mV\033[0m rotationTuile 1\n");
+    }else{
+        ++echoue;
+        if (debug)
+            printf("[DEBUG]\033[48;5;52m\033[97mX\033[0m rotationTuile 1\n");
+    }
+    if(test_rotation2 == 5){
+        ++reussi;
+        if (debug)
+            printf("[DEBUG]\033[48;5;22m\033[97mV\033[0m rotationTuile 2\n");
+    }else{
+        ++echoue;
+        if (debug)
+            printf("[DEBUG]\033[48;5;52m\033[97mX\033[0m rotationTuile 2\n");
+    }
+
+
+    detruireTuile(&tuile4);
+    detruireGrille(&grille2,143);
+
 
     // printf final
     printf("[%s] %d test(s) passé(s) : %d reussi(s), %d échoué(s)\n",(echoue==0)? "\033[48;5;22m\033[97mV\033[0m": "\033[48;5;52m\033[97mX\033[0m",reussi+echoue,reussi,echoue);

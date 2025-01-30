@@ -17,8 +17,15 @@ struct Tuile * creerTuile(char elements[5]){
     But : créer un struct Tuile 
     */
     struct Tuile * tuile = (struct Tuile *) malloc(sizeof(struct Tuile));
+    if(tuile == NULL){
+        printf("ERREUR malloc creerTuile");
+        return NULL;
+    }
     tuile->elements = (char *) malloc(5*sizeof(char));
-    if (tuile == NULL){
+
+    if(tuile->elements == NULL){
+        free(tuile);
+        printf("ERREUR malloc creerTuile elements");
         return NULL;
     }
     
@@ -34,13 +41,12 @@ void detruireTuile(struct Tuile ** tuile){
     Output : void
     But : détruire et désallouer la tuile
     */
-    if((*tuile)->elements != NULL){
-        free((*tuile)->elements);
-    }
-    if((*tuile)->meeple != NULL){
-        free((*tuile)->meeple);
-    }
-    if(*tuile != NULL){
+    if(tuile != NULL && *tuile != NULL){
+        if((*tuile)->elements != NULL){
+            free((*tuile)->elements);
+            (*tuile)->elements = NULL;
+        }
+        ///////////////////////// DETRUIRE LE MEEPLE QUAND IMPLEMENTE
         free(*tuile);
         *tuile=NULL;
     }
@@ -54,6 +60,9 @@ struct Tuile *** creerGrille(int n){
     struct Tuile *** grille = (struct Tuile ***) malloc(n*sizeof(struct Tuile **));
     for(int i=0; i<n; ++i){
         grille[i] = (struct Tuile **) malloc(n*sizeof(struct Tuile *));
+        for(int j=0; j<n ; ++j){
+            grille[i][j] = NULL;
+        }
     }
     return grille;
 }
@@ -65,11 +74,13 @@ void detruireGrille(struct Tuile **** grille, int n){
     */
     for(int i=0; i<n; ++i){
         for(int j=0; j<n; ++j){
-            if((*grille)[i][j]!=NULL){
+            if((*grille)[i][j] != NULL){
                 detruireTuile(&((*grille)[i][j]));
+                (*grille)[i][j] = NULL;
             }
         }
         free((*grille)[i]);
+        (*grille)[i] = NULL;
     }
     free((*grille));
     *grille = NULL;
@@ -98,20 +109,20 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
         res = 0;
     }
     //haut
-    if(res && grille[x-1][y] != NULL && !batimentsEgaux(grille[x-1][y]->elements[3],tuile->elements[1])){
-            res = 0;
+    if(res && grille[x][y-1] != NULL && !batimentsEgaux(grille[x][y-1]->elements[2],tuile->elements[0])){
+        res = 0;
     }
     //bas
-    if(res && grille[x+1][y] != NULL && !batimentsEgaux(grille[x+1][y]->elements[1],tuile->elements[3])){
-            res = 0;
+    if(res && grille[x][y+1] != NULL && !batimentsEgaux(grille[x+1][y]->elements[0],tuile->elements[2])){
+        res = 0;
     }
     //gauche
-    if(res && grille[x][y-1] != NULL && !batimentsEgaux(grille[x][y-1]->elements[2],tuile->elements[4])){
-            res = 0;
+    if(res && grille[x-1][y] != NULL && !batimentsEgaux(grille[x-1][y]->elements[1],tuile->elements[3])){
+        res = 0;
     }
     //droite
-    if(res && grille[x][y+1] != NULL && !batimentsEgaux(grille[x][y+1]->elements[4],tuile->elements[2])){
-            res = 0;
+    if(res && grille[x+1][y] != NULL && !batimentsEgaux(grille[x+1][y]->elements[3],tuile->elements[1])){
+        res = 0;
     }
     return res;
 }
@@ -124,7 +135,33 @@ void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
     */
    grille[x][y] = *tuile;
 }
+
 void rotationTuile(struct Tuile tuile, int sens){
+    /* Input : struct Tuile tuile, int sens
+    Output : void
+    But : tourne la tuile (1) sens horaire (-1) sens trigonometrique. La rotation ne peut se faire que si la tuile n'est pas dans une grille.
+    */
+    if(tuile.elements != NULL){
+        if(sens == 1){
+            int tmp1,tmp2;
+            tmp1 = tuile.elements[1];
+            tuile.elements[1] = tuile.elements[0];
+            tmp2 = tuile.elements[2];
+            tuile.elements[2] = tmp1;
+            tmp1 = tuile.elements[3];
+            tuile.elements[3]=tmp2;
+            tuile.elements[0]=tmp1;
+        }else if(sens == -1){
+            int tmp1,tmp2;
+            tmp1 = tuile.elements[3];
+            tuile.elements[3] = tuile.elements[0];
+            tmp2 = tuile.elements[2];
+            tuile.elements[2] = tmp1;
+            tmp1 = tuile.elements[1];
+            tuile.elements[1]=tmp2;
+            tuile.elements[0]=tmp1;
+        }
+    }
 
 }
 struct Tuile ** lireCSV(char * nom_fichier){
