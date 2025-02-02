@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "preparation.h"
 
 /*
@@ -162,10 +163,125 @@ void rotationTuile(struct Tuile tuile, int sens){
             tuile.elements[0]=tmp1;
         }
     }
-
 }
-struct Tuile ** lireCSV(char * nom_fichier){
 
+struct ListeChainee * creerLC(){
+    /* Input : void
+    Output : struct ListeChainee * 
+    But : Alloue un struct ListeChainee, et l'initialise à NULL
+    */
+    struct ListeChainee * liste = (struct ListeChainee *) malloc(sizeof(struct ListeChainee));
+    liste->tuile = NULL;
+    liste->suivant = NULL;
+    return liste;
+}
+
+void detruireLC(struct ListeChainee ** liste){
+    /* Input : struct ListeChainee * liste 
+    Output : void
+    But : free un struct ListeChainee, mais pas la tuile qu'elle contient.
+    */
+    if((*liste) != NULL){
+        free((*liste));
+        (*liste) = NULL;
+    }
+}
+
+struct ListeChainee * ajoutPremierElementLC(struct ListeChainee * liste, struct Tuile * nouveau){
+    /* Input : struct ListeChainee * liste (tête de la liste chaînée), struct Tuile * nouveau (nouvel élément à ajouter)
+    Output : struct ListeChainee * 
+    But : ajoute un élément au début de la liste chainée, et renvoie le pointeur vers la nouvelle tête.
+    */
+    struct ListeChainee * tete = creerLC();
+    tete->tuile = nouveau;
+    tete->suivant = liste;
+    return tete;
+}
+
+struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n){
+    /* Input : struct ListeChainee ** liste (tête de la liste chaînée), int n
+    Output : struct Tuile * 
+    But : supprime le n-ième élément de la liste chaîné, et renvoie la tuile correspondante.
+    */
+    if(liste != NULL && *liste != NULL){
+        if(n == 0){
+            struct ListeChainee * suppr = (*liste);
+            struct Tuile * tuile = suppr->tuile;
+            (*liste)=(*liste)->suivant;
+            detruireLC(&suppr);
+            return tuile;
+        }
+        int i = 0;
+        struct ListeChainee ** ancien = liste;
+        while(i<n && (*ancien) != NULL && (*ancien)->suivant != NULL){
+            ancien = &((*ancien)->suivant);
+            ++i;
+        }
+        if(i == n){
+            struct ListeChainee * suppr = (*ancien);
+            struct Tuile * tuile = suppr->tuile;
+            (*ancien)->suivant = suppr->suivant;
+            detruireLC(&suppr);
+            return tuile;
+        }
+    }
+    return NULL;
+}
+
+char elementEnCode(char * element){
+    /* Input : char * element
+    Output : char
+    But : renvoie le code de l'élement mis en paramètre.
+    */
+    //sttrcmp compare si les chaines de caract_res contiennent les mêmes caracteres. Retourne 0 si egaux, un nombre relatif sinon.
+    if (strcmp(element,"route") == 0){
+        return 'r';
+    }else if (strcmp(element,"ville") == 0){
+        return 'v';
+    }else if (strcmp(element,"blason") == 0){
+        return 'b';
+    }else if (strcmp(element,"pre") == 0){
+        return 'p';
+    }else if (strcmp(element,"village") == 0){
+        return 'c';
+    }else if (strcmp(element,"abbaye") == 0){
+        return 'a';
+    }
+    printf("L'élément n'a pas pu être reconnu\n");
+    return 'Z';
+}
+
+int lireCSV(struct ListeChainee ** liste, char * nom_fichier){
+    /* Input : struct ListeChainee liste, char * nom_fichier
+    Output : int
+    But : Lit le fichier CSV et met les tuiles dans la liste chainee. Renvoie le nombre de tuiles.
+    */
+    FILE * fichier = fopen(nom_fichier,"r");
+    char delimiter[2] = ",";
+    int nb_element = 0;
+    if (fichier == NULL){
+        printf("Le fichier de donnée ne peut être lu !! \n");
+    }else{
+        char ligne[256];
+        while (fscanf(fichier,"%s",ligne) == 1){
+            //strtok remplace le délimiteur par un \0, et renvoie un pointeur sur ligne depuis le début du mot. Le mot s'arrête donc désormais à \0
+            char * colonne1 = strtok(ligne,delimiter);
+            //on continue d'utiliser ligne, donc on met à NULL
+            char * colonne2 = strtok(NULL,delimiter);
+            char * colonne3 = strtok(NULL,delimiter);
+            char * colonne4 = strtok(NULL,delimiter);
+            char * colonne5 = strtok(NULL,delimiter);
+            
+            char element[] = {elementEnCode(colonne1),elementEnCode(colonne2),elementEnCode(colonne3),elementEnCode(colonne4),elementEnCode(colonne5)};
+            struct Tuile *tuile = creerTuile(element);
+            (*liste) = ajoutPremierElementLC((*liste), tuile);
+
+            ++nb_element;
+        }
+
+    }
+    fclose(fichier);
+    return nb_element;
 }
 struct Tuile ** melangeTuiles(struct Tuile ** tuile){
 

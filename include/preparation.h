@@ -11,7 +11,12 @@ int batimentsEgaux(char a, char b);
 int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x, int y);
 void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y);
 void rotationTuile(struct Tuile tuile, int sens);
-struct Tuile ** lireCSV(char * nom_fichier);
+struct ListeChainee * creerLC();
+void detruireLC(struct ListeChainee ** liste);
+struct ListeChainee * ajoutPremierElementLC(struct ListeChainee * liste, struct Tuile * nouveau);
+struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n);
+char elementEnCode(char * element);
+int lireCSV(struct ListeChainee ** liste, char * nom_fichier);
 struct Tuile ** melangeTuiles(struct Tuile **);
 
 #endif

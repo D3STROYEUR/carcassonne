@@ -17,4 +17,9 @@ struct Joueur{
     int meeple;
 };
 
+struct ListeChainee{
+    struct Tuile *tuile;
+    struct ListeChainee * suivant;
+};
+
 #endif
