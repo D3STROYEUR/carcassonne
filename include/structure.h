@@ -15,6 +15,7 @@ struct Tuile{
 struct Joueur{
     int score;
     int meeple;
+    char couleur;
 };
 
 #endif
