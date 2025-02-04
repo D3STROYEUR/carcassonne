@@ -17,6 +17,6 @@ struct ListeChainee * ajoutPremierElementLC(struct ListeChainee * liste, struct 
 struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n);
 char elementEnCode(char * element);
 int lireCSV(struct ListeChainee ** liste, char * nom_fichier);
-struct Tuile ** melangeTuiles(struct Tuile **);
+struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n);
 
 #endif

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "preparation.h"
 
 /*
@@ -217,14 +218,16 @@ struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n){
         }
         int i = 0;
         struct ListeChainee ** ancien = liste;
+        struct ListeChainee ** ancien_ancien = NULL;
         while(i<n && (*ancien) != NULL && (*ancien)->suivant != NULL){
+            ancien_ancien = ancien;
             ancien = &((*ancien)->suivant);
             ++i;
         }
         if(i == n){
             struct ListeChainee * suppr = (*ancien);
             struct Tuile * tuile = suppr->tuile;
-            (*ancien)->suivant = suppr->suivant;
+            (*ancien_ancien)->suivant = suppr->suivant;
             detruireLC(&suppr);
             return tuile;
         }
@@ -287,6 +290,18 @@ int lireCSV(struct ListeChainee ** liste, char * nom_fichier){
     fclose(fichier);
     return nb_element;
 }
-struct Tuile ** melangeTuiles(struct Tuile ** tuile){
 
+struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
+    srand(time(NULL));
+    int i=n;
+    struct ListeChainee * res = NULL;
+    struct Tuile * tmp_tuile ;
+
+    while(i>0){
+        tmp_tuile = supprimerElementLC(&tuilesLC,rand()%i);
+        res = ajoutPremierElementLC(res,tmp_tuile);
+        --i;
+    }
+    
+    return res;
 }

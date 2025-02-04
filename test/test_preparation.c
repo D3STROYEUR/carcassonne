@@ -184,8 +184,11 @@ int testPreparation(int debug){
 
     //lireCSV
     struct ListeChainee * tete2 = NULL;
+    struct ListeChainee * tete3 = NULL;
 
     int return_csv = lireCSV(&tete2,"data/tuiles_base_simplifiees.csv");
+    lireCSV(&tete3,"data/tuiles_base_simplifiees.csv");
+
     char char_test_csv1[5] = {'p','v','p','v','p'};
     char char_test_csv2[5] = {'p','p','p','r','a'};
     char char_test_csv3[5] = {'r','r','p','p','r'};
@@ -193,12 +196,33 @@ int testPreparation(int debug){
     testUnitaire(memcmp(tete2->suivant->tuile->elements, char_test_csv2, 5) == 0, "lireCSV 2",&reussi, &echoue,debug);
     testUnitaire(memcmp(tete2->suivant->suivant->tuile->elements, char_test_csv3, 5) == 0, "lireCSV 3",&reussi, &echoue,debug);
 
+    //melangeTuiles
+    struct ListeChainee * melange = melangeTuiles(tete3, return_csv);
+    struct ListeChainee * testLC1 = melange;
+    struct ListeChainee * testLC2 = tete2;
+    int pareil = 0;
+
+    for(int i = 0; i<return_csv; ++i){
+        if(strncmp(testLC1->tuile->elements,testLC2->tuile->elements,5)==0){
+            ++pareil;
+        }
+
+        testLC1 = testLC1->suivant;
+        testLC2 = testLC2->suivant;
+        
+    }
+    testUnitaire(!(pareil == return_csv), "melangeTuiles 1",&reussi, &echoue,debug);
+
+    struct Tuile * suppr_tuile ;
     for(int i=0; i<return_csv; ++i){
-        struct Tuile * suppr_tuile = tete2->tuile;
+        suppr_tuile = tete2->tuile;
         detruireTuile(&suppr_tuile);
         supprimerElementLC(&tete2,0);
+        
+        suppr_tuile = melange->tuile;
+        detruireTuile(&suppr_tuile);
+        supprimerElementLC(&melange,0);
     }
-
 
     detruireTuile(&tuile4);
     detruireGrille(&grille2,143);
