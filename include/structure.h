@@ -18,4 +18,9 @@ struct Joueur{
     char couleur;
 };
 
+struct Coordonnees{
+    int i, j1, j2;
+    int j, i1, i2;
+};
+
 #endif

@@ -3,9 +3,10 @@
 
 #include "structure.h"
 
-void afficherTuile(struct Tuile tuile);
-void afficherScoreJoueur(struct Joueur joueur);
-void afficherScores(struct Joueur* joueurs, int n);
+void afficherTuile(struct Tuile *tuile);
+void afficherScoreJoueur(struct Joueur *joueur);
+void afficherScores(struct Joueur** joueurs, int n);
+void afficherInformations();
 
 
 #endif
