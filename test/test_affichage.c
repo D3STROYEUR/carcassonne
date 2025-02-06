@@ -49,6 +49,12 @@ int main(){
     afficherScores(j,5);
     afficherInformations();
 
+
+    struct Tuile*** g = creerGrille(143);
+    g[72][72]  = tuile;
+    struct Coordonnees *c = detecterSousGrille(g);
+    printf("i1= %d, i2= %d, j1 = %d, j2 = %d",c->i1,c->i2,c->j1,c->j2);
+    
     detruireTuile(&tuile);
     detruireTuile(&tuile2);
     detruireMeeple(&meeple);
@@ -56,5 +62,6 @@ int main(){
     for(int i = 0 ; i < 5 ; ++i){
         detruireJoueur(&j[i]);
     }free(j);
+
     return 0;
 }

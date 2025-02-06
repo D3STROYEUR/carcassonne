@@ -154,7 +154,7 @@ void afficherScores(struct Joueur** joueurs, int n){
     for(int i = 0 ; i < n ; ++i){
         for(int j = 0 ; j < n-i-1; ++j){
             if(joueurs[j]->score < joueurs[j+1]->score){
-                printf("on rentre dans la permutation");
+                printf("on rentre dans la permutation\n");
                 tmp = joueurs[j];
                 joueurs[j] = joueurs[j+1];
                 joueurs[j+1] = tmp;
