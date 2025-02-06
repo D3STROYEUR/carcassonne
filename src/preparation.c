@@ -57,7 +57,7 @@ void detruireTuile(struct Tuile ** tuile){
 struct Tuile *** creerGrille(int n){
     /* Input : int n
     Output : struct Tuile ***
-    But : créer une grille (c'est à dire une liste 2D de pointeurs vers des struct Tuile)
+    But : créer une grille (c'est à dire une liste 2D de pointeurs vers des struct Tuile) de taille n x n
     */
     struct Tuile *** grille = (struct Tuile ***) malloc(n*sizeof(struct Tuile **));
     for(int i=0; i<n; ++i){
@@ -133,11 +133,10 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
     return 1;
 }
 
-//////////////////////// QUAND LA LISTE CHAINEE SERA IMPLEMENTER, L'ENLEVER DE LA LISTE CHAINEE EGALEMENT
 void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
     /* Input : struct Tuile*** grille, struct Tuile** tuile, int x, int y
     Output : void
-    But : Met le pointeur de tuile dans la grille[x][y].
+    But : Met le pointeur de tuile dans la grille[x][y] SANS vérification.
     */
    grille[x][y] = *tuile;
 }
@@ -292,6 +291,10 @@ int lireCSV(struct ListeChainee ** liste, char * nom_fichier){
 }
 
 struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
+    /* Input : struct ListeChainee * tuilesLC, int n 
+    Output : struct ListeChainee *
+    But : Prends une liste chainée de tuile, et son nombre d'élement, et détruit cette liste chaînée, et en créer une autre mélanger, avec la premier tuile à placer en premier élément
+    */
     srand(time(NULL));
     int i=n;
     struct ListeChainee * res = NULL;

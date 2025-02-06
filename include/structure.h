@@ -16,6 +16,7 @@ struct Joueur{
     int score;
     int meeple;
     char couleur;
+    char type;
 };
 
 struct Coordonnees{
@@ -24,7 +25,7 @@ struct Coordonnees{
 };
 
 struct ListeChainee{
-    struct Tuiile * tuile;
+    struct Tuile * tuile;
     struct ListeChainee* suivant;
 };
 
