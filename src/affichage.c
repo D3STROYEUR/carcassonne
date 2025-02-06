@@ -180,7 +180,7 @@ void afficherInformations(){
 }
 
 
-struct Coordonnees detecterSousGrille(struct Tuile ***g){
+struct Coordonnees* detecterSousGrille(struct Tuile ***g){
     int i = 0, i1, i2;
     int j = 0, j1, j2;
     int end=0;
@@ -189,7 +189,7 @@ struct Coordonnees detecterSousGrille(struct Tuile ***g){
         while(j<143 && g[i][j] == NULL){
             ++j;}
         if(g[i][j] != NULL){
-            i1 = i;       
+            i1 = i-1;       
             end = 1;     
         }
         ++i;
@@ -199,7 +199,7 @@ struct Coordonnees detecterSousGrille(struct Tuile ***g){
         while(j < 143  && g[i][j] == NULL){
             ++j;        
         }if(j==143){
-            i2 = i;
+            i2 = i+1;
             end = 1;
         }else j=0;
         ++i;
@@ -212,7 +212,7 @@ struct Coordonnees detecterSousGrille(struct Tuile ***g){
         while(i<143 && g[i][j] == NULL){
             ++i;}
         if(g[i][j] != NULL){
-            j1 = j;       
+            j1 = j-1;       
             end = 1;     
         }
         ++j;
@@ -222,12 +222,14 @@ struct Coordonnees detecterSousGrille(struct Tuile ***g){
         while(i < 143  && g[i][j] == NULL){
             ++i;        
         }if(i==143){
-            j2 = j;
+            j2 = j+1;
             end = 1;
         }else i=0;
         ++j;
     }
-
+    struct Coordonnees *c = (struct Coordonnees*) malloc(sizeof(struct Coordonnees)); 
+    c->i1 = i1; c->i2 = i2; c->j1 = j1; c->j2 = j2;
+    return c;
 }
 
 void afficherGrille(struct Tuile*** g){
