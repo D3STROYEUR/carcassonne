@@ -18,5 +18,7 @@ struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n);
 char elementEnCode(char * element);
 int lireCSV(struct ListeChainee ** liste, char * nom_fichier);
 struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n);
+struct Joueur * creerJoueur(int meeple);
+void detruireJoueur(struct Joueur ** joueur);
 
 #endif

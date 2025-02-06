@@ -227,6 +227,13 @@ int testPreparation(int debug){
     detruireTuile(&tuile4);
     detruireGrille(&grille2,143);
 
+    struct Joueur * joueur_test = creerJoueur(6);
+    testUnitaire(joueur_test != NULL, "creerJoueur 1",&reussi, &echoue,debug);
+
+    detruireJoueur(&joueur_test);
+    testUnitaire(joueur_test == NULL, "detruireJoueur 1",&reussi, &echoue,debug);
+
+
     // printf final
     printf("[%s] %d test(s) passé(s) : %d reussi(s), %d échoué(s)\n",(echoue==0)? "\033[48;5;22m\033[97mV\033[0m": "\033[48;5;52m\033[97mX\033[0m",reussi+echoue,reussi,echoue);
     if (echoue){

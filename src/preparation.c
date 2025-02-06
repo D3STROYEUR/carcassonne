@@ -305,3 +305,26 @@ struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
     
     return res;
 }
+
+struct Joueur * creerJoueur(int meeple){
+    /* Input : int meeple 
+    Output : struct Joueur *
+    But : créer et alloue un joueur, et assigne son nombre de meeple
+    */
+    struct Joueur * joueur = (struct Joueur *) malloc(sizeof(struct Joueur));
+    joueur->meeple = meeple;
+    joueur->score = 0;
+    return joueur;
+}
+
+void detruireJoueur(struct Joueur ** joueur){
+    /* Input : struct Tuile ** tuile 
+    Output : void
+    But : détruire et désallouer la tuile
+    */
+    if(joueur != NULL && *joueur != NULL){
+        free(*joueur);
+        (*joueur) = NULL;
+        }
+    joueur=NULL;
+}
