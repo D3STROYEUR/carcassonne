@@ -19,13 +19,13 @@ struct Joueur{
 };
 
 struct Coordonnees{
-    int i, j1, j2;
+    int j1, j2;
     int j, i1, i2;
 };
 
 struct ListeChainee{
-    struct Tuile *tuile;
-    struct ListeChainee * suivant;
+    struct Tuiile * tuile;
+    struct ListeChainee* suivant;
 };
 
 #endif

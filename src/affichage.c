@@ -135,36 +135,33 @@ void afficherTuile(struct Tuile *t){
 //Joueur : score, meeple, couleur
 void afficherScoreJoueur(struct Joueur *joueur){
     char* couleur;
-    if(joueur->couleur == 'b') couleur = "Bleu";
-    if(joueur->couleur == 'r') couleur = "Rouge";
-    if(joueur->couleur == 'v') couleur = "Vert";
-    if(joueur->couleur == 'n') couleur = "Noir";
-    if(joueur->couleur == 'j') couleur = "Jaune";
-    printf("Joueur %s : %d\n",couleur,joueur->score);
+    if(joueur->couleur != NULL){
+        if(joueur->couleur == 'b') couleur = "Bleu  ";
+        if(joueur->couleur == 'r') couleur = "Rouge ";
+        if(joueur->couleur == 'v') couleur = "Vert  ";
+        if(joueur->couleur == 'n') couleur = "Noir  ";
+        if(joueur->couleur == 'j') couleur = "Jaune ";
+        printf("Joueur %s : %d\n",couleur,joueur->score);
+    }
+    else{
+        printf("Erreur, pas de couleur");
+    }
 }
 
 void afficherScores(struct Joueur** joueurs, int n){
     //Tri par ordre décroissant:
-
-    printf("\n--------------------------Scores de départ des Joueurs--------------------------\n");
-    for(int i = 0 ; i < n ; ++i){
-        printf("%d. ",i+1);
-        afficherScoreJoueur(joueurs[i]);
-    }
-
-    printf("DEBUG: On rentre dans afficherScore");
+    struct Joueur* tmp = creerJoueur(0);
     for(int i = 0 ; i < n ; ++i){
         for(int j = 0 ; j < n-i-1; ++j){
-            printf("i= %d, j= %d, score j: %d,  score j+1: %d\n",i,j, joueurs[j]->score,joueurs[j+1]->score);
-
             if(joueurs[j]->score < joueurs[j+1]->score){
                 printf("on rentre dans la permutation");
-                struct Joueur* tmp = joueurs[j];
+                tmp = joueurs[j];
                 joueurs[j] = joueurs[j+1];
                 joueurs[j+1] = tmp;
             }
         }
     }
+    detruireJoueur(&tmp);
     printf("\n--------------------------Scores des Joueurs--------------------------\n");
     for(int i = 0 ; i < n ; ++i){
         printf("%d. ",i+1);
@@ -183,7 +180,57 @@ void afficherInformations(){
 }
 
 
-void afficherGrille(struct Tuile*** g){
+struct Coordonnees detecterSousGrille(struct Tuile ***g){
+    int i = 0, i1, i2;
+    int j = 0, j1, j2;
+    int end=0;
+    while(i  < 143 && end==0){
+        j=0;
+        while(j<143 && g[i][j] == NULL){
+            ++j;}
+        if(g[i][j] != NULL){
+            i1 = i;       
+            end = 1;     
+        }
+        ++i;
+    }
+    end = 0;
+    while(i < 143 && end ==0){
+        while(j < 143  && g[i][j] == NULL){
+            ++j;        
+        }if(j==143){
+            i2 = i;
+            end = 1;
+        }else j=0;
+        ++i;
+    }
 
+    j=0;
+    end=0;
+    while(j  < 143 && end==0){
+        i=0;
+        while(i<143 && g[i][j] == NULL){
+            ++i;}
+        if(g[i][j] != NULL){
+            j1 = j;       
+            end = 1;     
+        }
+        ++j;
+    }
+    end = 0;
+    while(j < 143 && end ==0){
+        while(i < 143  && g[i][j] == NULL){
+            ++i;        
+        }if(i==143){
+            j2 = j;
+            end = 1;
+        }else i=0;
+        ++j;
+    }
+
+}
+
+void afficherGrille(struct Tuile*** g){
+    
 }
 

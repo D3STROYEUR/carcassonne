@@ -12,28 +12,28 @@ int main(){
     struct Meeple *meeple = creerMeeple(2,'n');
     struct Meeple *meeple2 = creerMeeple(0,'v');
 
-    struct Joueur *b = (struct Joueur*) malloc(sizeof(struct Joueur*));
+    struct Joueur *b = creerJoueur(0);
     b->couleur = 'b';
     b->score = 39;
     b->meeple = 8;
 
 
-    struct Joueur *r = (struct Joueur*) malloc(sizeof(struct Joueur*));
+    struct Joueur *r = creerJoueur(0);
     r->couleur = 'r';
     r->score = 40;
     r->meeple = 8;
 
-    struct Joueur *n = (struct Joueur*) malloc(sizeof(struct Joueur*));
+    struct Joueur *n = creerJoueur(0);
     n->couleur = 'n';
     n->score = 3;
     n->meeple = 8;
 
-    struct Joueur *v = (struct Joueur*) malloc(sizeof(struct Joueur*));
+    struct Joueur *v = creerJoueur(0);
     v->couleur = 'v';
     v->score = 45;
     v->meeple = 8;
 
-    struct Joueur* jaune = (struct Joueur*) malloc(sizeof(struct Joueur*));
+    struct Joueur* jaune = creerJoueur(0);
     jaune->couleur = 'j';
     jaune->score = 32;
     jaune->meeple = 8;
@@ -53,6 +53,8 @@ int main(){
     detruireTuile(&tuile2);
     detruireMeeple(&meeple);
     detruireMeeple(&meeple2);
-    
+    for(int i = 0 ; i < 5 ; ++i){
+        detruireJoueur(&j[i]);
+    }free(j);
     return 0;
 }
