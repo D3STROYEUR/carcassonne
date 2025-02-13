@@ -76,7 +76,7 @@ int testPreparation(int debug){
     for(int i=0; i<143; ++i){
         for(int j=0; j<143; ++j){
             if((i!=50 || j!=50) && grille2[i][j]!=NULL){
-                test1=0;
+                test5=0;
             }
         }
     }
@@ -86,7 +86,7 @@ int testPreparation(int debug){
     for(int i=0; i<143; ++i){
         for(int j=0; j<143; ++j){
             if(((i!=50 || j!=50) && (i!=51 || j!=49)) && grille2[i][j]!=NULL){
-                test2=0;
+                test6=0;
             }
         }
     }
@@ -96,7 +96,7 @@ int testPreparation(int debug){
     for(int i=0; i<143; ++i){
         for(int j=0; j<143; ++j){
             if(((i!=50 || j!=50) && (i!=51 || j!=49) && (i!=52 || j!=50)) && grille2[i][j]!=NULL){
-                test3=0;
+                test7=0;
             }
         }
     }
@@ -104,20 +104,10 @@ int testPreparation(int debug){
     int testemplacement1 = verifierEmplacementTuile(grille2,tuile4,51,50);
     int testemplacement2 = verifierEmplacementTuile(grille2,tuile4,10,10);
     int testemplacement3 = verifierEmplacementTuile(grille2,tuile4,50,51);
-    
-    int test8=1;
-    for(int i=0; i<143; ++i){
-        for(int j=0; j<143; ++j){
-            if(((i!=50 || j!=50) && (i!=49 || j!=49) && (i!=52 || j!=50) && (i!=51 || j!=51)) && grille2[i][j]!=NULL){
-                test3=0;
-            }
-        }
-    }
 
     testUnitaire(test5, "poserTuile 1",&reussi, &echoue,debug);
     testUnitaire(test6, "poserTuile 2",&reussi, &echoue,debug);
     testUnitaire(test7, "poserTuile 3",&reussi, &echoue,debug);
-    testUnitaire(test8, "poserTuile 4",&reussi, &echoue,debug);
 
     testUnitaire(testemplacement1, "verifierEmplacementTuile 1",&reussi, &echoue,debug);
     testUnitaire(!testemplacement2, "verifierEmplacementTuile 2",&reussi, &echoue,debug);
