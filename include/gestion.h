@@ -6,14 +6,14 @@
 struct Meeple * creerMeeple(int position, char couleur);
 int poserMeeple(int x, int y, int position, char couleur);
 void detruireMeeple(struct Meeple ** meeple);
-int villeFermee(int x, int y, int position);
-int routeFermee(int x, int y, int position);
-int abbayeEntouree(int x, int y);
-int verifierMeeple(int x, int y, int position);
-
-/* Sous fonction qui ne sont pas dans le .h
-int verifierMeepleVille(int x, int y, int position);
-int verifierMeepleRoute(int x, int y, int position);
-*/
+int villeFermee(struct Tuile *** grille, int x, int y, int position);
+int routeFermee(struct Tuile *** grille, int x, int y, int position);
+int abbayeEntouree(struct Tuile *** grille, int x, int y);
+int verifierMeeple(struct Tuile *** grille, int x, int y, int position);
+int verifierMeepleVille(struct Tuile *** grille, int x, int y, int position);
+int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position);
+int nbPointVille(struct Tuile *** grille, int x, int y);
+int nbPointRoute(struct Tuile *** grille, int x, int y);
+int nbPointAbbaye(struct Tuile *** grille, int x, int y);
 
 #endif
