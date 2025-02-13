@@ -3,6 +3,7 @@
 #include <string.h>
 #include <time.h>
 #include "preparation.h"
+#include "gestion.h"
 
 /*
 route = 'r'
@@ -48,7 +49,7 @@ void detruireTuile(struct Tuile ** tuile){
             free((*tuile)->elements);
             (*tuile)->elements = NULL;
         }
-        ///////////////////////// DETRUIRE LE MEEPLE QUAND IMPLEMENTE
+        detruireMeeple(&(*tuile)->meeple);
         free(*tuile);
         *tuile=NULL;
     }

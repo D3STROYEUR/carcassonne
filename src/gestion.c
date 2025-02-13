@@ -22,8 +22,15 @@ int poserMeeple(int x, int y, int position, char couleur){
     
 }
 void detruireMeeple(struct Meeple ** meeple){
-
+    /* Input : struct Meeple ** meeple (pointeur vers le Meeple à détruire)
+    Output : void
+    But : détruit le Meeple
+    */
+    free(*meeple);
+    (*meeple) = NULL;
+    meeple=NULL;    
 }
+
 int villeFermee(struct Tuile *** grille, int x, int y, int position){
 
 }
