@@ -1,14 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "affichage.h"
 #include "preparation.h"
 #include "gestion.h"
 
 
 int main(){
-    char t[5] = {'v','r','r','b','a'}, t2[5] = {'r','p','r','r','c'};
+    afficherTitre2();
+    char t[5] = {'v','v','r','v','v'}, 
+        t2[5] = {'v','r','r','v','v'},
+        t3[5] = {'r','r','p','p','c'},
+        t4[5] = {'r','p','p','p','a'};
     struct Tuile *tuile = creerTuile(t);
     struct Tuile *tuile2 = creerTuile(t2);
+    struct Tuile *tuile3 = creerTuile(t3);
+    struct Tuile *tuile4 = creerTuile(t4);
     struct Meeple *meeple = creerMeeple(2,'n');
     struct Meeple *meeple2 = creerMeeple(0,'v');
 
@@ -45,23 +52,26 @@ int main(){
     tuile->meeple = meeple;
     afficherTuile(tuile);
     afficherTuile(tuile2);
+    afficherTuile(tuile3);
 
     afficherScores(j,5);
     afficherInformations();
 
 
     struct Tuile*** g = creerGrille(143);
-    g[72][72]  = tuile;
-    struct Coordonnees *c = detecterSousGrille(g);
-    printf("i1= %d, i2= %d, j1 = %d, j2 = %d",c->i1,c->i2,c->j1,c->j2);
-    
-    detruireTuile(&tuile);
-    detruireTuile(&tuile2);
-    detruireMeeple(&meeple);
-    detruireMeeple(&meeple2);
+    poserTuile(g,&tuile,72,72);
+    poserTuile(g,&tuile2,72,73);
+    poserTuile(g,&tuile3,73,72);
+    afficherGrille(g,tuile4);
+    afficherTuile(tuile4);
+    detruireGrille(&g,143);
+    detruireTuile(&tuile4);
     for(int i = 0 ; i < 5 ; ++i){
         detruireJoueur(&j[i]);
     }free(j);
+
+
+    
 
     return 0;
 }
