@@ -152,7 +152,7 @@ void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
     Output : void
     But : Met le pointeur de tuile dans la grille[x][y] SANS vérification.
     */
-   grille[x][y] = *tuile;
+   grille[y][x] = *tuile;
 }
 
 void rotationTuile(struct Tuile tuile, int sens){
