@@ -29,4 +29,9 @@ struct ListeChainee{
     struct ListeChainee* suivant;
 };
 
+struct ListeChaineeCoordonnes{
+    int x,y;
+    struct ListeChaineeCoordonnes * suivant;
+};
+
 #endif

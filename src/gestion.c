@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gestion.h"
+#include "structure.h"
 
 struct Meeple * creerMeeple(int position, char couleur){
     /* Input : int position (position dans une tuile compris dans [0,5]), char couleur
@@ -57,4 +58,7 @@ int nbPointRoute(struct Tuile *** grille, int x, int y){
 }
 int nbPointAbbaye(struct Tuile *** grille, int x, int y){
     
+}
+struct ListeChaineeCoordonnes emplacementPosable(struct Tuile *** grille){
+
 }

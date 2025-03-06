@@ -6,18 +6,51 @@
 
 void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche){
     struct Joueur * joueur = liste_joueur[numero_joueur];
-    if(joueur->type == 'h'){
-        afficherInformations();
-        afficherScores(liste_joueur,nb_joueur);
-        afficherGrille(grille, (*pioche)->tuile);
-        printf("Votre tuile : \n");
-        afficherTuile((*pioche)->tuile);
+    int action_valide = 0;
+    int message_invalide = 0;
+    char reponse_tourner;
 
-    }
-    //TODO AFFICHAGE SCORE 
-    //TODO AFFICHAGE GRILLE
+    do {
+        if(joueur->type == 'h'){
+            char * couleur;
+            if(joueur->couleur == 'b') couleur = "Bleu  ";
+            if(joueur->couleur == 'r') couleur = "Rouge ";
+            if(joueur->couleur == 'v') couleur = "Vert  ";
+            if(joueur->couleur == 'n') couleur = "Noir  ";
+            if(joueur->couleur == 'j') couleur = "Jaune ";
 
-    //TODO AFFICHAGE TUILE ACTUEL
+            printf("==========\nJoueur %s\n==========",couleur);
+            afficherInformations();
+            afficherScores(liste_joueur,nb_joueur);
+            afficherGrille(grille, (*pioche)->tuile);
+            printf("Votre tuile : \n");
+            afficherTuile((*pioche)->tuile);
+
+            do{
+                printf("Voulez-vous tourner la tuile ? (n : non, h : sens horaire, t : sens trigonométrique)\n");
+                scanf(" %c",&reponse_tourner);
+                if (reponse_tourner != 'n' && reponse_tourner != 'h' && reponse_tourner != 't'){
+                    printf("Réponse invalide...\n");
+                }
+            }while(reponse_tourner != 'n' && reponse_tourner != 'h' && reponse_tourner != 't');
+            
+            if(reponse_tourner== 'h'){
+                rotationTuile(*(*pioche)->tuile,1);
+            }else if (reponse_tourner== 't'){
+                rotationTuile(*(*pioche)->tuile,-1);
+            }else{
+                //Si on tourne pas, on continue le tour
+                printf("On continue !\n");
+
+
+
+                //pour que le tour puisse passer, on met l'action en valide
+                action_valide=1;
+            }
+
+
+        }
+    }while(!action_valide);
 
 }
 
