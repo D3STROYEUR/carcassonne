@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gestion.h"
+#include "structure.h"
 
 struct Meeple * creerMeeple(int position, char couleur){
     /* Input : int position (position dans une tuile compris dans [0,5]), char couleur
@@ -54,6 +55,7 @@ int routeFermee(struct Tuile *** grille, int x, int y, int position){
     But : vérifie si une route est fermé 
     */
 
+
 }
 int abbayeEntouree(struct Tuile *** grille, int x, int y){
     /*
@@ -75,7 +77,7 @@ int verifierMeepleVille(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y , int position 
     output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si une ville est fermée
+    But : vérifie si meeple peut être posé (ville)
     */
 
 }
@@ -83,7 +85,7 @@ int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y , int position 
     output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si une route est fermé 
+    But : vérifie si eeple peut être posé (route
     */
 
 }
