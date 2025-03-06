@@ -18,7 +18,7 @@ struct Meeple * creerMeeple(int position, char couleur){
     return meeple;
 }
 
-int poserMeeple(int x, int y, int position, char couleur){
+int poserMeeple(int x, int y, int position, char couleur,struct Tuile * tuile){
     
 }
 void detruireMeeple(struct Meeple ** meeple){
