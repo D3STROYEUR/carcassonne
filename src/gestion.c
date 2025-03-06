@@ -18,9 +18,17 @@ struct Meeple * creerMeeple(int position, char couleur){
     return meeple;
 }
 
-int poserMeeple(int x, int y, int position, char couleur,struct Tuile * tuile){
+int poserMeeple(int x, int y, int position, char couleur,struct Tuile * Tuile){
+    /*
+    Input : int x/y , int position , char couleur , struct Tuile * Tuile 
+    output : int 
+    But : poser un meeple sur une tuile */
+    struct Meeple *meep = creerMeeple(position,couleur);
     
+
+
 }
+
 void detruireMeeple(struct Meeple ** meeple){
     /* Input : struct Meeple ** meeple (pointeur vers le Meeple à détruire)
     Output : void
@@ -32,29 +40,73 @@ void detruireMeeple(struct Meeple ** meeple){
 }
 
 int villeFermee(struct Tuile *** grille, int x, int y, int position){
+    /*
+    input : struct Tuile *** grille , int x , int y , int position 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : vérifie si une ville est fermé 
+    */
 
 }
 int routeFermee(struct Tuile *** grille, int x, int y, int position){
+    /*
+    input : struct Tuile *** grille , int x , int y , int position 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : vérifie si une route est fermé 
+    */
 
 }
 int abbayeEntouree(struct Tuile *** grille, int x, int y){
+    /*
+    input : struct Tuile *** grille , int x , int y 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : vérifie si une abbaye est entourée 
+    */
 
 }
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position){
+    /*
+    input : struct Tuile *** grille , int x , int y , int position 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : vérifie si le meeple peut être poser sur la position 
+    */
 
 }
 int verifierMeepleVille(struct Tuile *** grille, int x, int y, int position){
+    /*
+    input : struct Tuile *** grille , int x , int y , int position 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : vérifie si une ville est fermée
+    */
 
 }
 int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position){
+    /*
+    input : struct Tuile *** grille , int x , int y , int position 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : vérifie si une route est fermé 
+    */
 
 }
 int nbPointVille(struct Tuile *** grille, int x, int y){
-
+    /*
+    input : struct Tuile *** grille , int x , int y
+    output : 1 si tout va bien 0 si tout va mal 
+    But : compte le nombre de points d'une ville 
+    */
 }
 int nbPointRoute(struct Tuile *** grille, int x, int y){
+    /*
+    input : struct Tuile *** grille , int x , int y 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : compte le nombre de points d'une route 
+    */
 
 }
 int nbPointAbbaye(struct Tuile *** grille, int x, int y){
+    /*
+    input : struct Tuile *** grille , int x , int y 
+    output : 1 si tout va bien 0 si tout va mal 
+    But : compte le nombre de points d'une Abbaye
+    */
     
 }

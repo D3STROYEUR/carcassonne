@@ -4,7 +4,7 @@
 #include "structure.h"
 
 struct Meeple * creerMeeple(int position, char couleur);
-int poserMeeple(int x, int y, int position, char couleur,struct Tuile * tuile);
+int poserMeeple(int x, int y, int position, char couleur,struct Tuile * Tuile);
 void detruireMeeple(struct Meeple ** meeple);
 int villeFermee(struct Tuile *** grille, int x, int y, int position);
 int routeFermee(int x, int y, int position, struct Tuile*** grille);
