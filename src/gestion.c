@@ -112,3 +112,6 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y){
     */
     
 }
+struct ListeChaineeCoordonnes emplacementPosable(struct Tuile *** grille){
+
+}

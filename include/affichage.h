@@ -4,6 +4,7 @@
 #include "structure.h"
 
 void afficherTitre();
+void afficherTitre2();
 void afficherCase(struct Tuile *t, int emplacement);
 void afficherTuile(struct Tuile *tuile);
 void afficherScoreJoueur(struct Joueur *joueur);

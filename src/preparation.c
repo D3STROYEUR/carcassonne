@@ -311,7 +311,7 @@ struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
     But : Prends une liste chainée de tuile, et son nombre d'élement, et détruit cette liste chaînée, et en créer une autre mélanger, avec la premier tuile à placer en premier élément
     */
     srand(time(NULL));
-    int i=n;
+    int i=n-1;
     struct ListeChainee * res = NULL;
     struct Tuile * tmp_tuile ;
 
@@ -320,7 +320,10 @@ struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
         res = ajoutPremierElementLC(res,tmp_tuile);
         --i;
     }
-    
+
+    tmp_tuile = supprimerElementLC(&tuilesLC,0);
+    res = ajoutPremierElementLC(res,tmp_tuile);
+
     return res;
 }
 

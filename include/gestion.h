@@ -15,5 +15,6 @@ int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position);
 int nbPointVille(struct Tuile *** grille, int x, int y);
 int nbPointRoute(struct Tuile *** grille, int x, int y);
 int nbPointAbbaye(struct Tuile *** grille, int x, int y);
+struct ListeChaineeCoordonnes emplacementPosable(struct Tuile *** grille);
 
 #endif
