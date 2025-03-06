@@ -9,6 +9,7 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
     int action_valide = 0;
     int message_invalide = 0;
     char reponse_tourner;
+    struct ListeChaineeCoordonnes * liste_coord;
 
     do {
         if(joueur->type == 'h'){
@@ -27,12 +28,26 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
             afficherTuile((*pioche)->tuile);
 
             do{
-                printf("Voulez-vous tourner la tuile ? (n : non, h : sens horaire, t : sens trigonométrique)\n");
+                liste_coord = emplacementPosable(grille);
+                //on différencie le cas ou il est obligé de tourner
+                if(liste_coord == NULL){
+                    printf("Comment voulez-vous tourner la tuile ? (h : sens horaire, t : sens trigonométrique)\n");
+                }else{
+                    printf("Voulez-vous tourner la tuile ? (n : non, h : sens horaire, t : sens trigonométrique)\n");
+                }
+                
+                //un espace avant le %c car sinon le \n est dans le buffer, et donc répond une premiere fois sans le vouloir
                 scanf(" %c",&reponse_tourner);
+                
                 if (reponse_tourner != 'n' && reponse_tourner != 'h' && reponse_tourner != 't'){
                     printf("Réponse invalide...\n");
+                }else if(liste_coord == NULL && reponse_tourner == 'n'){
+                    printf("Vous êtes obliger de tourner la tuile pour pouvoir jouer...\n");
                 }
-            }while(reponse_tourner != 'n' && reponse_tourner != 'h' && reponse_tourner != 't');
+            }while(
+                (liste_coord != NULL && reponse_tourner != 'n' && reponse_tourner != 'h' && reponse_tourner != 't')
+                || (liste_coord == NULL && reponse_tourner != 'h' && reponse_tourner != 't'));
+                
             
             if(reponse_tourner== 'h'){
                 rotationTuile(*(*pioche)->tuile,1);
@@ -43,6 +58,7 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
                 printf("On continue !\n");
 
 
+                printf("Quel emplacement");
 
                 //pour que le tour puisse passer, on met l'action en valide
                 action_valide=1;
