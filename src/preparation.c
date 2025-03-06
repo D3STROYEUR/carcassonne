@@ -36,6 +36,7 @@ struct Tuile * creerTuile(char elements[5]){
         tuile->elements[i] = elements[i];
     }
     tuile->meeple = NULL;
+    tuile->verif_tuile = 0;
     return tuile;
 }
 
