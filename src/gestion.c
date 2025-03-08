@@ -112,6 +112,23 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y){
     */
     
 }
-struct ListeChaineeCoordonnes emplacementPosable(struct Tuile *** grille){
+void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants){
 
+}
+void gagnantRoute(struct Tuile *** grille, int x, int y, char * gagnants){
+
+}
+void retirerMeepleVille(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y){
+
+}
+void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y){
+
+}
+struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y){
+}
+void supprimerElementLCC(struct ListeChaineeCoordonnes ** liste, int n, int *x, int *y){
+    //supprime le n-ième élèment
+}
+struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, struct Tuile * Tuile){
+    
 }
