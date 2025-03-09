@@ -10,6 +10,7 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
     int message_invalide = 0;
     char reponse_tourner;
     struct ListeChaineeCoordonnes * liste_coord;
+    int emplacement_pose, nb_emplacement_dispo;
 
     do {
         if(joueur->type == 'h'){
@@ -27,8 +28,20 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
             printf("Votre tuile : \n");
             afficherTuile((*pioche)->tuile);
 
+            //Demande rotation
             do{
-                liste_coord = emplacementPosable(grille);
+                //DEBUG
+                struct ListeChaineeCoordonnes * premier = (struct ListeChaineeCoordonnes *) malloc(sizeof(struct ListeChaineeCoordonnes));
+                struct ListeChaineeCoordonnes * deuxieme = (struct ListeChaineeCoordonnes *) malloc(sizeof(struct ListeChaineeCoordonnes));
+                premier->suivant = deuxieme;
+                premier->x = 70;
+                premier->y = 70;
+                deuxieme->x = 71;
+                deuxieme->y = 71;
+                deuxieme->suivant = NULL;
+                liste_coord = premier;
+                //NO DEBUG liste_coord = emplacementPosable(grille,(*pioche)->tuile);
+                
                 //on différencie le cas ou il est obligé de tourner
                 if(liste_coord == NULL){
                     printf("Comment voulez-vous tourner la tuile ? (h : sens horaire, t : sens trigonométrique)\n");
@@ -37,6 +50,7 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
                 }
                 
                 //un espace avant le %c car sinon le \n est dans le buffer, et donc répond une premiere fois sans le vouloir
+                //il faut trouver une meilleur solution à mon avis
                 scanf(" %c",&reponse_tourner);
                 
                 if (reponse_tourner != 'n' && reponse_tourner != 'h' && reponse_tourner != 't'){
@@ -55,10 +69,73 @@ void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_jo
                 rotationTuile(*(*pioche)->tuile,-1);
             }else{
                 //Si on tourne pas, on continue le tour
-                printf("On continue !\n");
+
+                // On détermine le nombre d'emplacement disponible.
+                nb_emplacement_dispo = 0; // sachant que si = 10, alors les numéros sont 0 à 9
+                struct ListeChaineeCoordonnes * tmp_liste_coord = liste_coord;
+                while(tmp_liste_coord != NULL){
+                    nb_emplacement_dispo++;
+                    tmp_liste_coord = tmp_liste_coord->suivant; 
+                }
+                printf("emplacement dispo %d\n",nb_emplacement_dispo);
+                do{
+                    printf("Sur quel emplacement poser la tuile ? (donner son numéro)\n");
+                    scanf("%d",&emplacement_pose);
+                    if(emplacement_pose<0 || emplacement_pose>=nb_emplacement_dispo){
+                        printf("Cette coordonnées n'existe pas... veuillez rentrer une coordonnées entre 0 et %d\n", nb_emplacement_dispo-1);
+                    }
+                }while(emplacement_pose<0 || emplacement_pose>=nb_emplacement_dispo);
+
+                // récupération des coordonnées de l'emplacement choisi
+                tmp_liste_coord = liste_coord;
+                for(int i=0; i<emplacement_pose; ++i){
+                    tmp_liste_coord = tmp_liste_coord->suivant;
+                }
+                int x = tmp_liste_coord->x;
+                int y = tmp_liste_coord->y;
+
+                poserTuile(grille,&(*pioche)->tuile,x,y);
+                supprimerElementLC(pioche,0);
+
+                //on s'occupe du meeple
+                char tab_meeple[5] = {0,0,0,0,0};
+                char posable = 0;
+                for(int i=0; i<5; ++i){
+                    if(verifierMeeple(grille,x,y,i)){
+                        tab_meeple[i]=1;
+                        posable = 1;
+                    }
+                }
+                int emplacement_meeple;
+
+                if(liste_joueur[numero_joueur]->meeple>0 && posable){
+                    do{
+                        printf("==========\nJoueur %s\n==========",couleur);
+                        afficherInformations();
+                        afficherScores(liste_joueur,nb_joueur);
+                        afficherGrille(grille, NULL);
+                        printf("Voulez-vous poser un meeple ? si oui où ? (non (-1)");
+                        if(tab_meeple[0])  printf(", nord (0)");
+                        if(tab_meeple[1])  printf(", est (1)");
+                        if(tab_meeple[2])  printf(", sud (2)");
+                        if(tab_meeple[3])  printf(", ouest (3)");
+                        if(tab_meeple[4])  printf(", centre (4)");
+                        printf(")\n");
+                        scanf("%d",&emplacement_meeple);
+                        if(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0){
+                            printf("Emplacement invalide...\n");
+                        }
+                    }while(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0);
+                    
+                    if(emplacement_meeple != -1){
+                        poserMeeple(0,0,emplacement_meeple,liste_joueur[numero_joueur]->couleur,grille[x][y]);//x et y servent à rien...
+                    }
+                }
 
 
-                printf("Quel emplacement");
+
+
+                printf("Quel emplacement\n");
 
                 //pour que le tour puisse passer, on met l'action en valide
                 action_valide=1;
