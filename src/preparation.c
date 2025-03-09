@@ -109,7 +109,11 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
     */
     int taille = 143;
     int cpt=0;
-    
+
+    if(tuile == NULL){
+        return 0;
+    }
+
     if(y>0 && grille[y][x-1] != NULL){
         cpt++;
     }else if(x<taille-1 && grille[y][x+1] != NULL){
