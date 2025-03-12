@@ -65,6 +65,10 @@ int abbayeEntouree(struct Tuile *** grille, int x, int y){
     */
 
 }
+int elementFermee(struct Tuile *** grille, int x, int y, int position){
+
+}
+
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y , int position 
@@ -89,14 +93,14 @@ int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position){
     */
 
 }
-int nbPointVille(struct Tuile *** grille, int x, int y){
+int nbPointVille(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y
     output : 1 si tout va bien 0 si tout va mal 
     But : compte le nombre de points d'une ville 
     */
 }
-int nbPointRoute(struct Tuile *** grille, int x, int y){
+int nbPointRoute(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y 
     output : 1 si tout va bien 0 si tout va mal 
@@ -104,7 +108,7 @@ int nbPointRoute(struct Tuile *** grille, int x, int y){
     */
 
 }
-int nbPointAbbaye(struct Tuile *** grille, int x, int y){
+int nbPointAbbaye(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y 
     output : 1 si tout va bien 0 si tout va mal 
@@ -112,16 +116,25 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y){
     */
     
 }
+int nbPointElement(struct Tuile *** grille, int x, int y, int position){
+
+}
 void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants){
 
 }
 void gagnantRoute(struct Tuile *** grille, int x, int y, char * gagnants){
 
 }
-void retirerMeepleVille(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y){
+void gagnantElement(struct Tuile *** grille, int x, int y, char * gagnants){
 
 }
-void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y){
+void retirerMeepleVille(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position){
+
+}
+void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position){
+
+}
+void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position){
 
 }
 struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y){
