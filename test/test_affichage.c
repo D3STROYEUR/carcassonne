@@ -11,7 +11,7 @@ int main(){
     char t[5] = {'v','v','r','v','v'}, 
         t2[5] = {'v','r','r','v','v'},
         t3[5] = {'r','r','p','p','c'},
-        t4[5] = {'r','p','p','p','a'};
+        t4[5] = {'r','p','r','r','a'};
     struct Tuile *tuile = creerTuile(t);
     struct Tuile *tuile2 = creerTuile(t2);
     struct Tuile *tuile3 = creerTuile(t3);
