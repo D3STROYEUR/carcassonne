@@ -204,7 +204,7 @@ void afficherScores(struct Joueur** joueurs, int n){
 
 void afficherInformations(){
     printf("\n------------------------------Couleurs--------------------------------\n");
-    printf("\x1b[48;5;214mville\x1b[0m, ");
+    printf("\x1b[48;5;186mville\x1b[0m, ");
     printf("\x1b[48;5;254m\x1b[38;5;16mroute\x1b[0m\x1b[0m, ");
     printf("\x1b[48;5;9mvillage\x1b[0m, ");
     printf("\x1b[48;5;213m\x1b[38;5;16mabbaye\x1b[0m\x1b[0m, ");
