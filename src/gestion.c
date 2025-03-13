@@ -60,9 +60,21 @@ int routeFermee(struct Tuile *** grille, int x, int y, int position){
 int abbayeEntouree(struct Tuile *** grille, int x, int y){
     /*
     input : struct Tuile *** grille , int x , int y 
-    output : 1 si tout va bien 0 si tout va mal 
+    output : 1 si entouré 0 sinon
     But : vérifie si une abbaye est entourée 
     */
+   if (grille[x][y] != NULL) {
+    if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
+        return 0;
+    }
+    else {
+        return 1;
+    }
+
+   }
+   else {
+    return 0;
+   }
 
 }
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position){
