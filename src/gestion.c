@@ -19,7 +19,7 @@ struct Meeple * creerMeeple(int position, char couleur){
     return meeple;
 }
 
-int poserMeeple(int x, int y, int position, char couleur,struct Tuile * Tuile){
+int poserMeeple(int position, char couleur,struct Tuile * Tuile){
     /*
     Input : int x/y , int position , char couleur , struct Tuile * Tuile 
     output : int 
