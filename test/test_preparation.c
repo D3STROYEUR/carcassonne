@@ -109,9 +109,9 @@ int testPreparation(int debug){
     testUnitaire(test6, "poserTuile 2",&reussi, &echoue,debug);
     testUnitaire(test7, "poserTuile 3",&reussi, &echoue,debug);
 
-    testUnitaire(!testemplacement1, "verifierEmplacementTuile 1",&reussi, &echoue,debug);
+    testUnitaire(testemplacement1, "verifierEmplacementTuile 1",&reussi, &echoue,debug);
     testUnitaire(!testemplacement2, "verifierEmplacementTuile 2",&reussi, &echoue,debug);
-    testUnitaire(testemplacement3, "verifierEmplacementTuile 3",&reussi, &echoue,debug);
+    testUnitaire(!testemplacement3, "verifierEmplacementTuile 3",&reussi, &echoue,debug);
 
     //rotationTuile
 
