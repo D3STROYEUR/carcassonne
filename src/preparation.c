@@ -36,6 +36,7 @@ struct Tuile * creerTuile(char elements[5]){
         tuile->elements[i] = elements[i];
     }
     tuile->meeple = NULL;
+    tuile->verif_tuile = 0;
     return tuile;
 }
 
@@ -108,7 +109,11 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
     */
     int taille = 143;
     int cpt=0;
-    
+
+    if(tuile == NULL){
+        return 0;
+    }
+
     if(y>0 && grille[y][x-1] != NULL){
         cpt++;
     }else if(x<taille-1 && grille[y][x+1] != NULL){
@@ -310,7 +315,7 @@ struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
     But : Prends une liste chainée de tuile, et son nombre d'élement, et détruit cette liste chaînée, et en créer une autre mélanger, avec la premier tuile à placer en premier élément
     */
     srand(time(NULL));
-    int i=n;
+    int i=n-1;
     struct ListeChainee * res = NULL;
     struct Tuile * tmp_tuile ;
 
@@ -319,7 +324,10 @@ struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
         res = ajoutPremierElementLC(res,tmp_tuile);
         --i;
     }
-    
+
+    tmp_tuile = supprimerElementLC(&tuilesLC,0);
+    res = ajoutPremierElementLC(res,tmp_tuile);
+
     return res;
 }
 

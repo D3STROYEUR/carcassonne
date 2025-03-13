@@ -6,11 +6,6 @@
 #include "preparation.h"
 #include "gestion.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-
 void afficherTitre(){
     printf("\x1b[48;5;196m                                                                                                                                                            \x1b[0m\n");
     printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m     ,gggg,                                                                                                                                      \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
@@ -44,6 +39,7 @@ void afficherTitre2(){
     printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                                                                                                                                                                   \x1b[0m\x1b[48;5;196m  \x1b[0m\n");
     printf("\x1b[48;5;196m                                                                                                                                                                       \x1b[0m\n");
 }
+
 void afficherCase(struct Tuile *t, int emplacement) {
     /////Affiche la case d'une tuile selon l'emplacement passé en paramètre.
     if (t == NULL || t->elements == NULL) {
@@ -190,12 +186,17 @@ void afficherTuile(struct Tuile *t){
 //Joueur : score, meeple, couleur
 void afficherScoreJoueur(struct Joueur *joueur){
     char* couleur;
+    char* type;
     if(joueur->couleur == 'b') couleur = "Bleu  ";
     if(joueur->couleur == 'r') couleur = "Rouge ";
     if(joueur->couleur == 'v') couleur = "Vert  ";
     if(joueur->couleur == 'n') couleur = "Noir  ";
     if(joueur->couleur == 'j') couleur = "Jaune ";
-    printf("Joueur %s : %d\n",couleur,joueur->score);
+    
+    if(joueur->type == 'h') type = "[J] ";
+    if(joueur->type == 'i') type = "[IA]";
+
+    printf("Joueur %s %s: %d\n",couleur,type,joueur->score);
 
 }
 
@@ -263,6 +264,7 @@ struct Coordonnees* detecterSousGrille(struct Tuile ***g, int taille) {
 void afficherGrille(struct Tuile*** g, struct Tuile *ta){
     ///Affiche la grille avec toutes les tuiles et les emplacements où la tuile actuelle (INPUT)
     ///que l'on pose peut être posée ici
+
     struct Coordonnees *c = detecterSousGrille(g,143);
     char* ville = "\x1b[48;5;208m \x1b[0m";
     char* champ = "\x1b[48;5;46m \x1b[0m";
