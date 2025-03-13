@@ -71,7 +71,7 @@ void afficherCase(struct Tuile *t, int emplacement) {
         }
 
         if (t->elements[emplacement] == 'v') {
-            strcat(Case, "\x1b[48;5;208m");
+            strcat(Case, "\x1b[48;5;214m");
         } else if (t->elements[emplacement] == 'r') {
             strcat(Case, "\x1b[48;5;15m");
         } else if (t->elements[emplacement] == 'c') {
@@ -90,15 +90,15 @@ void afficherCase(struct Tuile *t, int emplacement) {
 
             if (meeple_emp == emplacement) {
                 if (couleur_meeple == 'v') {
-                    strcat(Case, "\x1b[92m*");
+                    strcat(Case, "\x1b[38;5;28m*");
                 } else if (couleur_meeple == 'r') {
-                    strcat(Case, "\x1b[31m*");
+                    strcat(Case, "\x1b[38;5;1m*");
                 } else if (couleur_meeple == 'b') {
-                    strcat(Case, "\x1b[34m*");
+                    strcat(Case, "\x1b[38;5;19m*");
                 } else if (couleur_meeple == 'n') {
                     strcat(Case, "\x1b[38;5;16m*");
                 } else {
-                    strcat(Case, "\x1b[92m*");
+                    strcat(Case, "\x1b[38;5;11m*");
                 }
 
                 strcat(Case, "\x1b[0m");
@@ -120,8 +120,6 @@ void afficherCase(struct Tuile *t, int emplacement) {
 void afficherTuile(struct Tuile *t){
     //Affiche la tuile *t sous forme de carré
     char* reset = "\x1b[0m";
-    char* ville = "\x1b[48;5;208m";
-    char* champ = "\x1b[48;5;46m";
     int emplacement;
 
     /*Affichage de la tuile avec 
@@ -143,41 +141,7 @@ void afficherTuile(struct Tuile *t){
 
             //détermine si on affiche une infrastructure ou l'extérieur
             if(emplacement == -1){
-                if(t->elements[4] != 'v'){
-                    printf("%s %s",champ, reset);
-                }
-                else{
-                    if(i==0 && j==0){
-                        if((t->elements[0] == 'v' || t->elements[0] == 'b')
-                        && (t->elements[3] == 'v' || t->elements[3] == 'b')
-                        && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                            printf("%s %s",ville,reset);
-                        }
-                        else printf("%s %s",champ,reset);
-                    }
-                    else if(i==0 && j==2){
-                        if((t->elements[0] == 'v' || t->elements[0] == 'b') 
-                        && t->elements[1] == 'v' 
-                        && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                            printf("%s %s",ville,reset);
-                        }
-                        else printf("%s %s",champ,reset);
-                    }
-                    else if(i==2 && j==0){
-                        if((t->elements[3] == 'v' || t->elements[3] == 'b') 
-                        && (t->elements[2] == 'v' || t->elements[2] == 'b') 
-                        && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                            printf("%s %s",ville,reset);
-                        }
-                        else printf("%s %s",champ,reset);
-                    }
-                    else if(i==2 && j==2 && (t->elements[2] == 'v' || t->elements[2] == 'b')
-                         && (t->elements[1] == 'v' || t->elements[1] == 'b') 
-                         && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                        printf("%s %s",ville,reset);
-                    }
-                    else printf("%s %s",champ,reset);
-                }
+                printf(" ");
             }
             else{
                 afficherCase(t,emplacement);
@@ -264,30 +228,18 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
     ///Affiche la grille avec toutes les tuiles et les emplacements où la tuile actuelle (INPUT)
     ///que l'on pose peut être posée ici
     struct Coordonnees *c = detecterSousGrille(g,143);
-    char* ville = "\x1b[48;5;208m \x1b[0m";
-    char* champ = "\x1b[48;5;46m \x1b[0m";
+    int num_emplacement = 0;
     for(int i = c->i1; i <= c->i2 ; ++i){
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                if((g[i][j]->elements[0] == 'v' || g[i][j]->elements[0] == 'b')
-                    && (g[i][j]->elements[3] == 'v' || g[i][j]->elements[3] == 'b')
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
+                printf(" ");
                 
                 afficherCase(g[i][j],0);
-
-                if((g[i][j]->elements[0] == 'v' || g[i][j]->elements[0] == 'b') 
-                    && (g[i][j]->elements[1] == 'v' || g[i][j]->elements[1] == 'b')
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
+                
+                printf(" ");
             } 
             else if (g[i] != NULL && g[i][j] == NULL && verifierEmplacementTuile(g,ta,j,i) == 1){
-                
-                printf("###");
+                printf(" # ");
             }
             else printf("   ");
         }
@@ -298,32 +250,32 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
                 afficherCase(g[i][j],4);
                 afficherCase(g[i][j],1);
             }     
+
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
-                printf("###");
+                //Chaque emplacemennt de  Tuile est numméroté à partir de 0
+                if(num_emplacement>=100){
+                    printf("%d",num_emplacement);
+                }
+                else if(num_emplacement>=10){
+                    printf("#%d",num_emplacement);
+                }
+                else{
+                    printf("#%d#",num_emplacement);
+                }
+                num_emplacement++;
             }
+
             else printf("   ");
         }
         printf("\n");
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                if((g[i][j]->elements[3] == 'v' || g[i][j]->elements[3] == 'b')
-                    && (g[i][j]->elements[2] == 'v' || g[i][j]->elements[2] == 'b')
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
-            
+                printf(" ");
                 afficherCase(g[i][j],2);
-
-                if((g[i][j]->elements[1] == 'v' || g[i][j]->elements[1] == 'b') 
-                    && (g[i][j]->elements[2] == 'v' || g[i][j]->elements[2] == 'b') 
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
+                printf(" ");
             } 
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
-                printf("###");
+                printf(" # ");
             }
             else printf("   ");
         } printf("\n");
