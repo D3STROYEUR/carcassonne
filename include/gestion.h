@@ -23,6 +23,8 @@ void gagnantElement(struct Tuile *** grille, int x, int y, char * gagnants);
 void retirerMeepleVille(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position);
 void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position);
 void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position);
+struct ListeChaineeCoordonnes * creerLCC();
+void detruireLCC(struct ListeChaineeCoordonnes ** liste);
 struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y);
 void supprimerElementLCC(struct ListeChaineeCoordonnes ** liste, int n, int *x, int *y);
 struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, struct Tuile * Tuile);

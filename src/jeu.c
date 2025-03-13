@@ -359,6 +359,7 @@ int main(){
     for(int i=0; i<nb_tuiles-1; ++i){
         tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche);
     }
+    // TODO FAIRE LE DECOMPTE DES POINTS FINAUX, pensez à rajouter dans l'input des points
 
     //Pour valgrind tant que c'est pas fini
     for(int i =0; i<nb_tuiles_restantes+3; ++i){

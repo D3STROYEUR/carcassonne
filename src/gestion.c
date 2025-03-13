@@ -136,10 +136,73 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
 void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position){
 
 }
-struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y){
+
+struct ListeChaineeCoordonnes * creerLCC(){
+    /* Input : void
+    Output : struct ListeChaineeCoordonnes * 
+    But : Alloue un struct ListeChaineeCoordonnes, et l'initialise à NULL ou 0
+    */
+    struct ListeChaineeCoordonnes * lcc = (struct ListeChaineeCoordonnes *) malloc(sizeof(struct ListeChaineeCoordonnes));
+    lcc->suivant = NULL;
+    lcc->x = 0;
+    lcc->y = 0;
+    return lcc;
 }
+
+void detruireLCC(struct ListeChaineeCoordonnes ** liste){
+    /* Input : struct ListeChainee * liste 
+    Output : void
+    But : free un struct ListeChainee, mais pas la tuile qu'elle contient.
+    */
+    if((*liste) != NULL){
+        free((*liste));
+        (*liste) = NULL;
+    }
+}
+struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y){
+    /* Input : struct ListeChaineeCoordonnes * liste (tête de la liste chaînée),x,y (nouvel élément à ajouter)
+    Output : struct ListeChaineeCoordonnes * 
+    But : ajoute un élément au début de la liste chainée, et renvoie le pointeur vers la nouvelle tête.
+    */
+    struct ListeChaineeCoordonnes * tete = creerLCC();
+    tete->x = x;
+    tete->y = y;
+    tete->suivant = liste;
+    return tete;
+}
+
 void supprimerElementLCC(struct ListeChaineeCoordonnes ** liste, int n, int *x, int *y){
-    //supprime le n-ième élèment
+    /* Input : struct ListeChaineeCoordonnes ** liste (tête de la liste chaînée), int n, int * x (pour retourner x), int * y (pour retourner y)
+    Output : void
+    But : supprime le n-ième élément de la liste chaîné, et renvoie graces aux pointeurs les coordonnées correspondantes.
+    */
+    if(liste != NULL && *liste != NULL){
+        if(n == 0){
+            struct ListeChaineeCoordonnes * suppr = (*liste);
+            (*liste)=(*liste)->suivant;
+            *x = suppr->x;
+            *y = suppr->y; 
+            detruireLCC(&suppr);
+            return;
+        }
+        int i = 0;
+        struct ListeChaineeCoordonnes ** ancien = liste;
+        struct ListeChaineeCoordonnes ** ancien_ancien = NULL;
+        while(i<n && (*ancien) != NULL && (*ancien)->suivant != NULL){
+            ancien_ancien = ancien;
+            ancien = &((*ancien)->suivant);
+            ++i;
+        }
+        if(i == n){
+            struct ListeChaineeCoordonnes * suppr = (*ancien);
+            (*ancien_ancien)->suivant = suppr->suivant;
+            *x = suppr->x;
+            *y = suppr->y; 
+            detruireLCC(&suppr);
+            return;
+        }
+    }
+    return;
 }
 struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, struct Tuile * Tuile){
     
