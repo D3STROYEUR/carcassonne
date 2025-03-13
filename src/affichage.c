@@ -263,7 +263,6 @@ struct Coordonnees* detecterSousGrille(struct Tuile ***g, int taille) {
 void afficherGrille(struct Tuile*** g, struct Tuile *ta){
     ///Affiche la grille avec toutes les tuiles et les emplacements où la tuile actuelle (INPUT)
     ///que l'on pose peut être posée ici
-    printf("----%p=====",g[72][72]);
     struct Coordonnees *c = detecterSousGrille(g,143);
     char* ville = "\x1b[48;5;208m \x1b[0m";
     char* champ = "\x1b[48;5;46m \x1b[0m";
@@ -288,7 +287,7 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
             } 
             else if (g[i] != NULL && g[i][j] == NULL && verifierEmplacementTuile(g,ta,j,i) == 1){
                 
-                printf("###,%d %d",i,j);
+                printf("###");
             }
             else printf("   ");
         }
