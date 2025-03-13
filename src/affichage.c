@@ -162,7 +162,7 @@ void afficherScoreJoueur(struct Joueur *joueur){
     if(joueur->type == 'h') type = "[J] ";
     if(joueur->type == 'i') type = "[IA]";
 
-    printf("Joueur %s %s: %d, nombre de meeple:\t",couleur,type,joueur->score);
+    printf("Joueur %s %s: %d,\t",couleur,type,joueur->score);
     if(joueur_couleur == 'v') {
         printf("\x1b[48;5;15m\x1b[38;5;28m");
     } else if (joueur_couleur == 'r') {
@@ -195,7 +195,7 @@ void afficherScores(struct Joueur** joueurs, int n){
         }
     }
     
-    printf("\n--------------------------Scores des Joueurs--------------------------\n");
+    printf("\n----------------Scores des Joueurs, Nombre de Meeples----------------\n");
     for(int i = 0 ; i < n ; ++i){
         printf("%d. ",i+1);
         afficherScoreJoueur(joueurs[i]);
