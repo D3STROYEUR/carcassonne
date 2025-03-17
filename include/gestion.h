@@ -15,7 +15,7 @@ int verifierMeepleVille(struct Tuile *** grille, int x, int y, int position);
 int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position);
 int nbPointVille(struct Tuile *** grille, int x, int y, int position);
 int nbPointRoute(struct Tuile *** grille, int x, int y, int position);
-int nbPointAbbaye(struct Tuile *** grille, int x, int y, int position);
+int nbPointAbbaye(struct Tuile *** grille, int x, int y);
 int nbPointElement(struct Tuile *** grille, int x, int y, int position);
 void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants);
 void gagnantRoute(struct Tuile *** grille, int x, int y, char * gagnants);
