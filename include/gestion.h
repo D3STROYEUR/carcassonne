@@ -29,5 +29,5 @@ void detruireLCC(struct ListeChaineeCoordonnes ** liste);
 struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y);
 void supprimerElementLCC(struct ListeChaineeCoordonnes ** liste, int n, int *x, int *y);
 struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, struct Tuile * Tuile);
-
+void reinitialiserGrille (struct Tuile *** grille,int tailleGrille);
 #endif
