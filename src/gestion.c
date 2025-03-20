@@ -233,6 +233,37 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
                 retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y,4,nb_tuiles);
             }else{
                 // si on peut pas aller au milieu, on se test  quand meme les côté
+                //haut
+                if(position==0 && (grille[y][x]->elements[0],'r')){
+                    remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 0);
+                    if(y-1>=0 && grille[y-1][x] != NULL){
+                        retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y-1,2,nb_tuiles);
+                    }
+                }
+
+                //droite
+                if(position==1 && batimentsEgaux(grille[y][x]->elements[1],'r')){
+                    remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 1);
+                    if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL){
+                        retirerMeepleRoute(grille,liste_joueur,nb_joueur,x+1,y,3,nb_tuiles);
+                    }
+                }
+
+                //bas
+                if(position==2 && batimentsEgaux(grille[y][x]->elements[2],'r')){
+                    remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 2);
+                    if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL){
+                        retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y+1,0,nb_tuiles);
+                    }
+                }
+
+                //gauche
+                if(position==3 && batimentsEgaux(grille[y][x]->elements[3],'r')){
+                    remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 3);
+                    if(x-1>0 && grille[y][x-1] != NULL){
+                        retirerMeepleRoute(grille,liste_joueur,nb_joueur,x-1,y,1,nb_tuiles);
+                    }
+                }
             }
         }
     }
