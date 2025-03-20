@@ -165,6 +165,18 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
 void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur, int x, int y, int position){
 
 }
+void reinitialiserGrille (struct Tuile *** grille,int tailleGrille){
+    for (int i=0 ;i<tailleGrille ;  i++){
+        for (int j=0;j<tailleGrille ; i++){
+            if (grille[i][j] != NULL) {
+                grille[i][j] -> verif_tuile=0;
+            }
+    }
+
+
+}
+}
+
 struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y){
 }
 void supprimerElementLCC(struct ListeChaineeCoordonnes ** liste, int n, int *x, int *y){
