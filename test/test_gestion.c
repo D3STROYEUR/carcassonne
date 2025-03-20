@@ -71,7 +71,8 @@ int testGestion(int debug){
     t5[5] = {'p','p','r','r','r'},
     t6[5] = {'r','r','v','b','r'},
     t7[5] = {'v','r','p','r','r'},
-    t8[5] = {'r','v','v','r','r'};
+    t8[5] = {'r','v','v','r','r'},
+    t9[5] = {'p','r','r','p','r'};
 
     struct Tuile * tuile1 = creerTuile(t1);
     struct Tuile * tuile2 = creerTuile(t2);
@@ -81,6 +82,7 @@ int testGestion(int debug){
     struct Tuile * tuile6 = creerTuile(t6);
     struct Tuile * tuile7 = creerTuile(t7);
     struct Tuile * tuile8 = creerTuile(t8);
+    struct Tuile * tuile9 = creerTuile(t9);
     
     struct Tuile *** grille = creerGrille(143);
 
@@ -92,8 +94,9 @@ int testGestion(int debug){
     poserTuile(grille,&tuile6,10,12);
     poserTuile(grille,&tuile7,11,12);
     poserTuile(grille,&tuile8,12,12);
+    poserTuile(grille,&tuile9,10,10);
     
-    poserMeeple(1,'v',tuile1);
+    poserMeeple(3,'v',tuile1);
     poserMeeple(3,'r',tuile2);
     poserMeeple(0,'b',tuile3);
     poserMeeple(4,'n',tuile4);
@@ -104,13 +107,17 @@ int testGestion(int debug){
     printf("%c\n",tuile1->meeple->couleur);
     struct Joueur * j1 = creerJoueur(7);
     j1->couleur='v';
+    j1->type='h';
     struct Joueur * j2 = creerJoueur(7);
     j2->couleur='r';
+    j2->type='h';
     struct Joueur * j3 = creerJoueur(7);
     j3->couleur='b';
+    j3->type='h';
     struct Joueur * j4 = creerJoueur(7);
     j4->couleur='n';
-
+    j4->type='h';
+    
     struct Joueur ** liste_joueur = (struct Joueur **) malloc(4*sizeof(struct Joueur *));
     liste_joueur[0] = j1;
     liste_joueur[1] = j2;
@@ -118,14 +125,20 @@ int testGestion(int debug){
     liste_joueur[3] = j4;
 
     afficherScores(liste_joueur,4);
+    for(int i=0; i<4; ++i){
+        printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
+    }
     afficherGrille(grille,NULL);
 
 
-    retirerMeepleElement(grille,liste_joueur,4,11,11,4,143);
+    retirerMeepleElement(grille,liste_joueur,4,11,10,2,143);
 
     afficherScores(liste_joueur,4);
     afficherGrille(grille,NULL);
 
+    for(int i=0; i<4; ++i){
+        printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
+    }
     // printf final
     printf("[%s] %d test(s) passé(s) : %d reussi(s), %d échoué(s)\n",(echoue==0)? "\033[48;5;22m\033[97mV\033[0m": "\033[48;5;52m\033[97mX\033[0m",reussi+echoue,reussi,echoue);
     if (echoue){
