@@ -56,13 +56,26 @@ int routeFermee(struct Tuile *** grille, int x, int y, int position){
     */
 
 
+
 }
 int abbayeEntouree(struct Tuile *** grille, int x, int y){
     /*
     input : struct Tuile *** grille , int x , int y 
-    output : 1 si tout va bien 0 si tout va mal 
+    output : 1 si entouré 0 sinon
     But : vérifie si une abbaye est entourée 
     */
+   if (grille[x][y] != NULL) {
+    if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
+        return 0;
+    }
+    else {
+        return 1;
+    }
+
+   }
+   else {
+    return 0;
+   }
 
 }
 int elementFermee(struct Tuile *** grille, int x, int y, int position){
@@ -91,6 +104,10 @@ int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position){
     output : 1 si tout va bien 0 si tout va mal 
     But : vérifie si eeple peut être posé (route
     */
+   // coordonnées valides :
+    if (x < 0 || y < 0 || grille[x][y] == NULL || grille[x][y]->elements == NULL) {
+        return 0; 
+    }
 
 }
 int nbPointVille(struct Tuile *** grille, int x, int y, int position){
@@ -108,12 +125,23 @@ int nbPointRoute(struct Tuile *** grille, int x, int y, int position){
     */
 
 }
-int nbPointAbbaye(struct Tuile *** grille, int x, int y, int position){
+int nbPointAbbaye(struct Tuile *** grille, int x, int y){
     /*
     input : struct Tuile *** grille , int x , int y 
-    output : 1 si tout va bien 0 si tout va mal 
+    output : nombre de points qu'une abbaye comtabilise  
     But : compte le nombre de points d'une Abbaye
     */
+   int nb_point = 0 ;
+   for (int i=-1 ; i<=1 ; i++ ){
+    for (int j= -1 ; j<=1 ; j++){
+        int temp_x = x + i ;
+        int temp_y = y + j ;
+        if ((temp_x >= 0 && temp_y >= 0) && (grille[temp_x][temp_y]!=NULL  )){
+            nb_point +=1 ;
+        }
+    }
+   }
+   return nb_point ;
     
 }
 int nbPointElement(struct Tuile *** grille, int x, int y, int position){
