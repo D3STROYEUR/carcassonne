@@ -44,7 +44,7 @@ void finTour(struct Tuile *** grille, struct Joueur ** liste_joueur ,int nb_joue
     }
 }
 
-int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche){
+int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles){
     //On test tous les emplacement disponible avec les 4 rotation. On regarde lequel à le plus de point disponible ET qu'il peut poser le meeple.
     struct ListeChaineeCoordonnes * liste_coord;
     int maxi_emplacement_dispo = 0;
@@ -56,7 +56,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
     //on fait un tableau 2D avec le nombre de pts max par emplacement et par rotation
     //on cherche la taille du tableau
     for(int i =0; i<4; ++i){
-        liste_coord = emplacementPosable(grille,(*pioche)->tuile);
+        liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
         while(liste_coord != NULL){
             tmp_emplacement_dispo++;
             old_liste_coord = liste_coord;
@@ -76,7 +76,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
 
     //on test tous les emplacements (en faisant avec les 4 rotations)
     for(int i=0; i<4; ++i){
-        liste_coord = emplacementPosable(grille,(*pioche)->tuile);
+        liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
 
         int k=0;
         while(liste_coord != NULL){
@@ -118,7 +118,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
         rotationTuile(*(*pioche)->tuile,1);
     }
 
-    liste_coord = emplacementPosable(grille,(*pioche)->tuile);
+    liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
     int i = 0;
 
     while(i<maxj){
@@ -160,7 +160,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
     return 1;
 }
 
-int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche){
+int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles){
     char reponse_tourner;
     struct Joueur * joueur = liste_joueur[numero_joueur];
     struct ListeChaineeCoordonnes * liste_coord;
@@ -182,7 +182,7 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
 
     //Demande rotation
     do{
-        liste_coord = emplacementPosable(grille,(*pioche)->tuile);
+        liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
         
         //on différencie le cas ou il est obligé de tourner
         if(liste_coord == NULL){
@@ -279,15 +279,15 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
     return 0;
 }
 
-void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche){
+void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles){
     struct Joueur * joueur = liste_joueur[numero_joueur];
     int action_valide = 0; 
 
     do {
         if(joueur->type == 'h'){
-            action_valide = tourJoueur(grille,liste_joueur,numero_joueur,nb_joueur,pioche); 
+            action_valide = tourJoueur(grille,liste_joueur,numero_joueur,nb_joueur,pioche,nb_tuiles); 
         }else{
-            action_valide = tourRobot(grille,liste_joueur,numero_joueur,nb_joueur,pioche); 
+            action_valide = tourRobot(grille,liste_joueur,numero_joueur,nb_joueur,pioche,nb_tuiles); 
         }
     }while(!action_valide);
 
@@ -357,7 +357,7 @@ int main(){
     //Jeu tour par tour
     int nb_tuiles_restantes = nb_tuiles;
     for(int i=0; i<nb_tuiles-1; ++i){
-        tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche);
+        tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, nb_tuiles);
     }
     // TODO FAIRE LE DECOMPTE DES POINTS FINAUX, pensez à rajouter dans l'input des points
 
