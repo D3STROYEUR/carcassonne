@@ -21,8 +21,8 @@ $(EXE): $(OBJ)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-test_gestion : $(SRC_DIR)/gestion.c $(OBJ_DIR)/gestion.o 
-	$(CC) $(CFLAGS) $(TEST_DIR)/test_gestion.c $(SRC_DIR)/gestion.c -o test_gestion $(LDFLAGS)
+test_gestion : $(SRC_DIR)/preparation.c $(OBJ_DIR)/preparation.o $(SRC_DIR)/affichage.c $(OBJ_DIR)/affichage.o $(SRC_DIR)/gestion.c $(OBJ_DIR)/gestion.o 
+	$(CC) $(CFLAGS) $(TEST_DIR)/test_gestion.c $(SRC_DIR)/gestion.c $(SRC_DIR)/affichage.c $(SRC_DIR)/preparation.c -o test_gestion $(LDFLAGS)
 
 test_preparation : $(SRC_DIR)/preparation.c $(OBJ_DIR)/preparation.o  $(SRC_DIR)/gestion.c $(OBJ_DIR)/gestion.o 
 	$(CC) $(CFLAGS) $(TEST_DIR)/test_preparation.c $(SRC_DIR)/preparation.c $(SRC_DIR)/gestion.c -o test_preparation $(LDFLAGS)
