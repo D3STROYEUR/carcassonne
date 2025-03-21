@@ -86,34 +86,34 @@ int elementFermee(struct Tuile *** grille, int x, int y, int position){
 
 }
 
-int verifierMeeple(struct Tuile *** grille, int x, int y, int position){
-    /*
-    input : struct Tuile *** grille , int x , int y , int position 
-    output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si le meeple peut être poser sur la position 
-    */
+int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles){
+    
 
-}
-int verifierMeepleVille(struct Tuile *** grille, int x, int y, int position){
-    /*
-    input : struct Tuile *** grille , int x , int y , int position 
-    output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si meeple peut être posé (ville)
-    */
+    //pour vérifier si on peut placer le meeple, s'il y n'y a pas de gagnant (que des valeurs par défaut) alors cela signifie qu'il n'y a pas de meeple sur l'emplacement, donc il est posable.
+    int * gagnant_int = (int *) malloc(nb_joueur*sizeof(int));
 
-}
-int verifierMeepleRoute(struct Tuile *** grille, int x, int y, int position){
-    /*
-    input : struct Tuile *** grille , int x , int y , int position 
-    output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si eeple peut être posé (route
-    */
-   // coordonnées valides :
-    if (x < 0 || y < 0 || grille[x][y] == NULL || grille[x][y]->elements == NULL) {
-        return 0; 
+    for(int i = 0; i<nb_joueur; ++i){
+        gagnant_int[i] = 0;
     }
 
+    //if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+    //    gagnantVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
+    //}else 
+    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
+        gagnantRoute(grille, x, y, position, liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }
+    //else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
+    //    gagnantAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
+    //}
+    int max = 0;
+    for(int i=0; i<nb_joueur; ++i){
+        if(gagnant_int[i]>max){
+            max = gagnant_int[i];
+        }
+    }
+    return max==0;
 }
+
 int nbPointVille(struct Tuile *** grille, int x, int y, int position){
     /*
     input : struct Tuile *** grille , int x , int y
@@ -121,13 +121,76 @@ int nbPointVille(struct Tuile *** grille, int x, int y, int position){
     But : compte le nombre de points d'une ville 
     */
 }
-int nbPointRoute(struct Tuile *** grille, int x, int y, int position){
+int nbPointRoute(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y){
     /*
-    input : struct Tuile *** grille , int x , int y 
-    output : 1 si tout va bien 0 si tout va mal 
-    But : compte le nombre de points d'une route 
+    input : struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y
+    output : le nombre de point
+    But : RECURSIF compte le nombre de points d'une route 
     */
+    int res = 0;
+    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+        // on distingue le cas de si on commence au milieu ou sur un bord
+        if(position == 4){
+            grille[y][x]->verif_tuile = 1;
+            ++res;
 
+            //haut
+            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+                if(y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
+                    res += nbPointRoute(grille,x,y-1,2,nb_tuiles,x,y);
+                }
+            }
+
+            //droite
+            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+                if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
+                    res += nbPointRoute(grille,x+1,y,3,nb_tuiles,x,y);
+                }
+            }
+
+            //bas
+            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+                if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
+                    res += nbPointRoute(grille,x,y+1,0,nb_tuiles,x,y);
+                }
+            }
+
+            //gauche
+            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+                if(x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
+                    res += nbPointRoute(grille,x-1,y,1,nb_tuiles,x,y);
+                }
+            }
+        }else{
+
+            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
+                res += nbPointRoute(grille,x,y,4,nb_tuiles,last_x,last_y);
+            }else{
+                // si on peut pas aller au milieu, on test quand meme les côtés
+                ++res;
+                //haut
+                if(position==0 && y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
+                    res += nbPointRoute(grille,x,y-1,2,nb_tuiles,x,y);
+                }
+
+                //droite
+                if(position==1 && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
+                    res += nbPointRoute(grille,x+1,y,3,nb_tuiles,x,y);
+                }
+
+                //bas
+                if(position==2 && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
+                    res += nbPointRoute(grille,x,y+1,0,nb_tuiles,x,y);
+                }
+
+                //gauche
+                if(position==3 && x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
+                    res += nbPointRoute(grille,x-1,y,1,nb_tuiles,x,y);
+                }
+            }
+        }
+    }
+    return res;
 }
 int nbPointAbbaye(struct Tuile *** grille, int x, int y){
     /*
@@ -148,8 +211,12 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y){
    return nb_point ;
     
 }
-int nbPointElement(struct Tuile *** grille, int x, int y, int position){
+int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles){
+    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
+        return nbPointRoute(grille, x, y, position, nb_tuiles, -1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }
 
+    return 0;
 }
 void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int * gagnants, int nb_joueur, int position){
     /* Input : struct Tuile tuile, struct Joueur ** liste_joueur, int nb_joueur, int position
@@ -165,9 +232,6 @@ void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, in
         }
         if(liste_joueur[i]->couleur == tuile->meeple->couleur){
             gagnants[i] += 1;
-            if(liste_joueur[i]->couleur == 'v'){
-                printf("OMG c'est vert \n");
-            }
         }
 
     }
@@ -178,8 +242,6 @@ void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants){
 }
 
 void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
-    //PAS FINI
-
     if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
 
         // on distingue le cas de si on commence au milieu ou sur un bord
@@ -286,6 +348,7 @@ void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct 
             ++j;
         }
     }
+    free(gagnant_int);
 }
 
 void remiseMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int nb_joueur, int position){
