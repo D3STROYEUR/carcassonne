@@ -104,7 +104,6 @@ int testGestion(int debug){
     poserMeeple(4,'r',tuile6);
     poserMeeple(2,'b',tuile7);
     
-    printf("%c\n",tuile1->meeple->couleur);
     struct Joueur * j1 = creerJoueur(7);
     j1->couleur='v';
     j1->type='h';
@@ -130,8 +129,15 @@ int testGestion(int debug){
     }
     afficherGrille(grille,NULL);
 
+    //retirerMeepleElement(grille,liste_joueur,4,11,10,1,143);
 
-    retirerMeepleElement(grille,liste_joueur,4,11,10,2,143);
+    char * gagnants = (char *)malloc(4*sizeof(char));
+    gagnantElement(grille,11,10,1,liste_joueur,4,gagnants,143);
+    //marche pas parce qu'en fait il marque la tuile de base comme vérif, mais il a vérif uniquement son coté, et uand il revient c'est marqu" comme vérif alors qu'il na pas fait celui la. Faireun truc pour savoir d'ou il vient mais ne pas marqué, juste pas passé celui qui l'a appellé ?
+    
+    for(int i=0; i<4; ++i){
+        printf("%c\n",gagnants[i]);
+    }
 
     afficherScores(liste_joueur,4);
     afficherGrille(grille,NULL);
