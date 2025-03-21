@@ -94,7 +94,7 @@ int testGestion(int debug){
     poserTuile(grille,&tuile6,10,12);
     poserTuile(grille,&tuile7,11,12);
     poserTuile(grille,&tuile8,12,12);
-    poserTuile(grille,&tuile9,10,10);
+    //poserTuile(grille,&tuile9,10,10);
     
     poserMeeple(3,'v',tuile1);
     poserMeeple(3,'r',tuile2);
@@ -104,7 +104,6 @@ int testGestion(int debug){
     poserMeeple(4,'r',tuile6);
     poserMeeple(2,'b',tuile7);
     
-    printf("%c\n",tuile1->meeple->couleur);
     struct Joueur * j1 = creerJoueur(7);
     j1->couleur='v';
     j1->type='h';
@@ -130,15 +129,32 @@ int testGestion(int debug){
     }
     afficherGrille(grille,NULL);
 
+    //retirerMeepleElement(grille,liste_joueur,4,11,10,1,143);
 
-    retirerMeepleElement(grille,liste_joueur,4,11,10,2,143);
+    /* 
+    char * gagnants = (char *)malloc(4*sizeof(char));
+    gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);
+    
+    for(int i=0; i<4; ++i){
+        printf("%c\n",gagnants[i]);
+    }
+    free(gagnants);
 
     afficherScores(liste_joueur,4);
     afficherGrille(grille,NULL);
 
     for(int i=0; i<4; ++i){
         printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
-    }
+    }  */
+    
+    //int res = nbPointElement(grille,11,10,2,143);
+    //int res = nbPointElement(grille,11,10,2,143);
+    
+    //printf("Soit un total de %d points\n",res);
+
+    int verif_meeple = verifierMeeple(grille,11,10,2,liste_joueur,4,143);
+    printf("Posable %d\n",verif_meeple);
+
     // printf final
     printf("[%s] %d test(s) passé(s) : %d reussi(s), %d échoué(s)\n",(echoue==0)? "\033[48;5;22m\033[97mV\033[0m": "\033[48;5;52m\033[97mX\033[0m",reussi+echoue,reussi,echoue);
     if (echoue){
