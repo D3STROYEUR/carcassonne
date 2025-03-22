@@ -9,33 +9,37 @@ int max(int x, int y){
     return y;
 }
 
-void finTour(struct Tuile *** grille, struct Joueur ** liste_joueur ,int nb_joueur, int x, int y){
+void finTour(struct Tuile *** grille, struct Joueur ** liste_joueur ,int nb_joueur, int x, int y, int nb_tuiles){
     //On parcours la grille
     for(int a=-1; a<=1; ++a){
         for(int b=-1; b<=1; ++b){
             if(grille[y+b][x+a] != NULL){
-                // on parcours les 5 positions de la Tuile
+
+                // on parcours les 5 positions de la tuile
                 for(int i=0; i<5; ++i){
-                    if(elementFermee(grille, x, y, i)){
+                    if(elementFermee(grille, x, y, i, nb_tuiles)){
                         //calloc rempli avec des 0;
                         char * tab_joueur = (char *) calloc(nb_joueur,sizeof(char));
                         
-                        int point = nbPointElement(grille,x,y,i);
-                        gagnantElement(grille,x,y,tab_joueur);
+                        int point = nbPointElement(grille,x,y,i,nb_tuiles,0);
+                        gagnantElement(grille,x,y,i,liste_joueur,nb_joueur,tab_joueur,nb_tuiles);
 
                         int j = 0;
-                        while(j<nb_joueur && tab_joueur[j]!= 0){
+                        // on parcours l'ensemble des gagnants
+                        while(j<nb_joueur && tab_joueur[j]!= 'a'){
                             int k = 0;
 
-                            //on trouve dans la liste le meeple de la bonne couleur;
+                            // et on leur rajoute leur points
                             while(k<nb_joueur && liste_joueur[k]->couleur != tab_joueur[j]){
                                 if(liste_joueur[k]->couleur == tab_joueur[j]){
                                     liste_joueur[k]->score += point;
                                 }
+                                k++;
                             }
+                            j++;
 
                         }
-                        retirerMeepleElement(grille,liste_joueur,x,y,i);
+                        retirerMeepleElement(grille,liste_joueur,nb_joueur,x,y,i,nb_tuiles);
                         free(tab_joueur);
                     }
                 }
@@ -84,7 +88,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
             poserTuile(grille,&(*pioche)->tuile,liste_coord->x,liste_coord->y);
             
             for(int j=0; j<5; ++j){
-                maxi = max(maxi,nbPointElement(grille,liste_coord->x,liste_coord->y,j));
+                maxi = max(maxi,nbPointElement(grille,liste_coord->x,liste_coord->y,j,nb_tuiles,0));
             }
             pts_coord[i][k]=maxi;
 
@@ -136,7 +140,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
         int position_max=0;
 
         for(int i=0; i<5; ++i){
-            temp_nb_point = nbPointElement(grille,liste_coord->x,liste_coord->y,i);
+            temp_nb_point = nbPointElement(grille,liste_coord->x,liste_coord->y,i,nb_tuiles,0);
             if(temp_nb_point>maxi){
                 maxi = temp_nb_point;
                 position_max = i;
@@ -150,7 +154,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
     }
     free(pts_coord);
 
-    finTour(grille,liste_joueur,nb_joueur,liste_coord->x,liste_coord->x);
+    finTour(grille,liste_joueur,nb_joueur,liste_coord->x,liste_coord->x,nb_tuiles);
 
     while(liste_coord != NULL){
         old_liste_coord = liste_coord;
@@ -183,8 +187,9 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
     //Demande rotation
     do{
         liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
-        
+
         //on différencie le cas ou il est obligé de tourner
+
         if(liste_coord == NULL){
             printf("Comment voulez-vous tourner la tuile ? (h : sens horaire, t : sens trigonométrique)\n");
         }else{
@@ -243,7 +248,7 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
         char tab_meeple[5] = {0,0,0,0,0};
         char posable = 0;
         for(int i=0; i<5; ++i){
-            if(verifierMeeple(grille,x,y,i)){
+            if(verifierMeeple(grille,x,y,i,liste_joueur,nb_joueur,nb_tuiles)){
                 tab_meeple[i]=1;
                 posable = 1;
             }
@@ -270,10 +275,11 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
             }while(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0);
             
             if(emplacement_meeple != -1){
-                poserMeeple(emplacement_meeple,liste_joueur[numero_joueur]->couleur,grille[x][y]);
+                poserMeeple(emplacement_meeple,liste_joueur[numero_joueur]->couleur,grille[y][x]);
+                printf("Meeple posé !\n");
             }
         }
-        finTour(grille,liste_joueur,nb_joueur,x,y);
+        finTour(grille,liste_joueur,nb_joueur,x,y,nb_tuiles);
         return 1;
     }
     return 0;
@@ -346,18 +352,19 @@ int main(){
     //Création de la pioche et pose de la première tuile
     struct ListeChainee * pioche = NULL;
     int nb_tuiles = lireCSV(&pioche, NOM_CSV);
+    int taille_grille = nb_tuiles*2-1;
     pioche = melangeTuiles(pioche, nb_tuiles);
 
     struct Tuile *** grille = creerGrille((nb_tuiles*2)-1);
 
     struct Tuile * tuile = supprimerElementLC(&pioche,0);
-    poserTuile(grille, &tuile, nb_tuiles-1, nb_tuiles-1); 
+    poserTuile(grille, &tuile, nb_tuiles, nb_tuiles); 
     --nb_tuiles;
 
     //Jeu tour par tour
     int nb_tuiles_restantes = nb_tuiles;
     for(int i=0; i<nb_tuiles-1; ++i){
-        tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, nb_tuiles);
+        tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, taille_grille);
     }
     // TODO FAIRE LE DECOMPTE DES POINTS FINAUX, pensez à rajouter dans l'input des points
 

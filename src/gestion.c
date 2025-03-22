@@ -20,14 +20,14 @@ struct Meeple * creerMeeple(int position, char couleur){
     return meeple;
 }
 
-int poserMeeple(int position, char couleur,struct Tuile * tuile){
+int poserMeeple(int position, char couleur, struct Tuile * tuile){
     /*
-    Input : int x/y , int position , char couleur , struct Tuile * Tuile 
+    Input : int position , char couleur , struct Tuile * Tuile 
     output : int 
     But : poser un meeple sur une tuile */
-    struct Meeple *meeple = creerMeeple(position,couleur);
     //TODO   à bien finir
     if (tuile != NULL){
+        struct Meeple *meeple = creerMeeple(position,couleur);
         tuile->meeple = meeple;
         return 1;
     }
@@ -171,13 +171,15 @@ int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tu
     }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
         res = abbayeEntouree(grille, x, y);
     }
-    
+
     reinitialiserGrille(grille,nb_tuiles);
     return res;
 }
 
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles){
-    
+    if(!batimentsEgaux(grille[y][x]->elements[position],'r') && !batimentsEgaux(grille[y][x]->elements[position],'v') && !batimentsEgaux(grille[y][x]->elements[position],'a')){
+        return 0;
+    }
     //pour vérifier si on peut placer le meeple, s'il y n'y a pas de gagnant (que des valeurs par défaut) alors cela signifie qu'il n'y a pas de meeple sur l'emplacement, donc il est posable.
     char * gagnant = (char *) malloc(nb_joueur*sizeof(char));
 
@@ -644,12 +646,10 @@ struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, stru
     Output : struct ListeChaineeCoordonnes *
     But : renvoie une liste chainée d'emplacement posable, dans le meme ordre que l'affichage
     */
-
     struct ListeChaineeCoordonnes * liste = NULL;
-
-    for(int i=nb_tuiles*2-1; i<0; --i){
-        for(int j=nb_tuiles*2-1; j<0; --j){
-            if(grille[i][j] != NULL && verifierEmplacementTuile(grille,tuile,j,i)){
+    for(int i=nb_tuiles-1; i>=0; --i){
+        for(int j=nb_tuiles-1; j>=0; --j){
+            if(verifierEmplacementTuile(grille,tuile,j,i)){
                 liste = ajoutPremierElementLCC(liste,j,i);
             }
         }
