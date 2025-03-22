@@ -446,6 +446,18 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
     }
 }
 
+void reinitialiserGrille (struct Tuile *** grille,int tailleGrille){
+    for (int i=0 ;i<tailleGrille ;  i++){
+        for (int j=0;j<tailleGrille ; i++){
+            if (grille[i][j] != NULL) {
+                grille[i][j] -> verif_tuile=0;
+            }
+    }
+
+
+    }
+}
+
 void retirerMeepleAbbaye(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int nb_tuiles){
     /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y
     Output : void
