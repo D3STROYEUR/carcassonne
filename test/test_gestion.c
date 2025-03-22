@@ -64,6 +64,8 @@ int testGestion(int debug){
     testUnitaire(lcc4 == NULL && testx == 3 && testy == 4, "supprimerElementLCC 3",&reussi, &echoue,debug);
 
     // TODO vérifier emplacementPosable, retirerMeepleAbbaye, remiseMeeple, retirerMeepleRoute
+    /*
+    // grille 1 (route)
     char t1[5] = {'r','r','r','r','a'},
     t2[5] = {'p','r','p','r','r'},
     t3[5] = {'r','p','r','p','r'},
@@ -73,6 +75,18 @@ int testGestion(int debug){
     t7[5] = {'v','r','p','r','r'},
     t8[5] = {'r','v','v','r','r'},
     t9[5] = {'p','r','r','p','r'};
+    */
+
+    // grille 2 (ville)
+    char t1[5] = {'v','v','p','p','p'},
+    t2[5] = {'p','p','v','v','p'},
+    t3[5] = {'p','v','v','p','v'},
+    t4[5] = {'p','p','b','b','p'},
+    t5[5] = {'v','p','v','p','v'},
+    t6[5] = {'b','b','p','p','b'},
+    t7[5] = {'v','v','r','v','v'},
+    t8[5] = {'v','p','p','v','v'},
+    t9[5] = {'v','p','p','p','p'};
 
     struct Tuile * tuile1 = creerTuile(t1);
     struct Tuile * tuile2 = creerTuile(t2);
@@ -88,32 +102,44 @@ int testGestion(int debug){
 
     poserTuile(grille,&tuile1,11,10);
     poserTuile(grille,&tuile2,12,10);
-    poserTuile(grille,&tuile3,10,11);
+    //poserTuile(grille,&tuile3,10,11);
     poserTuile(grille,&tuile4,11,11);
     poserTuile(grille,&tuile5,12,11);
     poserTuile(grille,&tuile6,10,12);
     poserTuile(grille,&tuile7,11,12);
     poserTuile(grille,&tuile8,12,12);
-    //poserTuile(grille,&tuile9,10,10);
+    poserTuile(grille,&tuile9,10,10);
     
+    /*
+    // grille 1 (route)
     poserMeeple(3,'v',tuile1);
     poserMeeple(3,'r',tuile2);
     poserMeeple(0,'b',tuile3);
     poserMeeple(4,'n',tuile4);
     poserMeeple(2,'v',tuile5);
     poserMeeple(4,'r',tuile6);
-    poserMeeple(2,'b',tuile7);
+    poserMeeple(2,'b',tuile7); 
+    */
+
+   // grille 2 (ville)
+    poserMeeple(1,'v',tuile1);
+    poserMeeple(2,'r',tuile2);
+    //poserMeeple(4,'b',tuile3);
+    poserMeeple(2,'r',tuile4);
+    poserMeeple(3,'v',tuile5);
+    poserMeeple(2,'r',tuile6);
+    poserMeeple(0,'b',tuile7); 
     
-    struct Joueur * j1 = creerJoueur(7);
+    struct Joueur * j1 = creerJoueur(3);
     j1->couleur='v';
     j1->type='h';
-    struct Joueur * j2 = creerJoueur(7);
+    struct Joueur * j2 = creerJoueur(3);
     j2->couleur='r';
     j2->type='h';
-    struct Joueur * j3 = creerJoueur(7);
+    struct Joueur * j3 = creerJoueur(3);
     j3->couleur='b';
     j3->type='h';
-    struct Joueur * j4 = creerJoueur(7);
+    struct Joueur * j4 = creerJoueur(3);
     j4->couleur='n';
     j4->type='h';
     
@@ -128,9 +154,26 @@ int testGestion(int debug){
         printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
     }
     afficherGrille(grille,NULL);
+    char * gagnants = (char *)malloc(4*sizeof(char));
+    
 
-    //retirerMeepleElement(grille,liste_joueur,4,11,10,1,143);
+    //retirerMeepleElement(grille,liste_joueur,4,12,10,2,143);
+    /* 
+    gagnantElement(grille,11,10,1,liste_joueur,4,gagnants,143);
+    afficherScores(liste_joueur,4);
 
+    for(int i=0; i<4; ++i){
+        printf("%c\n",gagnants[i]);
+    } */
+
+    //int score = nbPointElement(grille,11,10,1,143,0);
+    //printf("Score : %d\n",score);
+
+    //int posable = verifierMeeple(grille,11,10,1,liste_joueur,4,143);
+    //printf("Posabilité :%d",posable);
+
+    int verifier = elementFermee(grille,11,11,3,143);
+    printf("Verifier : %d\n",verifier);
     /* 
     char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);
@@ -140,8 +183,7 @@ int testGestion(int debug){
     }
     free(gagnants);
 
-    afficherScores(liste_joueur,4);
-    afficherGrille(grille,NULL);
+    
 
     for(int i=0; i<4; ++i){
         printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
@@ -152,9 +194,11 @@ int testGestion(int debug){
     
     //printf("Soit un total de %d points\n",res);
 
-    int verif_meeple = verifierMeeple(grille,11,10,2,liste_joueur,4,143);
-    printf("Posable %d\n",verif_meeple);
-
+    //int verif_meeple = verifierMeeple(grille,11,10,2,liste_joueur,4,143);
+    //printf("Posable %d\n",verif_meeple);
+    
+    afficherScores(liste_joueur,4);
+    afficherGrille(grille,NULL);
     // printf final
     printf("[%s] %d test(s) passé(s) : %d reussi(s), %d échoué(s)\n",(echoue==0)? "\033[48;5;22m\033[97mV\033[0m": "\033[48;5;52m\033[97mX\033[0m",reussi+echoue,reussi,echoue);
     if (echoue){

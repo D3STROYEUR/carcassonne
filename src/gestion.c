@@ -20,14 +20,14 @@ struct Meeple * creerMeeple(int position, char couleur){
     return meeple;
 }
 
-int poserMeeple(int position, char couleur,struct Tuile * tuile){
+int poserMeeple(int position, char couleur, struct Tuile * tuile){
     /*
-    Input : int x/y , int position , char couleur , struct Tuile * Tuile 
+    Input : int position , char couleur , struct Tuile * Tuile 
     output : int 
     But : poser un meeple sur une tuile */
-    struct Meeple *meeple = creerMeeple(position,couleur);
     //TODO   à bien finir
     if (tuile != NULL){
+        struct Meeple *meeple = creerMeeple(position,couleur);
         tuile->meeple = meeple;
         return 1;
     }
@@ -44,187 +44,285 @@ void detruireMeeple(struct Meeple ** meeple){
     meeple=NULL;    
 }
 
-int villeFermee(struct Tuile *** grille, int x, int y, int position){
+int typeFermee(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y){
     /*
     input : struct Tuile *** grille , int x , int y , int position 
-    output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si une ville est fermé 
+    output : 1 si fermé, 0 sinon
+    But : vérifie si le type d'élément est fermé
     */
 
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
+        // on distingue le cas de si on commence au milieu ou sur un bord
+        if(position == 4){
+            grille[y][x]->verif_tuile = 1;
+
+            //haut
+            if(batimentsEgaux(grille[y][x]->elements[0],type) && y-1>=0  && (y-1 != last_y || x != last_x)){
+                if(grille[y-1][x] != NULL){
+                    if(!typeFermee(grille,x,y-1,2,type,nb_tuiles,x,y)){
+                        return 0;
+                    }
+                }else return 0;
+            }
+
+            //droite
+            if(batimentsEgaux(grille[y][x]->elements[1],type) && x+1<nb_tuiles*2-1 && (y != last_y || x+1 != last_x)){
+                if (grille[y][x+1] != NULL){
+                    if(!typeFermee(grille,x+1,y,3,type,nb_tuiles,x,y)){
+                        return 0;
+                    }
+                }else return 0;
+            }
+
+            //bas
+            if(batimentsEgaux(grille[y][x]->elements[2],type) && y+1<nb_tuiles*2-1 && (y+1 != last_y || x != last_x)){
+                if(grille[y+1][x] != NULL){
+                    if(!typeFermee(grille,x,y+1,0,type,nb_tuiles,x,y)){
+                        return 0;
+                    }
+                } else return 0;
+            }
+
+            //gauche
+            if(batimentsEgaux(grille[y][x]->elements[3],type) && x-1>0 && (y != last_y || x-1 != last_x)){
+                if(grille[y][x-1] != NULL){
+                    if(!typeFermee(grille,x-1,y,1,type,nb_tuiles,x,y)){
+                        return 0;
+                    }
+                }else return 0;
+            }
+        }else{
+
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                if(!typeFermee(grille,x,y,4,type,nb_tuiles,last_x,last_y)){
+                    return 0;
+                }
+            }else{
+                // si on peut pas aller au milieu, on test quand meme les côtés
+
+                //haut
+                if(position==0 && y-1>=0 &&  (y-1 != last_y || x != last_x)){
+                    if(grille[y-1][x] != NULL){
+                        if(!typeFermee(grille,x,y-1,2,type,nb_tuiles,x,y)){
+                            return 0;
+                        }
+                    } else return 0;
+                }
+
+                //droite
+                if(position==1 && x+1<nb_tuiles*2-1 && (y != last_y || x+1 != last_x)){
+                    if(grille[y][x+1] != NULL){
+                        if(!typeFermee(grille,x+1,y,3,type,nb_tuiles,x,y)){
+                            return 0;
+                        }
+                    }else return 0;
+                }
+
+                //bas
+                if(position==2 && y+1<nb_tuiles*2-1 &&  (y+1 != last_y || x != last_x)){
+                    if(grille[y+1][x] != NULL ){
+                        if(!typeFermee(grille,x,y+1,0,type,nb_tuiles,x,y)){
+                            return 0;
+                        }
+                    }else return 0;
+                }
+
+                //gauche
+                if(position==3 && x-1>0 && (y != last_y || x-1 != last_x)){
+                    if(grille[y][x-1] != NULL){
+                        if(!typeFermee(grille,x-1,y,1,type,nb_tuiles,x,y)){
+                            return 0;
+                        }
+                    }else return 0;
+                }
+            }
+        }
+    }
+    return 1;
+
 }
-int routeFermee(struct Tuile *** grille, int x, int y, int position){
-    /*
-    input : struct Tuile *** grille , int x , int y , int position 
-    output : 1 si tout va bien 0 si tout va mal 
-    But : vérifie si une route est fermé 
-    */
 
-
-
-}
 int abbayeEntouree(struct Tuile *** grille, int x, int y){
     /*
     input : struct Tuile *** grille , int x , int y 
     output : 1 si entouré 0 sinon
     But : vérifie si une abbaye est entourée 
     */
-   if (grille[x][y] != NULL) {
-    if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
-        return 0;
+    if (grille[x][y] != NULL) {
+        if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
+            return 0;
+        }
+        else {
+            return 1;
+        }
     }
     else {
-        return 1;
+        return 0;
     }
 
-   }
-   else {
-    return 0;
-   }
-
 }
-int elementFermee(struct Tuile *** grille, int x, int y, int position){
 
+int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tuiles){
+    int res=0;
+    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
+        res = typeFermee(grille, x, y, position, 'r', nb_tuiles, -1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+        res = typeFermee(grille, x, y, position, 'v', nb_tuiles, -1,-1);
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
+        res = abbayeEntouree(grille, x, y);
+    }
+
+    reinitialiserGrille(grille,nb_tuiles);
+    return res;
 }
 
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles){
-    
-
+    if(!batimentsEgaux(grille[y][x]->elements[position],'r') && !batimentsEgaux(grille[y][x]->elements[position],'v') && !batimentsEgaux(grille[y][x]->elements[position],'a')){
+        return 0;
+    }
     //pour vérifier si on peut placer le meeple, s'il y n'y a pas de gagnant (que des valeurs par défaut) alors cela signifie qu'il n'y a pas de meeple sur l'emplacement, donc il est posable.
-    int * gagnant_int = (int *) malloc(nb_joueur*sizeof(int));
+    char * gagnant = (char *) malloc(nb_joueur*sizeof(char));
 
     for(int i = 0; i<nb_joueur; ++i){
-        gagnant_int[i] = 0;
+        gagnant[i] = 0;
     }
 
-    //if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-    //    gagnantVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
-    //}else 
-    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        gagnantRoute(grille, x, y, position, liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
-    }
-    //else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
-    //    gagnantAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
-    //}
-    int max = 0;
-    for(int i=0; i<nb_joueur; ++i){
-        if(gagnant_int[i]>max){
-            max = gagnant_int[i];
-        }
-    }
-    return max==0;
+    gagnantElement(grille,x,y,position,liste_joueur,nb_joueur,gagnant,nb_tuiles);
+
+    int res = gagnant[0]=='a';
+    free(gagnant);
+    
+    return res;
 }
 
-int nbPointVille(struct Tuile *** grille, int x, int y, int position){
-    /*
-    input : struct Tuile *** grille , int x , int y
-    output : 1 si tout va bien 0 si tout va mal 
-    But : compte le nombre de points d'une ville 
-    */
-}
-int nbPointRoute(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y){
+int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y, int fini){
     /*
     input : struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y
     output : le nombre de point
+    fini = 1 signifie le nombre de point lors du décompte final
     But : RECURSIF compte le nombre de points d'une route 
     */
     int res = 0;
-    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
         // on distingue le cas de si on commence au milieu ou sur un bord
         if(position == 4){
             grille[y][x]->verif_tuile = 1;
-            ++res;
+
+            if(grille[y][x]->elements[position] == 'v'){
+                if(fini)res += 1;
+                else res += 2;
+            }else if(grille[y][x]->elements[position] == 'b'){
+                if (fini) res += 2;
+                else res +=4;
+            }else if(grille[y][x]->elements[position] == 'r'){
+                res += 1;
+            }
 
             //haut
-            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[0],type)){
                 if(y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y-1,2,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y-1,2,type,nb_tuiles,x,y,fini);
                 }
             }
 
             //droite
-            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[1],type)){
                 if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    res += nbPointRoute(grille,x+1,y,3,nb_tuiles,x,y);
+                    res += nbPointType(grille,x+1,y,3,type,nb_tuiles,x,y,fini);
                 }
             }
 
             //bas
-            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[2],type)){
                 if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y+1,0,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y+1,0,type,nb_tuiles,x,y,fini);
                 }
             }
 
             //gauche
-            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[3],type)){
                 if(x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    res += nbPointRoute(grille,x-1,y,1,nb_tuiles,x,y);
+                    res += nbPointType(grille,x-1,y,1,type,nb_tuiles,x,y,fini);
                 }
             }
         }else{
 
-            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
-                res += nbPointRoute(grille,x,y,4,nb_tuiles,last_x,last_y);
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                res += nbPointType(grille,x,y,4,type,nb_tuiles,last_x,last_y,fini);
             }else{
                 // si on peut pas aller au milieu, on test quand meme les côtés
-                ++res;
+                if(grille[y][x]->elements[position] == 'v'){
+                    if(fini)res += 1;
+                    else res += 2;
+                }else if(grille[y][x]->elements[position] == 'b'){
+                    if (fini) res += 2;
+                    else res +=4;
+                }else if(grille[y][x]->elements[position] == 'r'){
+                    res += 1;
+                }
                 //haut
                 if(position==0 && y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y-1,2,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y-1,2,type,nb_tuiles,x,y,fini);
                 }
 
                 //droite
                 if(position==1 && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    res += nbPointRoute(grille,x+1,y,3,nb_tuiles,x,y);
+                    res += nbPointType(grille,x+1,y,3,type,nb_tuiles,x,y,fini);
                 }
 
                 //bas
                 if(position==2 && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y+1,0,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y+1,0,type,nb_tuiles,x,y,fini);
                 }
 
                 //gauche
                 if(position==3 && x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    res += nbPointRoute(grille,x-1,y,1,nb_tuiles,x,y);
+                    res += nbPointType(grille,x-1,y,1,type,nb_tuiles,x,y,fini);
                 }
             }
         }
     }
     return res;
 }
-int nbPointAbbaye(struct Tuile *** grille, int x, int y){
+
+int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
     /*
     input : struct Tuile *** grille , int x , int y 
-    output : nombre de points qu'une abbaye comtabilise  
+    output : nombre de points qu'une abbaye comptabilise  
     But : compte le nombre de points d'une Abbaye
     */
-   int nb_point = 0 ;
-   for (int i=-1 ; i<=1 ; i++ ){
-    for (int j= -1 ; j<=1 ; j++){
-        int temp_x = x + i ;
-        int temp_y = y + j ;
-        if ((temp_x >= 0 && temp_y >= 0) && (grille[temp_x][temp_y]!=NULL  )){
-            nb_point +=1 ;
+    int nb_point = 0 ;
+    for (int i=-1 ; i<=1 ; i++ ){
+        for (int j= -1 ; j<=1 ; j++){
+            int temp_x = x + i ;
+            int temp_y = y + j ;
+            if (temp_x >= 0 && temp_y >= 0 && temp_x<nb_tuiles && temp_y<nb_tuiles && grille[temp_x][temp_y]!=NULL  ){
+                nb_point +=1 ;
+            }
         }
     }
-   }
-   return nb_point ;
-    
+    return nb_point ;
 }
-int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles){
+
+int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int fini){
+    int res = 0;
     if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        return nbPointRoute(grille, x, y, position, nb_tuiles, -1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+        res = nbPointType(grille, x, y, position, 'r', nb_tuiles, -1,-1,fini); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+        res = nbPointType(grille, x, y, position, 'v', nb_tuiles, -1,-1,fini);
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
+        res = nbPointAbbaye(grille, x, y, nb_tuiles);
     }
 
-    return 0;
+    reinitialiserGrille(grille,nb_tuiles);
+    return res;
 }
+
 void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int * gagnants, int nb_joueur, int position){
     /* Input : struct Tuile tuile, struct Joueur ** liste_joueur, int nb_joueur, int position
     Output : void
     But : enleve le meeple de l'emplacement et le rajoute à son joueur
     */
-       //PAS FINI
-
     if(tuile != NULL && tuile->meeple != NULL && tuile->meeple->position == position){
         int i=0;
         while(i<nb_joueur && liste_joueur[i]->couleur != tuile->meeple->couleur){
@@ -237,12 +335,8 @@ void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, in
     }
 }
 
-void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants){
-
-}
-
-void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
-    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+void gagnantType(struct Tuile *** grille, int x, int y, int position, char type, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
 
         // on distingue le cas de si on commence au milieu ou sur un bord
         if(position == 4){
@@ -250,62 +344,62 @@ void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Jo
             compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, position);
 
             //haut
-            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[0],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 0);
                 if(y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y-1,2,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y-1,2,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
 
             //droite
-            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[1],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 1);
                 if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    gagnantRoute(grille,x+1,y,3,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x+1,y,3,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
 
             //bas
-            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[2],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 2);
                 if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y+1,0,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y+1,0,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
 
             //gauche
-            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[3],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 3);
                 if(x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    gagnantRoute(grille,x-1,y,1,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x-1,y,1,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
         }else{
 
-            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
-                gagnantRoute(grille,x,y,4,liste_joueur,nb_joueur,gagnants,nb_tuiles,last_x,last_y);
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                gagnantType(grille,x,y,4,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,last_x,last_y);
             }else{
                 // si on peut pas aller au milieu, on test quand meme les côtés
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, position);
                 
                 //haut
                 if(position==0 && y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y-1,2,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y-1,2,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
 
                 //droite
                 if(position==1 && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    gagnantRoute(grille,x+1,y,3,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x+1,y,3,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
 
                 //bas
                 if(position==2 && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y+1,0,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y+1,0,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
 
                 //gauche
                 if(position==3 && x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    gagnantRoute(grille,x-1,y,1,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x-1,y,1,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
         }
@@ -315,7 +409,6 @@ void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Jo
 void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, char * gagnants, int nb_tuiles){
     //le char* gagnant c'est pour la liste des couleurs gagnantes,
     //le int* gagnant  c'est pour le nb de meeple de chaque joueur sur l'élément, avec le meme indice que dans liste_joueur
-    //PAS FINI
 
     int * gagnant_int = (int *) malloc(nb_joueur*sizeof(int));
 
@@ -324,22 +417,21 @@ void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct 
         gagnant_int[i] = 0;
     }
 
-    //if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-    //    gagnantVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
-    //}else 
-    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        gagnantRoute(grille, x, y, position, liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
-    }
-    //else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
-    //    gagnantAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
-    //}
     int max = 0;
+    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
+        gagnantType(grille, x, y, position,'r', liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+        gagnantType(grille, x, y, position,'v', liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1);
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'a') && grille[y][x]->meeple != NULL && grille[y][x]->meeple->position == 4){
+        max = 1;
+        gagnants[0] = grille[y][x]->meeple->couleur;
+    }
+
     for(int i=0; i<nb_joueur; ++i){
         if(gagnant_int[i]>max){
             max = gagnant_int[i];
         }
     }
-    printf("Le max est :%d\n",max);
 
     int j=0;
     for(int i=0; i<nb_joueur; ++i){
@@ -349,6 +441,7 @@ void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct 
         }
     }
     free(gagnant_int);
+    reinitialiserGrille(grille,nb_tuiles);
 }
 
 void remiseMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int nb_joueur, int position){
@@ -369,16 +462,12 @@ void remiseMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int nb_jo
     }
 }
 
-
-void retirerMeepleVille(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, int nb_tuiles){
-
-}
-void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, int nb_tuiles){
+void retirerMeepleType(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y){
     /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position
     Output : void
     But : RECURSIF retire le meeple de la route sélectionné, et le fait retourner dans la main de son propriétaire
     */
-    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
 
         // on distingue le cas de si on commence au milieu ou sur un bord
         if(position == 4){
@@ -386,60 +475,60 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
             remiseMeeple(grille[y][x], liste_joueur, nb_joueur, position);
 
             //haut
-            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[0],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 0);
-                if(y-1>=0 && grille[y-1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y-1,2,nb_tuiles);
+                if(y-1>=0 && grille[y-1][x] != NULL && (x != last_x || y-1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y-1,2,type,nb_tuiles,x,y);
                 }
             }
 
             //droite
-            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[1],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 1);
-                if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x+1,y,3,nb_tuiles);
+                if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (x+1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x+1,y,3,type,nb_tuiles,x,y);
                 }
             }
 
             //bas
-            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[2],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 2);
-                if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y+1,0,nb_tuiles);
+                if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (x != last_x || y+1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y+1,0,type,nb_tuiles,x,y);
                 }
             }
 
             //gauche
-            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[3],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 3);
-                if(x-1>0 && grille[y][x-1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x-1,y,1,nb_tuiles);
+                if(x-1>0 && grille[y][x-1] != NULL && (x-1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x-1,y,1,type,nb_tuiles,x,y);
                 }
             }
         }else{
             remiseMeeple(grille[y][x], liste_joueur, nb_joueur, position);
-            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
-                retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y,4,nb_tuiles);
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                retirerMeepleType(grille,liste_joueur,nb_joueur,x,y,4,type,nb_tuiles,last_x,last_y);
             }else{
-                // si on peut pas aller au milieu, on se test  quand meme les côté
+                // si on peut pas aller au milieu, on test quand meme les côté
                 //haut
-                if(position==0 && batimentsEgaux(grille[y][x]->elements[0],'r') && y-1>=0 && grille[y-1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y-1,2,nb_tuiles);
+                if(position==0 && batimentsEgaux(grille[y][x]->elements[0],type) && y-1>=0 && grille[y-1][x] != NULL &&(x != last_x || y-1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y-1,2,type,nb_tuiles,x,y);
                 }
 
                 //droite
-                if(position==1 && batimentsEgaux(grille[y][x]->elements[1],'r') && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x+1,y,3,nb_tuiles);
+                if(position==1 && batimentsEgaux(grille[y][x]->elements[1],type) && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (x+1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x+1,y,3,type,nb_tuiles,x,y);
                 }
 
                 //bas
-                if(position==2 && batimentsEgaux(grille[y][x]->elements[2],'r') && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y+1,0,nb_tuiles);
+                if(position==2 && batimentsEgaux(grille[y][x]->elements[2],type) && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (x != last_x || y+1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y+1,0,type,nb_tuiles,x,y);
                 }
 
                 //gauche
-                if(position==3 && batimentsEgaux(grille[y][x]->elements[3],'r') && x-1>0 && grille[y][x-1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x-1,y,1,nb_tuiles);
+                if(position==3 && batimentsEgaux(grille[y][x]->elements[3],type) && x-1>0 && grille[y][x-1] != NULL && (x-1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x-1,y,1,type,nb_tuiles,x,y);
                 }
             }
         }
@@ -448,13 +537,11 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
 
 void reinitialiserGrille (struct Tuile *** grille,int tailleGrille){
     for (int i=0 ;i<tailleGrille ;  i++){
-        for (int j=0;j<tailleGrille ; i++){
+        for (int j=0;j<tailleGrille ; j++){
             if (grille[i][j] != NULL) {
                 grille[i][j] -> verif_tuile=0;
             }
-    }
-
-
+        }
     }
 }
 
@@ -475,14 +562,14 @@ void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur
     */
 
     if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-        retirerMeepleVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
+        retirerMeepleType(grille, liste_joueur, nb_joueur, x, y,position, 'v', nb_tuiles,-1,-1);// last_x et las_y à -1 pour pas qu'ils n'interferent
     }else if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        retirerMeepleRoute(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
+        retirerMeepleType(grille, liste_joueur, nb_joueur, x, y, position, 'r', nb_tuiles,-1,-1);
     }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
         retirerMeepleAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
     }
 
-    //TODO penser à mettre tout les tuile à 0;
+    reinitialiserGrille(grille,nb_tuiles);
 }
 
 struct ListeChaineeCoordonnes * creerLCC(){
@@ -559,12 +646,10 @@ struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, stru
     Output : struct ListeChaineeCoordonnes *
     But : renvoie une liste chainée d'emplacement posable, dans le meme ordre que l'affichage
     */
-
     struct ListeChaineeCoordonnes * liste = NULL;
-
-    for(int i=nb_tuiles*2-1; i<0; --i){
-        for(int j=nb_tuiles*2-1; j<0; --j){
-            if(grille[i][j] != NULL && verifierEmplacementTuile(grille,tuile,j,i)){
+    for(int i=nb_tuiles-1; i>=0; --i){
+        for(int j=nb_tuiles-1; j>=0; --j){
+            if(verifierEmplacementTuile(grille,tuile,j,i)){
                 liste = ajoutPremierElementLCC(liste,j,i);
             }
         }
