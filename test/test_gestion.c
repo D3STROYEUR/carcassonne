@@ -166,9 +166,11 @@ int testGestion(int debug){
         printf("%c\n",gagnants[i]);
     } */
 
-    int score = nbPointElement(grille,11,10,1,143,0);
+    //int score = nbPointElement(grille,11,10,1,143,0);
+    //printf("Score : %d\n",score);
 
-    printf("Score : %d\n",score);
+    int posable = verifierMeeple(grille,11,10,1,liste_joueur,4,143);
+    printf("Posabilité :%d",posable);
     /* 
     char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);

@@ -68,18 +68,17 @@ int abbayeEntouree(struct Tuile *** grille, int x, int y){
     output : 1 si entouré 0 sinon
     But : vérifie si une abbaye est entourée 
     */
-   if (grille[x][y] != NULL) {
-    if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
-        return 0;
+    if (grille[x][y] != NULL) {
+        if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
+            return 0;
+        }
+        else {
+            return 1;
+        }
     }
     else {
-        return 1;
+        return 0;
     }
-
-   }
-   else {
-    return 0;
-   }
 
 }
 int elementFermee(struct Tuile *** grille, int x, int y, int position){
@@ -88,30 +87,19 @@ int elementFermee(struct Tuile *** grille, int x, int y, int position){
 
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles){
     
-
     //pour vérifier si on peut placer le meeple, s'il y n'y a pas de gagnant (que des valeurs par défaut) alors cela signifie qu'il n'y a pas de meeple sur l'emplacement, donc il est posable.
-    int * gagnant_int = (int *) malloc(nb_joueur*sizeof(int));
+    char * gagnant = (char *) malloc(nb_joueur*sizeof(char));
 
     for(int i = 0; i<nb_joueur; ++i){
-        gagnant_int[i] = 0;
+        gagnant[i] = 0;
     }
 
-    //if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-    //    gagnantVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
-    //}else 
-    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        gagnantType(grille, x, y, position,'r', liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
-    }
-    //else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
-    //    gagnantAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
-    //}
-    int max = 0;
-    for(int i=0; i<nb_joueur; ++i){
-        if(gagnant_int[i]>max){
-            max = gagnant_int[i];
-        }
-    }
-    return max==0;
+    gagnantElement(grille,x,y,position,liste_joueur,nb_joueur,gagnant,nb_tuiles);
+
+    int res = gagnant[0]=='a';
+    free(gagnant);
+    
+    return res;
 }
 
 int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y, int fini){
@@ -203,6 +191,7 @@ int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, 
     }
     return res;
 }
+
 int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
     /*
     input : struct Tuile *** grille , int x , int y 
