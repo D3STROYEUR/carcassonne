@@ -114,106 +114,123 @@ int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct J
     return max==0;
 }
 
-int nbPointVille(struct Tuile *** grille, int x, int y, int position){
-    /*
-    input : struct Tuile *** grille , int x , int y
-    output : 1 si tout va bien 0 si tout va mal 
-    But : compte le nombre de points d'une ville 
-    */
-}
-int nbPointRoute(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y){
+int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y, int fini){
     /*
     input : struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y
     output : le nombre de point
+    fini = 1 signifie le nombre de point lors du décompte final
     But : RECURSIF compte le nombre de points d'une route 
     */
     int res = 0;
-    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
         // on distingue le cas de si on commence au milieu ou sur un bord
         if(position == 4){
             grille[y][x]->verif_tuile = 1;
-            ++res;
+
+            if(grille[y][x]->elements[position] == 'v'){
+                if(fini)res += 1;
+                else res += 2;
+            }else if(grille[y][x]->elements[position] == 'b'){
+                if (fini) res += 2;
+                else res +=4;
+            }else if(grille[y][x]->elements[position] == 'r'){
+                res += 1;
+            }
 
             //haut
-            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[0],type)){
                 if(y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y-1,2,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y-1,2,type,nb_tuiles,x,y,fini);
                 }
             }
 
             //droite
-            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[1],type)){
                 if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    res += nbPointRoute(grille,x+1,y,3,nb_tuiles,x,y);
+                    res += nbPointType(grille,x+1,y,3,type,nb_tuiles,x,y,fini);
                 }
             }
 
             //bas
-            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[2],type)){
                 if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y+1,0,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y+1,0,type,nb_tuiles,x,y,fini);
                 }
             }
 
             //gauche
-            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[3],type)){
                 if(x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    res += nbPointRoute(grille,x-1,y,1,nb_tuiles,x,y);
+                    res += nbPointType(grille,x-1,y,1,type,nb_tuiles,x,y,fini);
                 }
             }
         }else{
 
-            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
-                res += nbPointRoute(grille,x,y,4,nb_tuiles,last_x,last_y);
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                res += nbPointType(grille,x,y,4,type,nb_tuiles,last_x,last_y,fini);
             }else{
                 // si on peut pas aller au milieu, on test quand meme les côtés
-                ++res;
+                if(grille[y][x]->elements[position] == 'v'){
+                    if(fini)res += 1;
+                    else res += 2;
+                }else if(grille[y][x]->elements[position] == 'b'){
+                    if (fini) res += 2;
+                    else res +=4;
+                }else if(grille[y][x]->elements[position] == 'r'){
+                    res += 1;
+                }
                 //haut
                 if(position==0 && y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y-1,2,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y-1,2,type,nb_tuiles,x,y,fini);
                 }
 
                 //droite
                 if(position==1 && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    res += nbPointRoute(grille,x+1,y,3,nb_tuiles,x,y);
+                    res += nbPointType(grille,x+1,y,3,type,nb_tuiles,x,y,fini);
                 }
 
                 //bas
                 if(position==2 && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    res += nbPointRoute(grille,x,y+1,0,nb_tuiles,x,y);
+                    res += nbPointType(grille,x,y+1,0,type,nb_tuiles,x,y,fini);
                 }
 
                 //gauche
                 if(position==3 && x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    res += nbPointRoute(grille,x-1,y,1,nb_tuiles,x,y);
+                    res += nbPointType(grille,x-1,y,1,type,nb_tuiles,x,y,fini);
                 }
             }
         }
     }
     return res;
 }
-int nbPointAbbaye(struct Tuile *** grille, int x, int y){
+int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
     /*
     input : struct Tuile *** grille , int x , int y 
-    output : nombre de points qu'une abbaye comtabilise  
+    output : nombre de points qu'une abbaye comptabilise  
     But : compte le nombre de points d'une Abbaye
     */
-   int nb_point = 0 ;
-   for (int i=-1 ; i<=1 ; i++ ){
-    for (int j= -1 ; j<=1 ; j++){
-        int temp_x = x + i ;
-        int temp_y = y + j ;
-        if ((temp_x >= 0 && temp_y >= 0) && (grille[temp_x][temp_y]!=NULL  )){
-            nb_point +=1 ;
+    int nb_point = 0 ;
+    for (int i=-1 ; i<=1 ; i++ ){
+        for (int j= -1 ; j<=1 ; j++){
+            int temp_x = x + i ;
+            int temp_y = y + j ;
+            if (temp_x >= 0 && temp_y >= 0 && temp_x<nb_tuiles && temp_y<nb_tuiles && grille[temp_x][temp_y]!=NULL  ){
+                nb_point +=1 ;
+            }
         }
     }
-   }
-   return nb_point ;
-    
+    return nb_point ;
 }
-int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles){
+
+int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int fini){
     if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        return nbPointRoute(grille, x, y, position, nb_tuiles, -1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+        return nbPointType(grille, x, y, position, 'r', nb_tuiles, -1,-1,fini); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+            printf("J'aia vu un %c passé!\n",grille[y][x]->elements[position]);
+
+        return nbPointType(grille, x, y, position, 'v', nb_tuiles, -1,-1,fini);
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
+        return nbPointAbbaye(grille, x, y, nb_tuiles);
     }
 
     return 0;
@@ -223,8 +240,6 @@ void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, in
     Output : void
     But : enleve le meeple de l'emplacement et le rajoute à son joueur
     */
-       //PAS FINI
-
     if(tuile != NULL && tuile->meeple != NULL && tuile->meeple->position == position){
         int i=0;
         while(i<nb_joueur && liste_joueur[i]->couleur != tuile->meeple->couleur){
@@ -236,7 +251,6 @@ void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, in
 
     }
 }
-
 
 void gagnantType(struct Tuile *** grille, int x, int y, int position, char type, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
     if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
@@ -335,7 +349,6 @@ void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct 
             max = gagnant_int[i];
         }
     }
-    printf("Le max est :%d\n",max);
 
     int j=0;
     for(int i=0; i<nb_joueur; ++i){

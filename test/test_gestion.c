@@ -158,13 +158,17 @@ int testGestion(int debug){
     
 
     //retirerMeepleElement(grille,liste_joueur,4,12,10,2,143);
-    
+    /* 
     gagnantElement(grille,11,10,1,liste_joueur,4,gagnants,143);
     afficherScores(liste_joueur,4);
 
     for(int i=0; i<4; ++i){
         printf("%c\n",gagnants[i]);
-    }
+    } */
+
+    int score = nbPointElement(grille,11,10,1,143,0);
+
+    printf("Score : %d\n",score);
     /* 
     char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);
