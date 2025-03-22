@@ -369,16 +369,12 @@ void remiseMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int nb_jo
     }
 }
 
-
-void retirerMeepleVille(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, int nb_tuiles){
-
-}
-void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, int nb_tuiles){
+void retirerMeepleType(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y){
     /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position
     Output : void
     But : RECURSIF retire le meeple de la route sélectionné, et le fait retourner dans la main de son propriétaire
     */
-    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
 
         // on distingue le cas de si on commence au milieu ou sur un bord
         if(position == 4){
@@ -386,60 +382,60 @@ void retirerMeepleRoute(struct Tuile *** grille, struct Joueur ** liste_joueur, 
             remiseMeeple(grille[y][x], liste_joueur, nb_joueur, position);
 
             //haut
-            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[0],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 0);
-                if(y-1>=0 && grille[y-1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y-1,2,nb_tuiles);
+                if(y-1>=0 && grille[y-1][x] != NULL && (x != last_x || y-1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y-1,2,type,nb_tuiles,x,y);
                 }
             }
 
             //droite
-            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[1],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 1);
-                if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x+1,y,3,nb_tuiles);
+                if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (x+1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x+1,y,3,type,nb_tuiles,x,y);
                 }
             }
 
             //bas
-            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[2],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 2);
-                if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y+1,0,nb_tuiles);
+                if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (x != last_x || y+1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y+1,0,type,nb_tuiles,x,y);
                 }
             }
 
             //gauche
-            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[3],type)){
                 remiseMeeple(grille[y][x], liste_joueur, nb_joueur, 3);
-                if(x-1>0 && grille[y][x-1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x-1,y,1,nb_tuiles);
+                if(x-1>0 && grille[y][x-1] != NULL && (x-1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x-1,y,1,type,nb_tuiles,x,y);
                 }
             }
         }else{
             remiseMeeple(grille[y][x], liste_joueur, nb_joueur, position);
-            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
-                retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y,4,nb_tuiles);
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                retirerMeepleType(grille,liste_joueur,nb_joueur,x,y,4,type,nb_tuiles,last_x,last_y);
             }else{
-                // si on peut pas aller au milieu, on se test  quand meme les côté
+                // si on peut pas aller au milieu, on test quand meme les côté
                 //haut
-                if(position==0 && batimentsEgaux(grille[y][x]->elements[0],'r') && y-1>=0 && grille[y-1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y-1,2,nb_tuiles);
+                if(position==0 && batimentsEgaux(grille[y][x]->elements[0],type) && y-1>=0 && grille[y-1][x] != NULL &&(x != last_x || y-1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y-1,2,type,nb_tuiles,x,y);
                 }
 
                 //droite
-                if(position==1 && batimentsEgaux(grille[y][x]->elements[1],'r') && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x+1,y,3,nb_tuiles);
+                if(position==1 && batimentsEgaux(grille[y][x]->elements[1],type) && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (x+1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x+1,y,3,type,nb_tuiles,x,y);
                 }
 
                 //bas
-                if(position==2 && batimentsEgaux(grille[y][x]->elements[2],'r') && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x,y+1,0,nb_tuiles);
+                if(position==2 && batimentsEgaux(grille[y][x]->elements[2],type) && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (x != last_x || y+1 != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x,y+1,0,type,nb_tuiles,x,y);
                 }
 
                 //gauche
-                if(position==3 && batimentsEgaux(grille[y][x]->elements[3],'r') && x-1>0 && grille[y][x-1] != NULL){
-                    retirerMeepleRoute(grille,liste_joueur,nb_joueur,x-1,y,1,nb_tuiles);
+                if(position==3 && batimentsEgaux(grille[y][x]->elements[3],type) && x-1>0 && grille[y][x-1] != NULL && (x-1 != last_x || y != last_y)){
+                    retirerMeepleType(grille,liste_joueur,nb_joueur,x-1,y,1,type,nb_tuiles,x,y);
                 }
             }
         }
@@ -463,13 +459,14 @@ void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur
     */
 
     if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-        retirerMeepleVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
+        retirerMeepleType(grille, liste_joueur, nb_joueur, x, y,position, 'v', nb_tuiles,-1,-1);// last_x et las_y à -1 pour pas qu'ils n'interferent
     }else if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        retirerMeepleRoute(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
+        retirerMeepleType(grille, liste_joueur, nb_joueur, x, y, position, 'r', nb_tuiles,-1,-1);
     }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
         retirerMeepleAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
     }
 
+    
     //TODO penser à mettre tout les tuile à 0;
 }
 
