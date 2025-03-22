@@ -7,20 +7,20 @@
 #include "gestion.h"
 
 void afficherTitre(){
-    printf("\x1b[48;5;196m                                                                                                                                                            \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m     ,gggg,                                                                                                                                      \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m   ,88\"\"\"Y8b,                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m  d8\"     `Y8                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m d8'   8b  d8                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m,8I    \"Y88P'                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92mI8'             ,gggg,gg   ,gggggg,    ,gggg,    ,gggg,gg    ,g,       ,g,       ,ggggg,     ,ggg,,ggg,    ,ggg,,ggg,    ,ggg,                   \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92md8             dP\"  \"Y8I   dP\"\"\"\"8I   dP\"  \"Yb  dP\"  \"Y8I   ,8'8,     ,8'8,     dP\"  \"Y8ggg ,8\" \"8P\" \"8,  ,8\" \"8P\" \"8,  i8\" \"8i                  \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92mY8,           i8'    ,8I  ,8'    8I  i8'       i8'    ,8I  ,8'  Yb   ,8'  Yb   i8'    ,8I   I8   8I   8I  I8   8I   8I  I8, ,8I                  \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m`Yba,,_____, ,d8,   ,d8b,,dP     Y8,,d8,_    _,d8,   ,d8b,,8'_   8) ,8'_   8) ,d8,   ,d8'  ,dP   8I   Yb,,dP   8I   Yb, `YbadP'                  \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[92m  `\"Y8888888 P\"Y8888P\"`Y88P      `Y8P\"\"Y8888PPP\"Y8888P\"`Y8P' \"YY8P8PP' \"YY8P8PP\"Y8888P\"    8P'   8I   `Y88P'   8I   `Y8888P\"Y888                 \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                                                                                                                                                        \x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m       \x1b[31m================================================================================================================================                 \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m                                                                                                                                                            \x1b[0m\n");
+    printf("                                                                                                        \n");
+    printf("\x1b[92m     ,gggg,                                                                                                                                      \x1b[0m\n");
+    printf("\x1b[92m   ,88\"\"\"Y8b,                                                                                                                                    \x1b[0m\n");
+    printf("\x1b[92m  d8\"     `Y8                                                                                                                                    \x1b[0m\n");
+    printf("\x1b[92m d8'   8b  d8                                                                                                                                    \x1b[0m\n");
+    printf("\x1b[92m,8I    \"Y88P'                                                                                                                                    \x1b[0m\n");
+    printf("\x1b[92mI8'             ,gggg,gg   ,gggggg,    ,gggg,    ,gggg,gg    ,g,       ,g,       ,ggggg,     ,ggg,,ggg,    ,ggg,,ggg,    ,ggg,                   \x1b[0m\n");
+    printf("\x1b[92md8             dP\"  \"Y8I   dP\"\"\"\"8I   dP\"  \"Yb  dP\"  \"Y8I   ,8'8,     ,8'8,     dP\"  \"Y8ggg ,8\" \"8P\" \"8,  ,8\" \"8P\" \"8,  i8\" \"8i                  \x1b[0m\n");
+    printf("\x1b[92mY8,           i8'    ,8I  ,8'    8I  i8'       i8'    ,8I  ,8'  Yb   ,8'  Yb   i8'    ,8I   I8   8I   8I  I8   8I   8I  I8, ,8I                  \x1b[0m\n");
+    printf("\x1b[92m`Yba,,_____, ,d8,   ,d8b,,dP     Y8,,d8,_    _,d8,   ,d8b,,8'_   8) ,8'_   8) ,d8,   ,d8'  ,dP   8I   Yb,,dP   8I   Yb, `YbadP'                  \x1b[0m\n");
+    printf("\x1b[92m  `\"Y8888888 P\"Y8888P\"`Y88P      `Y8P\"\"Y8888PPP\"Y8888P\"`Y8P' \"YY8P8PP' \"YY8P8PP\"Y8888P\"    8P'   8I   `Y88P'   8I   `Y8888P\"Y888                 \x1b[0m\n");
+    printf("                                                                                                                                                 \n");
+    printf("\x1b[31m================================================================================================================================                 \x1b[0m\n");
+    printf("                                                                                                        \n");
 }
 
 void afficherTitre2(){
@@ -67,17 +67,17 @@ void afficherCase(struct Tuile *t, int emplacement) {
         }
 
         if (t->elements[emplacement] == 'v') {
-            strcat(Case, "\x1b[48;5;208m");
+            strcat(Case, "\x1b[48;5;186m");
         } else if (t->elements[emplacement] == 'r') {
-            strcat(Case, "\x1b[48;5;15m");
+            strcat(Case, "\x1b[48;5;254m");
         } else if (t->elements[emplacement] == 'c') {
             strcat(Case, "\x1b[48;5;9m");
         } else if (t->elements[emplacement] == 'b') {
-            strcat(Case, "\x1b[48;5;32m");
+            strcat(Case, "\x1b[48;5;75m");
         } else if (t->elements[emplacement] == 'p') {
             strcat(Case, "\x1b[48;5;46m");
         } else if (t->elements[emplacement] == 'a') {
-            strcat(Case, "\x1b[48;5;219m");
+            strcat(Case, "\x1b[48;5;213m");
         }
 
         if (t->meeple != NULL) {
@@ -86,15 +86,15 @@ void afficherCase(struct Tuile *t, int emplacement) {
 
             if (meeple_emp == emplacement) {
                 if (couleur_meeple == 'v') {
-                    strcat(Case, "\x1b[92m*");
+                    strcat(Case, "\x1b[38;5;28mo");
                 } else if (couleur_meeple == 'r') {
-                    strcat(Case, "\x1b[31m*");
+                    strcat(Case, "\x1b[38;5;1mo");
                 } else if (couleur_meeple == 'b') {
-                    strcat(Case, "\x1b[34m*");
+                    strcat(Case, "\x1b[38;5;19mo");
                 } else if (couleur_meeple == 'n') {
-                    strcat(Case, "\x1b[38;5;16m*");
+                    strcat(Case, "\x1b[38;5;16mo");
                 } else {
-                    strcat(Case, "\x1b[92m*");
+                    strcat(Case, "\x1b[38;5;172mo");
                 }
 
                 strcat(Case, "\x1b[0m");
@@ -116,8 +116,6 @@ void afficherCase(struct Tuile *t, int emplacement) {
 void afficherTuile(struct Tuile *t){
     //Affiche la tuile *t sous forme de carré
     char* reset = "\x1b[0m";
-    char* ville = "\x1b[48;5;208m";
-    char* champ = "\x1b[48;5;46m";
     int emplacement;
 
     /*Affichage de la tuile avec 
@@ -139,41 +137,7 @@ void afficherTuile(struct Tuile *t){
 
             //détermine si on affiche une infrastructure ou l'extérieur
             if(emplacement == -1){
-                if(t->elements[4] != 'v'){
-                    printf("%s %s",champ, reset);
-                }
-                else{
-                    if(i==0 && j==0){
-                        if((t->elements[0] == 'v' || t->elements[0] == 'b')
-                        && (t->elements[3] == 'v' || t->elements[3] == 'b')
-                        && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                            printf("%s %s",ville,reset);
-                        }
-                        else printf("%s %s",champ,reset);
-                    }
-                    else if(i==0 && j==2){
-                        if((t->elements[0] == 'v' || t->elements[0] == 'b') 
-                        && t->elements[1] == 'v' 
-                        && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                            printf("%s %s",ville,reset);
-                        }
-                        else printf("%s %s",champ,reset);
-                    }
-                    else if(i==2 && j==0){
-                        if((t->elements[3] == 'v' || t->elements[3] == 'b') 
-                        && (t->elements[2] == 'v' || t->elements[2] == 'b') 
-                        && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                            printf("%s %s",ville,reset);
-                        }
-                        else printf("%s %s",champ,reset);
-                    }
-                    else if(i==2 && j==2 && (t->elements[2] == 'v' || t->elements[2] == 'b')
-                         && (t->elements[1] == 'v' || t->elements[1] == 'b') 
-                         && (t->elements[4] == 'v' || t->elements[4] == 'b')){
-                        printf("%s %s",ville,reset);
-                    }
-                    else printf("%s %s",champ,reset);
-                }
+                printf(" ");
             }
             else{
                 afficherCase(t,emplacement);
@@ -187,16 +151,34 @@ void afficherTuile(struct Tuile *t){
 void afficherScoreJoueur(struct Joueur *joueur){
     char* couleur;
     char* type;
-    if(joueur->couleur == 'b') couleur = "Bleu  ";
-    if(joueur->couleur == 'r') couleur = "Rouge ";
-    if(joueur->couleur == 'v') couleur = "Vert  ";
-    if(joueur->couleur == 'n') couleur = "Noir  ";
-    if(joueur->couleur == 'j') couleur = "Jaune ";
+    char joueur_couleur = joueur->couleur;
+    
+    if(joueur_couleur == 'b') couleur = "Bleu  ";
+    if(joueur_couleur == 'r') couleur = "Rouge ";
+    if(joueur_couleur == 'v') couleur = "Vert  ";
+    if(joueur_couleur == 'n') couleur = "Noir  ";
+    if(joueur_couleur == 'j') couleur = "Jaune ";
     
     if(joueur->type == 'h') type = "[J] ";
     if(joueur->type == 'i') type = "[IA]";
 
-    printf("Joueur %s %s: %d\n",couleur,type,joueur->score);
+    printf("Joueur %s %s: %d,\t",couleur,type,joueur->score);
+    if(joueur_couleur == 'v') {
+        printf("\x1b[48;5;15m\x1b[38;5;28m");
+    } else if (joueur_couleur == 'r') {
+        printf("\x1b[48;5;15m\x1b[38;5;1m");
+    } else if (joueur_couleur == 'b') {
+        printf("\x1b[48;5;15m\x1b[38;5;19m");
+    } else if (joueur_couleur == 'n') {
+        printf("\x1b[48;5;15m\x1b[38;5;16m");
+    } else {
+        printf("\x1b[48;5;15m\x1b[38;5;172m");
+    }
+    for(int k = 0 ; k < 8 ; ++ k){
+        if(k < joueur->meeple) printf("o");
+        else printf(" ");   
+    }
+    printf("\x1b[0m\x1b[0m\n");
 
 }
 
@@ -213,7 +195,7 @@ void afficherScores(struct Joueur** joueurs, int n){
         }
     }
     
-    printf("\n--------------------------Scores des Joueurs--------------------------\n");
+    printf("\n----------------Scores des Joueurs, Nombre de Meeples----------------\n");
     for(int i = 0 ; i < n ; ++i){
         printf("%d. ",i+1);
         afficherScoreJoueur(joueurs[i]);
@@ -222,14 +204,13 @@ void afficherScores(struct Joueur** joueurs, int n){
 
 void afficherInformations(){
     printf("\n------------------------------Couleurs--------------------------------\n");
-    printf("\x1b[48;5;208mville\x1b[0m, ");
-    printf("\x1b[48;5;15m\x1b[38;5;16mroute\x1b[0m\x1b[0m, ");
+    printf("\x1b[48;5;186mville\x1b[0m, ");
+    printf("\x1b[48;5;254m\x1b[38;5;16mroute\x1b[0m\x1b[0m, ");
     printf("\x1b[48;5;9mvillage\x1b[0m, ");
     printf("\x1b[48;5;213m\x1b[38;5;16mabbaye\x1b[0m\x1b[0m, ");
     printf("\x1b[48;5;46m\x1b[38;5;16mpré\x1b[0m\x1b[0m, ");
-    printf("\x1b[48;5;32m\x1b[38;5;16mville avec blason\x1b[0m\x1b[0m.\n");
+    printf("\x1b[48;5;75m\x1b[38;5;16mville avec blason\x1b[0m\x1b[0m.\n");
 }
-
 
 struct Coordonnees* detecterSousGrille(struct Tuile ***g, int taille) {
     int i1 = taille, i2 = 0, j1 = taille, j2 = 0;
@@ -266,30 +247,18 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
     ///que l'on pose peut être posée ici
 
     struct Coordonnees *c = detecterSousGrille(g,143);
-    char* ville = "\x1b[48;5;208m \x1b[0m";
-    char* champ = "\x1b[48;5;46m \x1b[0m";
+    int num_emplacement = 0;
     for(int i = c->i1; i <= c->i2 ; ++i){
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                if((g[i][j]->elements[0] == 'v' || g[i][j]->elements[0] == 'b')
-                    && (g[i][j]->elements[3] == 'v' || g[i][j]->elements[3] == 'b')
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
+                printf(" ");
                 
                 afficherCase(g[i][j],0);
-
-                if((g[i][j]->elements[0] == 'v' || g[i][j]->elements[0] == 'b') 
-                    && (g[i][j]->elements[1] == 'v' || g[i][j]->elements[1] == 'b')
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
+                
+                printf(" ");
             } 
             else if (g[i] != NULL && g[i][j] == NULL && verifierEmplacementTuile(g,ta,j,i) == 1){
-                
-                printf("###");
+                printf(" # ");
             }
             else printf("   ");
         }
@@ -300,32 +269,32 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
                 afficherCase(g[i][j],4);
                 afficherCase(g[i][j],1);
             }     
+
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
-                printf("###");
+                //Chaque emplacemennt de  Tuile est numméroté à partir de 0
+                if(num_emplacement>=100){
+                    printf("%d",num_emplacement);
+                }
+                else if(num_emplacement>=10){
+                    printf("#%d",num_emplacement);
+                }
+                else{
+                    printf("#%d#",num_emplacement);
+                }
+                num_emplacement++;
             }
+
             else printf("   ");
         }
         printf("\n");
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                if((g[i][j]->elements[3] == 'v' || g[i][j]->elements[3] == 'b')
-                    && (g[i][j]->elements[2] == 'v' || g[i][j]->elements[2] == 'b')
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
-            
+                printf(" ");
                 afficherCase(g[i][j],2);
-
-                if((g[i][j]->elements[1] == 'v' || g[i][j]->elements[1] == 'b') 
-                    && (g[i][j]->elements[2] == 'v' || g[i][j]->elements[2] == 'b') 
-                    && (g[i][j]->elements[4] == 'v' || g[i][j]->elements[4] == 'b')){
-                        printf("%s",ville);
-                    }
-                else printf("%s",champ);
+                printf(" ");
             } 
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
-                printf("###");
+                printf(" # ");
             }
             else printf("   ");
         } printf("\n");
