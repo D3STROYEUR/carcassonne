@@ -125,21 +125,21 @@ int testGestion(int debug){
     poserMeeple(1,'v',tuile1);
     poserMeeple(2,'r',tuile2);
     poserMeeple(4,'b',tuile3);
-    poserMeeple(2,'n',tuile4);
+    poserMeeple(2,'r',tuile4);
     poserMeeple(3,'v',tuile5);
     poserMeeple(2,'r',tuile6);
     poserMeeple(0,'b',tuile7); 
     
-    struct Joueur * j1 = creerJoueur(7);
+    struct Joueur * j1 = creerJoueur(3);
     j1->couleur='v';
     j1->type='h';
-    struct Joueur * j2 = creerJoueur(7);
+    struct Joueur * j2 = creerJoueur(3);
     j2->couleur='r';
     j2->type='h';
-    struct Joueur * j3 = creerJoueur(7);
+    struct Joueur * j3 = creerJoueur(3);
     j3->couleur='b';
     j3->type='h';
-    struct Joueur * j4 = creerJoueur(7);
+    struct Joueur * j4 = creerJoueur(3);
     j4->couleur='n';
     j4->type='h';
     
@@ -154,9 +154,17 @@ int testGestion(int debug){
         printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
     }
     afficherGrille(grille,NULL);
+    char * gagnants = (char *)malloc(4*sizeof(char));
+    
 
-    retirerMeepleElement(grille,liste_joueur,4,12,10,2,143);
+    //retirerMeepleElement(grille,liste_joueur,4,12,10,2,143);
+    
+    gagnantElement(grille,11,10,1,liste_joueur,4,gagnants,143);
+    afficherScores(liste_joueur,4);
 
+    for(int i=0; i<4; ++i){
+        printf("%c\n",gagnants[i]);
+    }
     /* 
     char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);

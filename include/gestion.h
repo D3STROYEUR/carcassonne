@@ -15,8 +15,7 @@ int nbPointVille(struct Tuile *** grille, int x, int y, int position);
 int nbPointRoute(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y);
 int nbPointAbbaye(struct Tuile *** grille, int x, int y);
 int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles);
-void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants);
-void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y);
+void gagnantType(struct Tuile *** grille, int x, int y, int position, char type, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y);
 void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, char * gagnants, int nb_tuiles);
 void retirerMeepleType(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y);
 void retirerMeepleAbbaye(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int nb_tuiles);
@@ -25,6 +24,6 @@ struct ListeChaineeCoordonnes * creerLCC();
 void detruireLCC(struct ListeChaineeCoordonnes ** liste);
 struct ListeChaineeCoordonnes * ajoutPremierElementLCC(struct ListeChaineeCoordonnes * liste, int x, int y);
 void supprimerElementLCC(struct ListeChaineeCoordonnes ** liste, int n, int *x, int *y);
-struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, struct Tuile * Tuile);
+struct ListeChaineeCoordonnes * emplacementPosable(struct Tuile *** grille, struct Tuile * Tuile, int nb_tuiles);
 void reinitialiserGrille (struct Tuile *** grille,int tailleGrille);
 #endif

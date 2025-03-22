@@ -100,7 +100,7 @@ int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct J
     //    gagnantVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
     //}else 
     if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        gagnantRoute(grille, x, y, position, liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+        gagnantType(grille, x, y, position,'r', liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
     }
     //else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
     //    gagnantAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
@@ -237,12 +237,9 @@ void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, in
     }
 }
 
-void gagnantVille(struct Tuile *** grille, int x, int y, char * gagnants){
 
-}
-
-void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
-    if(batimentsEgaux(grille[y][x]->elements[position],'r') && !grille[y][x]->verif_tuile){
+void gagnantType(struct Tuile *** grille, int x, int y, int position, char type, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
+    if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
 
         // on distingue le cas de si on commence au milieu ou sur un bord
         if(position == 4){
@@ -250,62 +247,62 @@ void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Jo
             compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, position);
 
             //haut
-            if(batimentsEgaux(grille[y][x]->elements[0],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[0],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 0);
                 if(y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y-1,2,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y-1,2,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
 
             //droite
-            if(batimentsEgaux(grille[y][x]->elements[1],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[1],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 1);
                 if (x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    gagnantRoute(grille,x+1,y,3,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x+1,y,3,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
 
             //bas
-            if(batimentsEgaux(grille[y][x]->elements[2],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[2],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 2);
                 if(y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y+1,0,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y+1,0,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
 
             //gauche
-            if(batimentsEgaux(grille[y][x]->elements[3],'r')){
+            if(batimentsEgaux(grille[y][x]->elements[3],type)){
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, 3);
                 if(x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    gagnantRoute(grille,x-1,y,1,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x-1,y,1,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
         }else{
 
-            if(batimentsEgaux(grille[y][x]->elements[4],'r')){
-                gagnantRoute(grille,x,y,4,liste_joueur,nb_joueur,gagnants,nb_tuiles,last_x,last_y);
+            if(batimentsEgaux(grille[y][x]->elements[4],type)){
+                gagnantType(grille,x,y,4,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,last_x,last_y);
             }else{
                 // si on peut pas aller au milieu, on test quand meme les côtés
                 compteGagnantMeeple(grille[y][x], liste_joueur, gagnants, nb_joueur, position);
                 
                 //haut
                 if(position==0 && y-1>=0 && grille[y-1][x] != NULL && (y-1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y-1,2,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y-1,2,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
 
                 //droite
                 if(position==1 && x+1<nb_tuiles*2-1 && grille[y][x+1] != NULL && (y != last_y || x+1 != last_x)){
-                    gagnantRoute(grille,x+1,y,3,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x+1,y,3,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
 
                 //bas
                 if(position==2 && y+1<nb_tuiles*2-1 && grille[y+1][x] != NULL && (y+1 != last_y || x != last_x)){
-                    gagnantRoute(grille,x,y+1,0,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x,y+1,0,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
 
                 //gauche
                 if(position==3 && x-1>0 && grille[y][x-1] != NULL && (y != last_y || x-1 != last_x)){
-                    gagnantRoute(grille,x-1,y,1,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
+                    gagnantType(grille,x-1,y,1,type,liste_joueur,nb_joueur,gagnants,nb_tuiles,x,y);
                 }
             }
         }
@@ -315,7 +312,6 @@ void gagnantRoute(struct Tuile *** grille, int x, int y, int position, struct Jo
 void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, char * gagnants, int nb_tuiles){
     //le char* gagnant c'est pour la liste des couleurs gagnantes,
     //le int* gagnant  c'est pour le nb de meeple de chaque joueur sur l'élément, avec le meme indice que dans liste_joueur
-    //PAS FINI
 
     int * gagnant_int = (int *) malloc(nb_joueur*sizeof(int));
 
@@ -324,16 +320,16 @@ void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct 
         gagnant_int[i] = 0;
     }
 
-    //if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-    //    gagnantVille(grille, liste_joueur, nb_joueur, x, y, position, nb_tuiles);
-    //}else 
-    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        gagnantRoute(grille, x, y, position, liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
-    }
-    //else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
-    //    gagnantAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
-    //}
     int max = 0;
+    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
+        gagnantType(grille, x, y, position,'r', liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+        gagnantType(grille, x, y, position,'v', liste_joueur, nb_joueur, gagnant_int, nb_tuiles,-1,-1);
+    }else if(batimentsEgaux(grille[y][x]->elements[position],'a') && grille[y][x]->meeple != NULL && grille[y][x]->meeple->position == 4){
+        max = 1;
+        gagnants[0] = grille[y][x]->meeple->couleur;
+    }
+
     for(int i=0; i<nb_joueur; ++i){
         if(gagnant_int[i]>max){
             max = gagnant_int[i];
@@ -349,6 +345,7 @@ void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct 
         }
     }
     free(gagnant_int);
+    reinitialiserGrille(grille,nb_tuiles);
 }
 
 void remiseMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int nb_joueur, int position){
@@ -444,13 +441,11 @@ void retirerMeepleType(struct Tuile *** grille, struct Joueur ** liste_joueur, i
 
 void reinitialiserGrille (struct Tuile *** grille,int tailleGrille){
     for (int i=0 ;i<tailleGrille ;  i++){
-        for (int j=0;j<tailleGrille ; i++){
+        for (int j=0;j<tailleGrille ; j++){
             if (grille[i][j] != NULL) {
                 grille[i][j] -> verif_tuile=0;
             }
-    }
-
-
+        }
     }
 }
 
@@ -478,8 +473,7 @@ void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur
         retirerMeepleAbbaye(grille, liste_joueur, nb_joueur, x, y, nb_tuiles);
     }
 
-    
-    //TODO penser à mettre tout les tuile à 0;
+    reinitialiserGrille(grille,nb_tuiles);
 }
 
 struct ListeChaineeCoordonnes * creerLCC(){
