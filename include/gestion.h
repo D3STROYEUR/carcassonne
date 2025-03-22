@@ -9,7 +9,7 @@ void detruireMeeple(struct Meeple ** meeple);
 int villeFermee(struct Tuile *** grille, int x, int y, int position);
 int routeFermee(struct Tuile *** grille, int x, int y, int position);
 int abbayeEntouree(struct Tuile *** grille, int x, int y);
-int elementFermee(struct Tuile *** grille, int x, int y, int position);
+int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tuiles);
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles);
 int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y, int fini);
 int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles);

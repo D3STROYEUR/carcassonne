@@ -102,7 +102,7 @@ int testGestion(int debug){
 
     poserTuile(grille,&tuile1,11,10);
     poserTuile(grille,&tuile2,12,10);
-    poserTuile(grille,&tuile3,10,11);
+    //poserTuile(grille,&tuile3,10,11);
     poserTuile(grille,&tuile4,11,11);
     poserTuile(grille,&tuile5,12,11);
     poserTuile(grille,&tuile6,10,12);
@@ -124,7 +124,7 @@ int testGestion(int debug){
    // grille 2 (ville)
     poserMeeple(1,'v',tuile1);
     poserMeeple(2,'r',tuile2);
-    poserMeeple(4,'b',tuile3);
+    //poserMeeple(4,'b',tuile3);
     poserMeeple(2,'r',tuile4);
     poserMeeple(3,'v',tuile5);
     poserMeeple(2,'r',tuile6);
@@ -169,8 +169,11 @@ int testGestion(int debug){
     //int score = nbPointElement(grille,11,10,1,143,0);
     //printf("Score : %d\n",score);
 
-    int posable = verifierMeeple(grille,11,10,1,liste_joueur,4,143);
-    printf("Posabilité :%d",posable);
+    //int posable = verifierMeeple(grille,11,10,1,liste_joueur,4,143);
+    //printf("Posabilité :%d",posable);
+
+    int verifier = elementFermee(grille,11,11,3,143);
+    printf("Verifier : %d\n",verifier);
     /* 
     char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);
