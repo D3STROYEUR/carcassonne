@@ -164,14 +164,16 @@ int abbayeEntouree(struct Tuile *** grille, int x, int y){
 
 int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tuiles){
     int res=0;
-    if(batimentsEgaux(grille[y][x]->elements[position],'r')){
-        res = typeFermee(grille, x, y, position, 'r', nb_tuiles, -1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
-    }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
-        res = typeFermee(grille, x, y, position, 'v', nb_tuiles, -1,-1);
-    }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
-        res = abbayeEntouree(grille, x, y);
+    if(grille[y][x]!=NULL){
+        if(batimentsEgaux(grille[y][x]->elements[position],'r')){
+            res = typeFermee(grille, x, y, position, 'r', nb_tuiles, -1,-1); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
+        }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
+            res = typeFermee(grille, x, y, position, 'v', nb_tuiles, -1,-1);
+        }else if(batimentsEgaux(grille[y][x]->elements[position],'a')){
+            res = abbayeEntouree(grille, x, y);
+        }
     }
-
+    
     reinitialiserGrille(grille,nb_tuiles);
     return res;
 }
