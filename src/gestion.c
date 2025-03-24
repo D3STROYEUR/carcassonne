@@ -173,7 +173,7 @@ int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tu
             res = abbayeEntouree(grille, x, y);
         }
     }
-    
+
     reinitialiserGrille(grille,nb_tuiles);
     return res;
 }
@@ -298,7 +298,7 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
         for (int j= -1 ; j<=1 ; j++){
             int temp_x = x + i ;
             int temp_y = y + j ;
-            if (temp_x >= 0 && temp_y >= 0 && temp_x<nb_tuiles && temp_y<nb_tuiles && grille[temp_x][temp_y]!=NULL  ){
+            if (temp_x >= 0 && temp_y >= 0 && temp_x<nb_tuiles && temp_y<nb_tuiles && grille[temp_y][temp_x]!=NULL  ){
                 nb_point +=1 ;
             }
         }
@@ -307,7 +307,7 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
 }
 
 int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int fini){
-    int res = 0;
+    int res = -1;
     if(batimentsEgaux(grille[y][x]->elements[position],'r')){
         res = nbPointType(grille, x, y, position, 'r', nb_tuiles, -1,-1,fini); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
     }else if(batimentsEgaux(grille[y][x]->elements[position],'v')){
