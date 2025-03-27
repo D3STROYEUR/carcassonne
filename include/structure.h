@@ -9,7 +9,7 @@ struct Meeple{
 struct Tuile{
     char * elements;
     struct Meeple * meeple;
-    int verif_tuile;
+    char verif_tuile;
 };
 
 

@@ -41,7 +41,7 @@ void detruireMeeple(struct Meeple ** meeple){
     */
     free(*meeple);
     (*meeple) = NULL;
-    meeple=NULL;    
+    meeple=NULL;
 }
 
 int typeFermee(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y){
@@ -148,8 +148,8 @@ int abbayeEntouree(struct Tuile *** grille, int x, int y){
     output : 1 si entouré 0 sinon
     But : vérifie si une abbaye est entourée 
     */
-    if (grille[x][y] != NULL) {
-        if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
+    if (grille[y][x] != NULL) {
+        if((grille [y-1][x-1] == NULL) || (grille [y-1][x] == NULL) || (grille [y-1][x+1] == NULL) || (grille [y][x-1]== NULL)|| (grille [y][x+1] == NULL) ||(grille [y+1][x-1] == NULL)|| (grille[y+1][x]== NULL) || (grille[y+1][x+1]== NULL)){
             return 0;
         }
         else {
