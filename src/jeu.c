@@ -385,6 +385,38 @@ int main(){
 
     for(int i=0; i<nb_tuiles; ++i){
         printf("---- TOUR %d ----\n",i);
+        int maxi_emplacement_dispo = 0;
+
+        // Vérification de si la tuile est posable
+        do{
+            struct ListeChaineeCoordonnes * liste_coord;
+            struct ListeChaineeCoordonnes * old_liste_coord;
+
+            int tmp_emplacement_dispo;
+            int tmpx,tmpy;
+
+            for(int i=0; i<4; ++i){
+                liste_coord = emplacementPosable(grille,pioche->tuile,taille_grille);
+                tmp_emplacement_dispo=0;
+                while(liste_coord != NULL){
+                    tmp_emplacement_dispo++;
+                    old_liste_coord = liste_coord;
+                    liste_coord = liste_coord->suivant; 
+                    supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
+                }
+                maxi_emplacement_dispo = max(tmp_emplacement_dispo,maxi_emplacement_dispo);
+                rotationTuile(*pioche->tuile,1);
+            }
+            
+            if(maxi_emplacement_dispo == 0){
+                printf("==!!!!!!!!!!!!!!!==\nLa tuile que vous avez pioché n'est pas posable\n==!!!!!!!!!!!!!!!==\n");
+                supprimerElementLC(&pioche,0);
+                --nb_tuiles;
+            }
+
+        }
+        while(maxi_emplacement_dispo == 0);
+
         tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, taille_grille);
     }
     
