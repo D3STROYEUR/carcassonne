@@ -107,6 +107,7 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
     Output : int (1 si la tuile peut-être posé ici 0 sinon)
     But : Vérifie si la tuile peut être poser à cet emplacement.
     */
+   // TODO enlever taille
     int taille = 143;
     int cpt=0;
 
@@ -114,7 +115,7 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
         return 0;
     }
 
-    if(y>0 && grille[y][x-1] != NULL){
+    if(x>0 && grille[y][x-1] != NULL){
         cpt++;
     }else if(x<taille-1 && grille[y][x+1] != NULL){
         cpt++;
@@ -133,15 +134,15 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
         return 0;
     }
     //haut
-    if(x>0 && grille[y-1][x] != NULL && !batimentsEgaux(grille[y-1][x]->elements[2],tuile->elements[0])){
+    if(y>0 && grille[y-1][x] != NULL && !batimentsEgaux(grille[y-1][x]->elements[2],tuile->elements[0])){
         return 0;
     }
     //bas
-    if(x<taille-1 && grille[y+1][x] != NULL && !batimentsEgaux(grille[y+1][x]->elements[0],tuile->elements[2])){
+    if(y<taille-1 && grille[y+1][x] != NULL && !batimentsEgaux(grille[y+1][x]->elements[0],tuile->elements[2])){
         return 0;
     }
     //gauche
-    if(y>0 && grille[y][x-1] != NULL && !batimentsEgaux(grille[y][x-1]->elements[1],tuile->elements[3])){
+    if(x>0 && grille[y][x-1] != NULL && !batimentsEgaux(grille[y][x-1]->elements[1],tuile->elements[3])){
         return 0;
     }
     //droite
