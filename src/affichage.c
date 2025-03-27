@@ -90,7 +90,7 @@ void afficherCase(struct Tuile *t, int emplacement) {
                 } else if (couleur_meeple == 'r') {
                     strcat(Case, "\x1b[38;5;1mo");
                 } else if (couleur_meeple == 'b') {
-                    strcat(Case, "\x1b[38;5;19mo");
+                    strcat(Case, "\x1b[38;5;21mo");
                 } else if (couleur_meeple == 'n') {
                     strcat(Case, "\x1b[38;5;16mo");
                 } else {
@@ -115,7 +115,6 @@ void afficherCase(struct Tuile *t, int emplacement) {
 
 void afficherTuile(struct Tuile *t){
     //Affiche la tuile *t sous forme de carré
-    char* reset = "\x1b[0m";
     int emplacement;
 
     /*Affichage de la tuile avec 
@@ -168,7 +167,7 @@ void afficherScoreJoueur(struct Joueur *joueur){
     } else if (joueur_couleur == 'r') {
         printf("\x1b[48;5;15m\x1b[38;5;1m");
     } else if (joueur_couleur == 'b') {
-        printf("\x1b[48;5;15m\x1b[38;5;19m");
+        printf("\x1b[48;5;15m\x1b[38;5;21m");
     } else if (joueur_couleur == 'n') {
         printf("\x1b[48;5;15m\x1b[38;5;16m");
     } else {
@@ -195,7 +194,7 @@ void afficherScores(struct Joueur** joueurs, int n){
         }
     }
     
-    printf("\n----------------Scores des Joueurs, Nombre de Meeples----------------\n");
+    printf("\n----------------Scores des Joueurs, Nombre de Meeples---------------------------\n");
     for(int i = 0 ; i < n ; ++i){
         printf("%d. ",i+1);
         afficherScoreJoueur(joueurs[i]);

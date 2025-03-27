@@ -18,9 +18,6 @@ int main(){
     struct Tuile *tuile2 = creerTuile(t2);
     struct Tuile *tuile3 = creerTuile(t3);
     struct Tuile *tuile4 = creerTuile(t4);
-    //Création des meeples
-    struct Meeple *meeple = creerMeeple(2,'b');
-    struct Meeple *meeple2 = creerMeeple(4,'j');
 
     //Création des joueurs
     struct Joueur *b = creerJoueur(0);
@@ -59,8 +56,8 @@ int main(){
     j[0] = b; j[1] = r; j[2] = n, j[3] = v; j[4] = jaune; 
 
     //Les meeples sont posées dans les tuiles 1 et 2
-    tuile2->meeple = meeple2; //UTILISER CREER_MEEPLE QUAND CODEE
-    tuile->meeple = meeple; //UTILISER CREER_MEEPLE QUAND CODEE
+    poserMeeple(4,'b',tuile);
+    poserMeeple(4,'n',tuile2);
 
     //Affichage des 3 tuiles crées
     printf("Tuile1 :\n");
@@ -95,7 +92,15 @@ int main(){
         detruireJoueur(&j[i]);
     }free(j);
 
+    struct ListeChainee * tuiles = creerLC();
+    int nb_elements = lireCSV(&tuiles,"data/tuiles_base_simplifiees.csv");
+    printf("Nombre d'éléments: %d.\n",nb_elements);
 
+    while(tuiles->tuile != NULL){
+        afficherTuile(tuiles->tuile);
+        tuiles = tuiles->suivant;
+    }
+    detruireLC(&tuiles);
     
 
     return 0;
