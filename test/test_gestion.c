@@ -64,7 +64,7 @@ int testGestion(int debug){
     testUnitaire(lcc4 == NULL && testx == 3 && testy == 4, "supprimerElementLCC 3",&reussi, &echoue,debug);
 
     // TODO vérifier emplacementPosable, retirerMeepleAbbaye, remiseMeeple, retirerMeepleRoute
-    /*
+    
     // grille 1 (route)
     char t1[5] = {'r','r','r','r','a'},
     t2[5] = {'p','r','p','r','r'},
@@ -75,9 +75,10 @@ int testGestion(int debug){
     t7[5] = {'v','r','p','r','r'},
     t8[5] = {'r','v','v','r','r'},
     t9[5] = {'p','r','r','p','r'};
-    */
+    
 
     // grille 2 (ville)
+    /* 
     char t1[5] = {'v','v','p','p','p'},
     t2[5] = {'p','p','v','v','p'},
     t3[5] = {'p','v','v','p','v'},
@@ -86,7 +87,8 @@ int testGestion(int debug){
     t6[5] = {'b','b','p','p','b'},
     t7[5] = {'v','v','r','v','v'},
     t8[5] = {'v','p','p','v','v'},
-    t9[5] = {'v','p','p','p','p'};
+    t9[5] = {'v','p','p','p','p'}; 
+    */
 
     struct Tuile * tuile1 = creerTuile(t1);
     struct Tuile * tuile2 = creerTuile(t2);
@@ -102,7 +104,7 @@ int testGestion(int debug){
 
     poserTuile(grille,&tuile1,11,10);
     poserTuile(grille,&tuile2,12,10);
-    //poserTuile(grille,&tuile3,10,11);
+    poserTuile(grille,&tuile3,10,11);
     poserTuile(grille,&tuile4,11,11);
     poserTuile(grille,&tuile5,12,11);
     poserTuile(grille,&tuile6,10,12);
@@ -110,7 +112,7 @@ int testGestion(int debug){
     poserTuile(grille,&tuile8,12,12);
     poserTuile(grille,&tuile9,10,10);
     
-    /*
+    
     // grille 1 (route)
     poserMeeple(3,'v',tuile1);
     poserMeeple(3,'r',tuile2);
@@ -119,9 +121,10 @@ int testGestion(int debug){
     poserMeeple(2,'v',tuile5);
     poserMeeple(4,'r',tuile6);
     poserMeeple(2,'b',tuile7); 
-    */
+    
 
-   // grille 2 (ville)
+    // grille 2 (ville)
+    /*
     poserMeeple(1,'v',tuile1);
     poserMeeple(2,'r',tuile2);
     //poserMeeple(4,'b',tuile3);
@@ -129,7 +132,8 @@ int testGestion(int debug){
     poserMeeple(3,'v',tuile5);
     poserMeeple(2,'r',tuile6);
     poserMeeple(0,'b',tuile7); 
-    
+    */
+
     struct Joueur * j1 = creerJoueur(3);
     j1->couleur='v';
     j1->type='h';
@@ -172,8 +176,8 @@ int testGestion(int debug){
     //int posable = verifierMeeple(grille,11,10,1,liste_joueur,4,143);
     //printf("Posabilité :%d",posable);
 
-    int verifier = elementFermee(grille,11,11,3,143);
-    printf("Verifier : %d\n",verifier);
+    int verifier = nbPointElement(grille,11,11,0,143,0);
+    printf("points : %d\n",verifier);
     /* 
     char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,2,liste_joueur,4,gagnants,143);
