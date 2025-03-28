@@ -36,6 +36,6 @@ make
 
 # Auteurs
 
-[@D3STROYEUR](https://github.com/D3STROYEUR)
-[@Noahrng](https://github.com/Noahrng)
-[@naylekkk](https://github.com/naylekkk)
+-[@D3STROYEUR](https://github.com/D3STROYEUR)
+-[@Noahrng](https://github.com/Noahrng)
+-[@naylekkk](https://github.com/naylekkk)
