@@ -252,6 +252,7 @@ int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, 
             if(batimentsEgaux(grille[y][x]->elements[4],type)){
                 res += nbPointType(grille,x,y,4,type,nb_tuiles,last_x,last_y,fini);
             }else{
+                grille[y][x]->verif_tuile = 1;
                 // si on peut pas aller au milieu, on test quand meme les côtés
                 if(grille[y][x]->elements[position] == 'v'){
                     if(fini)res += 1;
