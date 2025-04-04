@@ -181,7 +181,7 @@ void afficherScoreJoueur(struct Joueur *joueur){
 
 }
 
-void afficherScores(struct Joueur** joueurs, int n){
+void afficherScores(struct Joueur** joueurs, int n, char couleur_actuelle){
     //Tri par ordre décroissant:
     struct Joueur* tmp;
     for(int i = 0 ; i < n ; ++i){
@@ -196,7 +196,12 @@ void afficherScores(struct Joueur** joueurs, int n){
     
     printf("\n----------------Scores des Joueurs, Nombre de Meeples---------------------------\n");
     for(int i = 0 ; i < n ; ++i){
-        printf("%d. ",i+1);
+        printf("%d.",i+1);
+        if(joueurs[i]->couleur == couleur_actuelle){
+            printf("->");
+        }else{
+            printf("  ");
+        }
         afficherScoreJoueur(joueurs[i]);
     }
 }
@@ -241,7 +246,7 @@ struct Coordonnees* detecterSousGrille(struct Tuile ***g, int taille) {
     return c;
 }
 
-void afficherGrille(struct Tuile*** g, struct Tuile *ta){
+void afficherGrille(struct Tuile*** g, struct Tuile *ta, struct Coordonnee coos_poses){
     ///Affiche la grille avec toutes les tuiles et les emplacements où la tuile actuelle (INPUT)
     ///que l'on pose peut être posée ici
 
@@ -250,12 +255,19 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
     for(int i = c->i1; i <= c->i2 ; ++i){
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                printf(" ");
+                if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }
                 
                 afficherCase(g[i][j],0);
                 
-                printf(" ");
-            } 
+                if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }            } 
             else if (g[i] != NULL && g[i][j] == NULL && verifierEmplacementTuile(g,ta,j,i) == 1){
                 printf(" # ");
             }
@@ -270,7 +282,7 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
             }     
 
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
-                //Chaque emplacemennt de  Tuile est numméroté à partir de 0
+                //Chaque emplacemennt de Tuile est numméroté à partir de 0
                 if(num_emplacement>=100){
                     printf("%d",num_emplacement);
                 }
@@ -288,9 +300,17 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
         printf("\n");
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                printf(" ");
+                if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }
                 afficherCase(g[i][j],2);
-                printf(" ");
+                    if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }
             } 
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
                 printf(" # ");
