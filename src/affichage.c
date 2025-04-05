@@ -184,12 +184,21 @@ void afficherScoreJoueur(struct Joueur *joueur){
 void afficherScores(struct Joueur** joueurs, int n, char couleur_actuelle){
     //Tri par ordre décroissant:
     struct Joueur* tmp;
+    struct Joueur** copie_liste_joueur = (struct Joueur **) malloc(n*sizeof(struct Joueur*));
+    for(int i=0; i<n; ++i){
+        copie_liste_joueur[i] = (struct Joueur *) malloc(sizeof(struct Joueur));
+        copie_liste_joueur[i]->couleur = joueurs[i]->couleur;
+        copie_liste_joueur[i]->score = joueurs[i]->score;
+        copie_liste_joueur[i]->type = joueurs[i]->type;
+        copie_liste_joueur[i]->meeple = joueurs[i]->meeple;
+    }
+
     for(int i = 0 ; i < n ; ++i){
         for(int j = 0 ; j < n-i-1; ++j){
-            if(joueurs[j]->score < joueurs[j+1]->score){
-                tmp = joueurs[j];
-                joueurs[j] = joueurs[j+1];
-                joueurs[j+1] = tmp;
+            if(copie_liste_joueur[j]->score < copie_liste_joueur[j+1]->score){
+                tmp = copie_liste_joueur[j];
+                copie_liste_joueur[j] = copie_liste_joueur[j+1];
+                copie_liste_joueur[j+1] = tmp;
             }   
         }
     }
@@ -197,13 +206,17 @@ void afficherScores(struct Joueur** joueurs, int n, char couleur_actuelle){
     printf("\n----------------Scores des Joueurs, Nombre de Meeples---------------------------\n");
     for(int i = 0 ; i < n ; ++i){
         printf("%d.",i+1);
-        if(joueurs[i]->couleur == couleur_actuelle){
+        if(copie_liste_joueur[i]->couleur == couleur_actuelle){
             printf("->");
         }else{
             printf("  ");
         }
-        afficherScoreJoueur(joueurs[i]);
+        afficherScoreJoueur(copie_liste_joueur[i]);
     }
+    for(int i=0; i<n; ++i){
+        free(copie_liste_joueur[i]);
+    }
+    free(copie_liste_joueur);
 }
 
 void afficherInformations(){

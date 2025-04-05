@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "affichage.h"
 #include "gestion.h"
 #include "preparation.h"
@@ -180,6 +181,10 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
         liste_coord = liste_coord->suivant;
         supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
     }
+    afficherInformations();
+    afficherScores(liste_joueur,nb_joueur,liste_joueur[numero_joueur]->couleur);
+    afficherGrille(grille, NULL,*endroit_pose);
+    sleep(2);
     return 1;
 }
 
@@ -187,6 +192,9 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
     char reponse_tourner;
     struct ListeChaineeCoordonnes * liste_coord;
     int emplacement_pose, nb_emplacement_dispo;
+
+    struct ListeChaineeCoordonnes *old_liste_coord;
+    int tmpx, tmpy;
 
     afficherInformations();
     afficherScores(liste_joueur,nb_joueur,liste_joueur[numero_joueur]->couleur);
@@ -280,10 +288,10 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
                 if(tab_meeple[4])  printf(", centre (4)");
                 printf(")\n");
                 scanf("%d",&emplacement_meeple);
-                if(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0){
+                if(emplacement_meeple<-1 || emplacement_meeple>4 || (emplacement_meeple>-1 && tab_meeple[emplacement_meeple] == 0)){
                     printf("Emplacement invalide...\n");
                 }
-            }while(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0);
+            }while(emplacement_meeple<-1 || emplacement_meeple>4 || (emplacement_meeple>-1 && tab_meeple[emplacement_meeple] == 0));
             
             if(emplacement_meeple != -1){
                 //on pose le meeple et on l'enleve de la main du joueur
@@ -294,7 +302,18 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
             }
         }
         finTour(grille,liste_joueur,nb_joueur,x,y,nb_tuiles);
+        
+        while(liste_coord != NULL){
+            old_liste_coord = liste_coord;
+            liste_coord = liste_coord->suivant; 
+            supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
+        }
         return 1;
+    }
+    while(liste_coord != NULL){
+        old_liste_coord = liste_coord;
+        liste_coord = liste_coord->suivant; 
+        supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
     }
     return 0;
 }
@@ -377,6 +396,8 @@ int main(){
 
     //Jeu tour par tour
     struct Coordonnee * endroit_pose = (struct Coordonnee *) malloc(sizeof(struct Coordonnee));
+    endroit_pose->x =-1;
+    endroit_pose->y = -1;
 
     for(int i=0; i<nb_tuiles; ++i){
         printf("---- TOUR %d ----\n",i);
@@ -387,7 +408,12 @@ int main(){
         if(liste_joueur[i%nb_joueur]->couleur == 'n') couleur = "Noir  ";
         if(liste_joueur[i%nb_joueur]->couleur == 'j') couleur = "Jaune ";
 
-        printf("==========\nJoueur %s\n==========",couleur);
+        if(liste_joueur[i%nb_joueur]->type == 'h'){
+            printf("==========\nJoueur %s\n==========\n",couleur);
+        }else{
+            printf("==========\nRobot %s\n==========\n",couleur);
+        }
+
         //TODO que le numéro du tour et du joueur n'apparaisse qu'une fois !
         int maxi_emplacement_dispo = 0;
 
