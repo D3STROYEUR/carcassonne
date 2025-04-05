@@ -17,7 +17,7 @@ abbaye = 'a'
 struct Tuile * creerTuile(char elements[5]){
     /* Input : char elements[5] (les 5 cases représentant les bâtiment de la Tuile dans l'ordre Nord, Est, Sud, Ouest, Centre. Les caractères codant les bâtiment se trouvent en haut du fichier)
     Output : struct Tuile *
-    But : créer un struct Tuile 
+    But : crée et alloue une struct Tuile 
     */
     struct Tuile * tuile = (struct Tuile *) malloc(sizeof(struct Tuile));
     if(tuile == NULL){
@@ -43,7 +43,7 @@ struct Tuile * creerTuile(char elements[5]){
 void detruireTuile(struct Tuile ** tuile){
     /* Input : struct Tuile ** tuile 
     Output : void
-    But : détruire et désallouer la tuile
+    But : détrut et désalloue la tuile
     */
     if(tuile != NULL && *tuile != NULL){
         if((*tuile)->elements != NULL){
@@ -74,7 +74,7 @@ struct Tuile *** creerGrille(int n){
 void detruireGrille(struct Tuile **** grille, int n){
     /* Input : struct Tuile **** grille, int n
     Output : void
-    But : détruire une grille, ainsi que toutes les Tuiles quelle contient
+    But : détruit et désalloue une grille, ainsi que toutes les Tuiles quelle contient
     */
     for(int i=0; i<n; ++i){
         for(int j=0; j<n; ++j){
@@ -101,13 +101,12 @@ int batimentsEgaux(char a, char b){
     return 0;
 }
 
-
 int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x, int y){
     /* Input : struct Tuile*** grille, struct Tuile** tuile, int x, int y
     Output : int (1 si la tuile peut-être posé ici 0 sinon)
     But : Vérifie si la tuile peut être poser à cet emplacement.
     */
-   // TODO enlever taille
+
     int taille = 143;
     int cpt=0;
 
@@ -156,7 +155,7 @@ int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x,
 void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
     /* Input : struct Tuile*** grille, struct Tuile** tuile, int x, int y
     Output : void
-    But : Met le pointeur de tuile dans la grille[x][y] SANS vérification.
+    But : Met le pointeur de tuile dans la grille à ces coordonnées x et y SANS vérification.
     */
    grille[y][x] = *tuile;
 }
@@ -164,7 +163,7 @@ void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
 void rotationTuile(struct Tuile tuile, int sens){
     /* Input : struct Tuile tuile, int sens
     Output : void
-    But : tourne la tuile (1) sens horaire (-1) sens trigonometrique. La rotation ne peut se faire que si la tuile n'est pas dans une grille.
+    But : tourne la tuile (1) sens horaire (-1) sens trigonometrique.
     */
     if(tuile.elements != NULL){
         if(sens == 1){
@@ -225,7 +224,7 @@ struct ListeChainee * ajoutPremierElementLC(struct ListeChainee * liste, struct 
 struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n){
     /* Input : struct ListeChainee ** liste (tête de la liste chaînée), int n
     Output : struct Tuile * 
-    But : supprime le n-ième élément de la liste chaîné, et renvoie la tuile correspondante.
+    But : supprime le n-ième élément de la liste chaînée, et renvoie la tuile correspondante.
     */
     if(liste != NULL && *liste != NULL){
         if(n == 0){
@@ -257,7 +256,7 @@ struct Tuile * supprimerElementLC(struct ListeChainee ** liste, int n){
 char elementEnCode(char * element){
     /* Input : char * element
     Output : char
-    But : renvoie le code de l'élement mis en paramètre.
+    But : renvoie le code de l'élément. Il y a en paramètre la chaine de caractère représentant l'élément comme dans le CSV
     */
     //sttrcmp compare si les chaines de caract_res contiennent les mêmes caracteres. Retourne 0 si egaux, un nombre relatif sinon.
     if (strcmp(element,"route") == 0){
@@ -313,7 +312,10 @@ int lireCSV(struct ListeChainee ** liste, char * nom_fichier){
 struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n){
     /* Input : struct ListeChainee * tuilesLC, int n 
     Output : struct ListeChainee *
-    But : Prends une liste chainée de tuile, et son nombre d'élement, et détruit cette liste chaînée, et en créer une autre mélanger, avec la premier tuile à placer en premier élément
+    But : Prends une liste chainée de tuile, et son nombre d'élement, et détruit cette liste chaînéee,
+    et en créer une autre mélangé, à partir de la liste initiale.
+    Pour cela elle supprime le r-ième élément, où r est un nombre aléatoire, et l'ajoute à la nouvelle liste
+    La derniere tuile est forcément mise en premier dans la liste de sortie pour être posé en premier par le jeu (tuile initiale)
     */
     srand(time(NULL));
     int i=n-1;
@@ -344,9 +346,9 @@ struct Joueur * creerJoueur(int meeple){
 }
 
 void detruireJoueur(struct Joueur ** joueur){
-    /* Input : struct Tuile ** tuile 
+    /* Input : struct Joueur ** joueur 
     Output : void
-    But : détruire et désallouer la tuile
+    But : détruire et désallouer le joueur
     */
     if(joueur != NULL && *joueur != NULL){
         free(*joueur);
