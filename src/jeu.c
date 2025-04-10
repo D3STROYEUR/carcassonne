@@ -184,7 +184,9 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
     afficherInformations();
     afficherScores(liste_joueur,nb_joueur,liste_joueur[numero_joueur]->couleur);
     afficherGrille(grille, NULL,*endroit_pose);
-    sleep(2);
+
+    //à enlever si on veut être rapide
+    //sleep(2);
     return 1;
 }
 
@@ -440,7 +442,8 @@ int main(){
             
             if(maxi_emplacement_dispo == 0){
                 printf("==!!!!!!!!!!!!!!!==\nLa tuile que vous avez pioché n'est pas posable\n==!!!!!!!!!!!!!!!==\n");
-                supprimerElementLC(&pioche,0);
+                struct Tuile * tuile_suppr =  supprimerElementLC(&pioche,0);
+                detruireTuile(&tuile_suppr);
                 --nb_tuiles;
             }
 
@@ -450,7 +453,6 @@ int main(){
         tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, taille_grille,endroit_pose);
     }
     
-    //TODO c'est un print et 2 afficher de debug
     printf("Grille avant décompte final");
     afficherScores(liste_joueur,nb_joueur,'a');
     afficherGrille(grille,NULL,*endroit_pose);
