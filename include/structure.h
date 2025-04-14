@@ -9,7 +9,7 @@ struct Meeple{
 struct Tuile{
     char * elements;
     struct Meeple * meeple;
-    int verif_tuile;
+    char verif_tuile;
 };
 
 
@@ -33,6 +33,10 @@ struct ListeChainee{
 struct ListeChaineeCoordonnes{
     int x,y;
     struct ListeChaineeCoordonnes * suivant;
+};
+
+struct Coordonnee{
+    int x,y;
 };
 
 #endif

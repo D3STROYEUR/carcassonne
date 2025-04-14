@@ -7,7 +7,7 @@
 struct Meeple * creerMeeple(int position, char couleur){
     /* Input : int position (position dans une tuile compris dans [0,5]), char couleur
     Output : struct Meeple *
-    But : créer un struct Meeple 
+    But : créé et alloue un struct Meeple 
     */
     struct Meeple * meeple = (struct Meeple *) malloc(sizeof(struct Meeple));
 
@@ -24,8 +24,8 @@ int poserMeeple(int position, char couleur, struct Tuile * tuile){
     /*
     Input : int position , char couleur , struct Tuile * Tuile 
     output : int 
-    But : poser un meeple sur une tuile */
-    //TODO   à bien finir
+    But : poser un meeple sur une tuile SANS vérification*/
+
     if (tuile != NULL){
         struct Meeple *meeple = creerMeeple(position,couleur);
         tuile->meeple = meeple;
@@ -41,14 +41,14 @@ void detruireMeeple(struct Meeple ** meeple){
     */
     free(*meeple);
     (*meeple) = NULL;
-    meeple=NULL;    
+    meeple=NULL;
 }
 
 int typeFermee(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y){
     /*
-    input : struct Tuile *** grille , int x , int y , int position 
+    input : struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y (last_x et last_y sont les coordoonées de la tuile appelante, mettre -1,-1 lors du premier appel)
     output : 1 si fermé, 0 sinon
-    But : vérifie si le type d'élément est fermé
+    But : RECURSIF vérifie si le type de l'élément (ville ou route) est fermé
     */
 
     if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
@@ -148,8 +148,8 @@ int abbayeEntouree(struct Tuile *** grille, int x, int y){
     output : 1 si entouré 0 sinon
     But : vérifie si une abbaye est entourée 
     */
-    if (grille[x][y] != NULL) {
-        if ((grille [x-1][y-1] == NULL) || (grille [x][y-1] == NULL) || (grille [x+1][y+1] == NULL) || (grille [x-1][y]== NULL)|| (grille [x+1][y] == NULL) ||(grille [x-1][y-1] == NULL)|| (grille [x][y+1]== NULL) || (grille [x+1][y+1]== NULL)){
+    if (grille[y][x] != NULL) {
+        if((grille [y-1][x-1] == NULL) || (grille [y-1][x] == NULL) || (grille [y-1][x+1] == NULL) || (grille [y][x-1]== NULL)|| (grille [y][x+1] == NULL) ||(grille [y+1][x-1] == NULL)|| (grille[y+1][x]== NULL) || (grille[y+1][x+1]== NULL)){
             return 0;
         }
         else {
@@ -163,6 +163,11 @@ int abbayeEntouree(struct Tuile *** grille, int x, int y){
 }
 
 int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tuiles){
+    /*
+    input : struct Tuile *** grille, int x, int y, int position, int nb_tuiles
+    output : 1 si entouré 0 sinon
+    But : vérifie si l'élément est entouré (en choisissant quel foncttion doit être utilisé)
+    */
     int res=0;
     if(grille[y][x]!=NULL){
         if(batimentsEgaux(grille[y][x]->elements[position],'r')){
@@ -173,16 +178,22 @@ int elementFermee(struct Tuile *** grille, int x, int y, int position, int nb_tu
             res = abbayeEntouree(grille, x, y);
         }
     }
-
     reinitialiserGrille(grille,nb_tuiles);
     return res;
 }
 
 int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles){
+    /*
+    input : struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, int nb_tuiles
+    output : 1 si entouré 0 sinon
+    But : vérifie si un meeple peut-être placé à cette emplacement
+    */
+
     if(!batimentsEgaux(grille[y][x]->elements[position],'r') && !batimentsEgaux(grille[y][x]->elements[position],'v') && !batimentsEgaux(grille[y][x]->elements[position],'a')){
         return 0;
     }
-    //pour vérifier si on peut placer le meeple, s'il y n'y a pas de gagnant (que des valeurs par défaut) alors cela signifie qu'il n'y a pas de meeple sur l'emplacement, donc il est posable.
+    //pour vérifier si on peut placer le meeple, on vérifie qu'il n'y ai pas de gagnant(s) 
+    //(que des valeurs par défaut) alors cela signifie qu'il n'y a pas de meeple sur l'emplacement, donc il est posable.
     char * gagnant = (char *) malloc(nb_joueur*sizeof(char));
 
     for(int i = 0; i<nb_joueur; ++i){
@@ -199,11 +210,11 @@ int verifierMeeple(struct Tuile *** grille, int x, int y, int position, struct J
 
 int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y, int fini){
     /*
-    input : struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int last_x, int last_y
+    input : struct Tuile *** grille, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y (last_x et last_y sont les coordonnées appellante -1,-1 si premiere utilisation), int fini (0 en cours de partie, 1 à la fin)
     output : le nombre de point
-    fini = 1 signifie le nombre de point lors du décompte final
-    But : RECURSIF compte le nombre de points d'une route 
+    But : RECURSIF compte le nombre de points d'un type (route ou ville) 
     */
+
     int res = 0;
     if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
         // on distingue le cas de si on commence au milieu ou sur un bord
@@ -252,6 +263,7 @@ int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, 
             if(batimentsEgaux(grille[y][x]->elements[4],type)){
                 res += nbPointType(grille,x,y,4,type,nb_tuiles,last_x,last_y,fini);
             }else{
+                grille[y][x]->verif_tuile = 1;
                 // si on peut pas aller au milieu, on test quand meme les côtés
                 if(grille[y][x]->elements[position] == 'v'){
                     if(fini)res += 1;
@@ -289,9 +301,9 @@ int nbPointType(struct Tuile *** grille, int x, int y, int position, char type, 
 
 int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
     /*
-    input : struct Tuile *** grille , int x , int y 
+    input : struct Tuile *** grille, int x, int y, int nb_tuiles
     output : nombre de points qu'une abbaye comptabilise  
-    But : compte le nombre de points d'une Abbaye
+    But : compte le nombre de points d'une abbaye
     */
     int nb_point = 0 ;
     for (int i=-1 ; i<=1 ; i++ ){
@@ -307,6 +319,12 @@ int nbPointAbbaye(struct Tuile *** grille, int x, int y, int nb_tuiles){
 }
 
 int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int fini){
+    /*
+    input : struct Tuile *** grille, int x, int y, int position, int nb_tuiles, int fini (0 lors de la partie, 1 à la fin)
+    output : nombre de points de l'élément
+    But : détermine sur quel élément on se situe, et renvoie le nombre de points grâce au choix de la fonction à utiliser.
+    */
+
     int res = -1;
     if(batimentsEgaux(grille[y][x]->elements[position],'r')){
         res = nbPointType(grille, x, y, position, 'r', nb_tuiles, -1,-1,fini); // le x=-1, y=-1 est pour qu'il n'y ai pas d'interférence
@@ -321,9 +339,9 @@ int nbPointElement(struct Tuile *** grille, int x, int y, int position, int nb_t
 }
 
 void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int * gagnants, int nb_joueur, int position){
-    /* Input : struct Tuile tuile, struct Joueur ** liste_joueur, int nb_joueur, int position
+    /* struct Tuile * tuile, struct Joueur ** liste_joueur, int * gagnants, int nb_joueur, int position
     Output : void
-    But : enleve le meeple de l'emplacement et le rajoute à son joueur
+    But : rajoute 1 au joueur dont le meeple est sur la position dans la liste gagnants. Cette incrémentation est faites sur l'indice du joueur dans la liste_joueur.
     */
     if(tuile != NULL && tuile->meeple != NULL && tuile->meeple->position == position){
         int i=0;
@@ -338,6 +356,11 @@ void compteGagnantMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, in
 }
 
 void gagnantType(struct Tuile *** grille, int x, int y, int position, char type, struct Joueur ** liste_joueur, int nb_joueur, int * gagnants, int nb_tuiles, int last_x, int last_y){
+    /* struct Tuile * tuile, struct Joueur ** liste_joueur, int * gagnants, int nb_joueur, int position
+    Output : void
+    But : pour les types route et ville : met dans la liste "gagnants" passé en paramètre, la couleur du ou des gagnants. valeur par défaut 'a'
+    */
+
     if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
 
         // on distingue le cas de si on commence au milieu ou sur un bord
@@ -409,6 +432,11 @@ void gagnantType(struct Tuile *** grille, int x, int y, int position, char type,
 }
 
 void gagnantElement(struct Tuile *** grille, int x, int y, int position, struct Joueur ** liste_joueur, int nb_joueur, char * gagnants, int nb_tuiles){
+    /* struct Tuile * tuile, struct Joueur ** liste_joueur, int * gagnants, int nb_joueur, int position
+    Output : void
+    But : met dans la liste "gagnants" passé en paramètre, la couleur du ou des gagnants. valeur par défaut 'a'
+    */
+    
     //le char* gagnant c'est pour la liste des couleurs gagnantes,
     //le int* gagnant  c'est pour le nb de meeple de chaque joueur sur l'élément, avec le meme indice que dans liste_joueur
 
@@ -467,7 +495,7 @@ void remiseMeeple(struct Tuile * tuile, struct Joueur ** liste_joueur, int nb_jo
 void retirerMeepleType(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, char type, int nb_tuiles, int last_x, int last_y){
     /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position
     Output : void
-    But : RECURSIF retire le meeple de la route sélectionné, et le fait retourner dans la main de son propriétaire
+    But : RECURSIF retire le meeple de la route ou la ville sélectionnée, et le fait retourner dans la main de son propriétaire
     */
     if(batimentsEgaux(grille[y][x]->elements[position],type) && !grille[y][x]->verif_tuile){
 
@@ -538,6 +566,10 @@ void retirerMeepleType(struct Tuile *** grille, struct Joueur ** liste_joueur, i
 }
 
 void reinitialiserGrille (struct Tuile *** grille,int tailleGrille){
+    /* Input : struct Tuile *** grille,int tailleGrille
+    Output : void
+    Résultat : Met tout les marqueur de tuile "verif_tuile" à 0
+    */
     for (int i=0 ;i<tailleGrille ;  i++){
         for (int j=0;j<tailleGrille ; j++){
             if (grille[i][j] != NULL) {
@@ -548,7 +580,7 @@ void reinitialiserGrille (struct Tuile *** grille,int tailleGrille){
 }
 
 void retirerMeepleAbbaye(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int nb_tuiles){
-    /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y
+    /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int nb_tuiles
     Output : void
     But : retire le meeple de l'abbaye sélectionné, et le fait retourner dans la main de son propriétaire
     */
@@ -558,7 +590,7 @@ void retirerMeepleAbbaye(struct Tuile *** grille, struct Joueur ** liste_joueur,
 }
 
 void retirerMeepleElement(struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, int nb_tuiles){
-    /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position
+    /* Input : struct Tuile *** grille, struct Joueur ** liste_joueur, int nb_joueur, int x, int y, int position, int nb_tuiles
     Output : void
     But : retire tous les meeples de l'élément sélectionné, et le fait retourner dans la main de son propriétaire
     */

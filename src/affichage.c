@@ -181,24 +181,42 @@ void afficherScoreJoueur(struct Joueur *joueur){
 
 }
 
-void afficherScores(struct Joueur** joueurs, int n){
+void afficherScores(struct Joueur** joueurs, int n, char couleur_actuelle){
     //Tri par ordre décroissant:
     struct Joueur* tmp;
+    struct Joueur** copie_liste_joueur = (struct Joueur **) malloc(n*sizeof(struct Joueur*));
+    for(int i=0; i<n; ++i){
+        copie_liste_joueur[i] = (struct Joueur *) malloc(sizeof(struct Joueur));
+        copie_liste_joueur[i]->couleur = joueurs[i]->couleur;
+        copie_liste_joueur[i]->score = joueurs[i]->score;
+        copie_liste_joueur[i]->type = joueurs[i]->type;
+        copie_liste_joueur[i]->meeple = joueurs[i]->meeple;
+    }
+
     for(int i = 0 ; i < n ; ++i){
         for(int j = 0 ; j < n-i-1; ++j){
-            if(joueurs[j]->score < joueurs[j+1]->score){
-                tmp = joueurs[j];
-                joueurs[j] = joueurs[j+1];
-                joueurs[j+1] = tmp;
+            if(copie_liste_joueur[j]->score < copie_liste_joueur[j+1]->score){
+                tmp = copie_liste_joueur[j];
+                copie_liste_joueur[j] = copie_liste_joueur[j+1];
+                copie_liste_joueur[j+1] = tmp;
             }   
         }
     }
     
     printf("\n----------------Scores des Joueurs, Nombre de Meeples---------------------------\n");
     for(int i = 0 ; i < n ; ++i){
-        printf("%d. ",i+1);
-        afficherScoreJoueur(joueurs[i]);
+        printf("%d.",i+1);
+        if(copie_liste_joueur[i]->couleur == couleur_actuelle){
+            printf("->");
+        }else{
+            printf("  ");
+        }
+        afficherScoreJoueur(copie_liste_joueur[i]);
     }
+    for(int i=0; i<n; ++i){
+        free(copie_liste_joueur[i]);
+    }
+    free(copie_liste_joueur);
 }
 
 void afficherInformations(){
@@ -241,7 +259,7 @@ struct Coordonnees* detecterSousGrille(struct Tuile ***g, int taille) {
     return c;
 }
 
-void afficherGrille(struct Tuile*** g, struct Tuile *ta){
+void afficherGrille(struct Tuile*** g, struct Tuile *ta, struct Coordonnee coos_poses){
     ///Affiche la grille avec toutes les tuiles et les emplacements où la tuile actuelle (INPUT)
     ///que l'on pose peut être posée ici
 
@@ -250,12 +268,19 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
     for(int i = c->i1; i <= c->i2 ; ++i){
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                printf(" ");
+                if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }
                 
                 afficherCase(g[i][j],0);
                 
-                printf(" ");
-            } 
+                if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }            } 
             else if (g[i] != NULL && g[i][j] == NULL && verifierEmplacementTuile(g,ta,j,i) == 1){
                 printf(" # ");
             }
@@ -270,7 +295,7 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
             }     
 
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
-                //Chaque emplacemennt de  Tuile est numméroté à partir de 0
+                //Chaque emplacemennt de Tuile est numméroté à partir de 0
                 if(num_emplacement>=100){
                     printf("%d",num_emplacement);
                 }
@@ -288,9 +313,17 @@ void afficherGrille(struct Tuile*** g, struct Tuile *ta){
         printf("\n");
         for(int j =  c->j1 ; j <= c->j2 ; ++j){
             if(g[i] != NULL && g[i][j] != NULL){
-                printf(" ");
+                if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }
                 afficherCase(g[i][j],2);
-                printf(" ");
+                    if(i==coos_poses.y && j == coos_poses.x){
+                    printf("*");
+                }else{
+                    printf(" ");
+                }
             } 
             else if (verifierEmplacementTuile(g,ta,j,i) == 1){
                 printf(" # ");

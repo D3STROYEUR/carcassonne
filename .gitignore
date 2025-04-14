@@ -4,3 +4,4 @@ exe
 *.o
 exe_test/
 /test_*
+a.out
