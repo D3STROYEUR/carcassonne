@@ -37,6 +37,8 @@ struct Tuile * creerTuile(char elements[5]){
     }
     tuile->meeple = NULL;
     tuile->verif_tuile = 0;
+    tuile->rotation =  trouverNombreRotations(tuile);
+
     return tuile;
 }
 
@@ -160,30 +162,32 @@ void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
    grille[y][x] = *tuile;
 }
 
-void rotationTuile(struct Tuile tuile, int sens){
+void rotationTuile(struct Tuile *tuile, int sens){
     /* Input : struct Tuile tuile, int sens
     Output : void
     But : tourne la tuile (1) sens horaire (-1) sens trigonometrique.
     */
-    if(tuile.elements != NULL){
+    if(tuile->elements != NULL){
         if(sens == 1){
-            int tmp1,tmp2;
-            tmp1 = tuile.elements[1];
-            tuile.elements[1] = tuile.elements[0];
-            tmp2 = tuile.elements[2];
-            tuile.elements[2] = tmp1;
-            tmp1 = tuile.elements[3];
-            tuile.elements[3]=tmp2;
-            tuile.elements[0]=tmp1;
+            char tmp1,tmp2;
+            tmp1 = tuile->elements[1];
+            tuile->elements[1] = tuile->elements[0];
+            tmp2 = tuile->elements[2];
+            tuile->elements[2] = tmp1;
+            tmp1 = tuile->elements[3];
+            tuile->elements[3]=tmp2;
+            tuile->elements[0]=tmp1;
+            tuile->rotation = (tuile->rotation+1)%4;
         }else if(sens == -1){
-            int tmp1,tmp2;
-            tmp1 = tuile.elements[3];
-            tuile.elements[3] = tuile.elements[0];
-            tmp2 = tuile.elements[2];
-            tuile.elements[2] = tmp1;
-            tmp1 = tuile.elements[1];
-            tuile.elements[1]=tmp2;
-            tuile.elements[0]=tmp1;
+            char tmp1,tmp2;
+            tmp1 = tuile->elements[3];
+            tuile->elements[3] = tuile->elements[0];
+            tmp2 = tuile->elements[2];
+            tuile->elements[2] = tmp1;
+            tmp1 = tuile->elements[1];
+            tuile->elements[1]=tmp2;
+            tuile->elements[0]=tmp1;
+            tuile->rotation = (tuile->rotation-1)%4;
         }
     }
 }
@@ -355,4 +359,93 @@ void detruireJoueur(struct Joueur ** joueur){
         (*joueur) = NULL;
         }
     joueur=NULL;
+}
+
+int comparerTableaux(struct Tuile *t, char elements[5]){
+    //Compare les éléments de la tuile, et d'un tableau elements de taille  5
+
+    int i = 0 ; 
+    while(i < 5 && t->elements[i] == elements[i]){
+        ++i;
+    }
+    if(i==5){
+        return 1;
+    }
+    return 0;
+}
+
+int trouverNombreRotations(struct Tuile *t){
+    //Trouve le nombre de rotations qu'unen tuile a subit par  rapport à
+    //la tuile de  départ  (réf: images des tuiles) et retourne ce nombre
+
+    //Allocation d'une tuile tmp
+    struct Tuile *tmp = (struct Tuile*) malloc(sizeof(struct Tuile));
+    //On ne peut pas utiliser creerTuile car elle appelle trouverNombreRotations
+    //ce qui conduit à un segmentation fault car la fonction s'appelle à l'infini.
+
+    tmp->elements = (char *) malloc(5*sizeof(char));
+    for(int i = 0; i<5; ++i){
+        tmp->elements[i] = t->elements[i];
+    }
+    tmp->meeple = NULL;
+    tmp->verif_tuile = 0;
+
+    //Initialisation des tableaux  d'éléments représentant chaque tuiles de bases
+
+    char abbaye[5] = {'p','p','p','p','a'};
+    char abbaye_route[5] = {'p','p','r','p','a'};
+    char route1[5] = {'p','p','r','r','r'};
+    char route2[5] = {'r','p','r','p','r'};
+    char village3[5] = {'p','r','r','r','c'};
+    char village4[5] = {'r','r','r','r','c'};
+    char ville1[5] = {'v','v','p','v','v'};
+    char ville1_blason[5] = {'b','b','p','b','b'};
+    char ville1_route[5] = {'v','v','r','v','v'};
+    char ville1_route_blason[5] = {'b','b','r','b','b'};
+    char ville2[5] = {'v','p','p','v','v'};
+    char ville2_blason[5] = {'b','p','p','b','b'};
+    char ville2_route[5] = {'v','r','r','v','v'};
+    char ville2_route_blason[5] = {'b','r','r','b','b'};
+    char ville3[5] = {'p','v','p','v','v'};
+    char ville3_blason[5] = {'p','b','p','b','b'};
+    char ville4[5] = {'p','v','p','v','p'};
+    char ville5[5] = {'v','p','p','p','p'};
+    char ville5_route1[5] = {'v','r','r','r','c'};
+    char ville5_route2[5] = {'v','r','r','p','r'};
+    char ville5_route3[5] = {'v','p','r','r','r'};
+    char ville5_route4[5] = {'v','r','p','r','r'};
+
+
+    //Compte le nombre de rotations
+    int rotation = 0;
+    while(!(comparerTableaux(t,abbaye) ||
+        comparerTableaux(tmp,abbaye_route) ||
+        comparerTableaux(tmp,route1) ||
+        comparerTableaux(tmp,route2) ||
+        comparerTableaux(tmp,village3) ||
+        comparerTableaux(tmp,village4) ||
+        comparerTableaux(tmp,ville1) ||
+        comparerTableaux(tmp,ville1_blason) ||
+        comparerTableaux(tmp,ville1_route) ||
+        comparerTableaux(tmp,ville1_route_blason) ||
+        comparerTableaux(tmp,ville2) ||
+        comparerTableaux(tmp,ville2_blason) ||
+        comparerTableaux(tmp,ville2_route) ||
+        comparerTableaux(tmp,ville2_route_blason) ||
+        comparerTableaux(tmp,ville3) || 
+        comparerTableaux(tmp,ville3_blason)||
+        comparerTableaux(tmp,ville4) || 
+        comparerTableaux(tmp,ville5) ||
+        comparerTableaux(tmp,ville5_route1) ||
+        comparerTableaux(tmp,ville5_route2) ||
+        comparerTableaux(tmp,ville5_route3) ||
+        comparerTableaux(tmp,ville5_route4)) &&
+        rotation!=4)
+        {
+            rotationTuile(tmp,1);
+            rotation++;
+        }
+
+    detruireTuile(&tmp);
+    return (4-rotation)%4;
 }

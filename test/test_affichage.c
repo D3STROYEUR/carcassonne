@@ -10,7 +10,7 @@ int main(){
     afficherTitre();
     char t[5] = {'b','b','r','b','b'}, 
         t2[5] = {'v','r','r','v','v'},
-        t3[5] = {'r','r','p','p','c'},
+        t3[5] = {'r','r','r','p','c'},
         t4[5] = {'r','p','r','r','a'};
 
     //Création des tuiles
@@ -18,6 +18,8 @@ int main(){
     struct Tuile *tuile2 = creerTuile(t2);
     struct Tuile *tuile3 = creerTuile(t3);
     struct Tuile *tuile4 = creerTuile(t4);
+
+    printf("rotation de tuile3 : %d\n",tuile3->rotation);
 
     //Création des joueurs
     struct Joueur *b = creerJoueur(0);
@@ -69,7 +71,7 @@ int main(){
     afficherTuile(tuile3);
 
     //On affiche les informations reliées au jeu
-    afficherScores(j,5);
+    afficherScores(j,5,'r');
     afficherInformations();
     printf("\n");
 
@@ -79,8 +81,12 @@ int main(){
     poserTuile(g,&tuile2,73,72);
     poserTuile(g,&tuile3,72,73);
 
+    //Création de coordonnées pour tester l'affichage de la tuile qu'on vient de poser
+    struct Coordonnee c;
+    c.x = 72; c.y = 73;
+
     //Affichage de la grille
-    afficherGrille(g,tuile4);
+    afficherGrille(g,tuile4,c);
 
     //Affichage de la tuile que l'on veut poser sur la grille
     afficherTuile(tuile4);

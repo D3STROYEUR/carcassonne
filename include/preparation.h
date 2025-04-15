@@ -10,7 +10,7 @@ void detruireGrille(struct Tuile **** grille, int n);
 int batimentsEgaux(char a, char b);
 int verifierEmplacementTuile(struct Tuile*** grille, struct Tuile* tuile, int x, int y);
 void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y);
-void rotationTuile(struct Tuile tuile, int sens);
+void rotationTuile(struct Tuile * tuile, int sens);
 struct ListeChainee * creerLC();
 void detruireLC(struct ListeChainee ** liste);
 struct ListeChainee * ajoutPremierElementLC(struct ListeChainee * liste, struct Tuile * nouveau);
@@ -20,5 +20,7 @@ int lireCSV(struct ListeChainee ** liste, char * nom_fichier);
 struct ListeChainee * melangeTuiles(struct ListeChainee * tuilesLC, int n);
 struct Joueur * creerJoueur(int meeple);
 void detruireJoueur(struct Joueur ** joueur);
+int comparerTableaux(struct Tuile *t, char elements[5]);
+int trouverNombreRotations(struct Tuile *t);
 
 #endif

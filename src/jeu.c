@@ -75,7 +75,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
             supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
         }
         maxi_emplacement_dispo = max(tmp_emplacement_dispo,maxi_emplacement_dispo);
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }
     
     //on créé le tableau
@@ -115,7 +115,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
             supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
 
         }
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }
     
     // Partie Meeple, on pose le meeple la ou il y a le plus de pts si on pose.
@@ -133,7 +133,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
 
     // On tourne à l'angle optimal
     for(int i = 0; i<maxi; ++i){
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }
 
     liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
@@ -231,9 +231,9 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
         
     
     if(reponse_tourner== 'h'){
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }else if (reponse_tourner== 't'){
-        rotationTuile(*(*pioche)->tuile,-1);
+        rotationTuile((*pioche)->tuile,-1);
     }else{
         //Si on tourne pas, on continue le tour
 
@@ -437,7 +437,7 @@ int main(){
                     supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
                 }
                 maxi_emplacement_dispo = max(tmp_emplacement_dispo,maxi_emplacement_dispo);
-                rotationTuile(*pioche->tuile,1);
+                rotationTuile(pioche->tuile,1);
             }
             
             if(maxi_emplacement_dispo == 0){
