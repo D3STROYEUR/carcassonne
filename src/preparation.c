@@ -398,6 +398,7 @@ int trouverNombreRotations(struct Tuile *t){
     char route2[5] = {'r','p','r','p','r'};
     char village3[5] = {'p','r','r','r','c'};
     char village4[5] = {'r','r','r','r','c'};
+    char ville[5] = {'b','b','b','b','b'};
     char ville1[5] = {'v','v','p','v','v'};
     char ville1_blason[5] = {'b','b','p','b','b'};
     char ville1_route[5] = {'v','v','r','v','v'};
@@ -414,6 +415,7 @@ int trouverNombreRotations(struct Tuile *t){
     char ville5_route2[5] = {'v','r','r','p','r'};
     char ville5_route3[5] = {'v','p','r','r','r'};
     char ville5_route4[5] = {'v','r','p','r','r'};
+    char villes[5] = {'v','v','p','p','p'};
 
 
     //Compte le nombre de rotations
@@ -424,6 +426,7 @@ int trouverNombreRotations(struct Tuile *t){
         comparerTableaux(tmp,route2) ||
         comparerTableaux(tmp,village3) ||
         comparerTableaux(tmp,village4) ||
+        comparerTableaux(tmp,ville) ||
         comparerTableaux(tmp,ville1) ||
         comparerTableaux(tmp,ville1_blason) ||
         comparerTableaux(tmp,ville1_route) ||
@@ -439,7 +442,8 @@ int trouverNombreRotations(struct Tuile *t){
         comparerTableaux(tmp,ville5_route1) ||
         comparerTableaux(tmp,ville5_route2) ||
         comparerTableaux(tmp,ville5_route3) ||
-        comparerTableaux(tmp,ville5_route4)) &&
+        comparerTableaux(tmp,ville5_route4) ||
+        comparerTableaux(tmp,villes)) &&
         rotation!=4)
         {
             rotationTuile(tmp,1);
