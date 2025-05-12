@@ -13,7 +13,6 @@ void afficherTitre(){
     */
     //\x1b[92m représente la couleur verte du titre et \x1b[31m représente la couleur rouge du cadre
     printf("\x1b[31m||================================================================================================================================||                 \x1b[0m\n");
-    printf("\x1b[31m||\x1b[0m                                                                                                                                \x1b[31m||\x1b[0m\n");
     printf("\x1b[31m||\x1b[0m\x1b[92m     ,gggg,                                                                                                                     \x1b[0m\x1b[31m||\x1b[0m\n");
     printf("\x1b[31m||\x1b[0m\x1b[92m   ,88\"\"\"Y8b,                                                                                                                   \x1b[0m\x1b[31m||\x1b[0m\n");
     printf("\x1b[31m||\x1b[0m\x1b[92m  d8\"     `Y8                                                                                                                   \x1b[0m\x1b[31m||\x1b[0m\n");
