@@ -20,6 +20,10 @@ void testUnitaire(int condition, char* text, int* reussi, int* echoue,int debug)
 int testGestion(int debug){
     int reussi = 0, echoue = 0;
 
+    struct Coordonnee coordonnee_null;
+    coordonnee_null.x = 0;
+    coordonnee_null.y = 0;
+
     //creerMeeple()
     struct Meeple * meeple1 = creerMeeple(3,'a');
     testUnitaire(meeple1->position == 3 && meeple1->couleur == 'a', "creerMeeple 1",&reussi, &echoue,debug);
@@ -153,16 +157,16 @@ int testGestion(int debug){
     liste_joueur[2] = j3;
     liste_joueur[3] = j4;
 
-    afficherScores(liste_joueur,4);
+    afficherScores(liste_joueur,4, 'a');
     for(int i=0; i<4; ++i){
         printf("%c : %d\n",liste_joueur[i]->couleur,liste_joueur[i]->meeple);
     }
-    afficherGrille(grille,NULL);
-    char * gagnants = (char *)malloc(4*sizeof(char));
+    afficherGrille(grille,NULL,coordonnee_null);
     
 
     //retirerMeepleElement(grille,liste_joueur,4,12,10,2,143);
     /* 
+    char * gagnants = (char *)malloc(4*sizeof(char));
     gagnantElement(grille,11,10,1,liste_joueur,4,gagnants,143);
     afficherScores(liste_joueur,4);
 
@@ -201,8 +205,8 @@ int testGestion(int debug){
     //int verif_meeple = verifierMeeple(grille,11,10,2,liste_joueur,4,143);
     //printf("Posable %d\n",verif_meeple);
     
-    afficherScores(liste_joueur,4);
-    afficherGrille(grille,NULL);
+    afficherScores(liste_joueur,4,'a');
+    afficherGrille(grille,NULL,coordonnee_null);
     // printf final
     printf("[%s] %d test(s) passé(s) : %d reussi(s), %d échoué(s)\n",(echoue==0)? "\033[48;5;22m\033[97mV\033[0m": "\033[48;5;52m\033[97mX\033[0m",reussi+echoue,reussi,echoue);
     if (echoue){

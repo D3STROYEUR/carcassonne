@@ -7,6 +7,10 @@
 
 
 int main(){
+    struct Coordonnee coordonnee_null;
+    coordonnee_null.x = 0;
+    coordonnee_null.y = 0;
+
     afficherTitre();
     char t[5] = {'b','b','r','b','b'}, 
         t2[5] = {'v','r','r','v','v'},
@@ -69,7 +73,7 @@ int main(){
     afficherTuile(tuile3);
 
     //On affiche les informations reliées au jeu
-    afficherScores(j,5);
+    afficherScores(j,5,'a');
     afficherInformations();
     printf("\n");
 
@@ -80,7 +84,7 @@ int main(){
     poserTuile(g,&tuile3,72,73);
 
     //Affichage de la grille
-    afficherGrille(g,tuile4);
+    afficherGrille(g,tuile4,coordonnee_null);
 
     //Affichage de la tuile que l'on veut poser sur la grille
     afficherTuile(tuile4);
