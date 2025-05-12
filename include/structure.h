@@ -21,8 +21,8 @@ struct Joueur{
 };
 
 struct Coordonnees{
-    int j1, j2;
-    int j, i1, i2;
+    int i1, j1;
+    int i2, j2;
 };
 
 struct ListeChainee{
