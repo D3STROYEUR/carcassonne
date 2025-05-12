@@ -14,7 +14,7 @@ int main(){
     afficherTitre();
     char t[5] = {'b','b','r','b','b'}, 
         t2[5] = {'v','r','r','v','v'},
-        t3[5] = {'r','r','p','p','c'},
+        t3[5] = {'r','r','r','p','c'},
         t4[5] = {'r','p','r','r','a'};
 
     //Création des tuiles
@@ -73,7 +73,7 @@ int main(){
     afficherTuile(tuile3);
 
     //On affiche les informations reliées au jeu
-    afficherScores(j,5,'a');
+    afficherScores(j,5,'r');
     afficherInformations();
     printf("\n");
 
@@ -83,7 +83,12 @@ int main(){
     poserTuile(g,&tuile2,73,72);
     poserTuile(g,&tuile3,72,73);
 
+    //Création de coordonnées pour tester l'affichage de la tuile qu'on vient de poser
+    struct Coordonnee c;
+    c.x = 72; c.y = 73;
+
     //Affichage de la grille
+    afficherGrille(g,tuile4,c);
     afficherGrille(g,tuile4,coordonnee_null);
 
     //Affichage de la tuile que l'on veut poser sur la grille
@@ -94,18 +99,7 @@ int main(){
     detruireTuile(&tuile4);
     for(int i = 0 ; i < 5 ; ++i){
         detruireJoueur(&j[i]);
-    }free(j);
-
-    struct ListeChainee * tuiles = creerLC();
-    int nb_elements = lireCSV(&tuiles,"data/tuiles_base_simplifiees.csv");
-    printf("Nombre d'éléments: %d.\n",nb_elements);
-
-    while(tuiles->tuile != NULL){
-        afficherTuile(tuiles->tuile);
-        tuiles = tuiles->suivant;
-    }
-    detruireLC(&tuiles);
-    
+    }free(j);   
 
     return 0;
 }

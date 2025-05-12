@@ -35,4 +35,8 @@ struct ListeChaineeCoordonnes{
     struct ListeChaineeCoordonnes * suivant;
 };
 
+struct Coordonnee{
+    int x,y;
+};
+
 #endif

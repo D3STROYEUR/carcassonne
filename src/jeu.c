@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "affichage.h"
 #include "gestion.h"
 #include "preparation.h"
@@ -53,7 +54,7 @@ void finTour(struct Tuile *** grille, struct Joueur ** liste_joueur ,int nb_joue
     }
 }
 
-int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles){
+int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles, struct Coordonnee  *endroit_pose){
     //On test tous les emplacement disponible avec les 4 rotation. On regarde lequel à le plus de point disponible ET qu'il peut poser le meeple.
     struct ListeChaineeCoordonnes * liste_coord;
     int maxi_emplacement_dispo = 0;
@@ -74,7 +75,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
             supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
         }
         maxi_emplacement_dispo = max(tmp_emplacement_dispo,maxi_emplacement_dispo);
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }
     
     //on créé le tableau
@@ -114,7 +115,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
             supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
 
         }
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }
     
     // Partie Meeple, on pose le meeple la ou il y a le plus de pts si on pose.
@@ -132,7 +133,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
 
     // On tourne à l'angle optimal
     for(int i = 0; i<maxi; ++i){
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }
 
     liste_coord = emplacementPosable(grille,(*pioche)->tuile,nb_tuiles);
@@ -146,7 +147,8 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
     }
 
     poserTuile(grille,&(*pioche)->tuile,liste_coord->x,liste_coord->y);
-
+    endroit_pose->x = liste_coord->x;
+    endroit_pose->y = liste_coord->y;
 
     if(liste_joueur[numero_joueur]->meeple >0){
         int temp_nb_point = 0;
@@ -179,26 +181,26 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
         liste_coord = liste_coord->suivant;
         supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
     }
+    afficherInformations();
+    afficherScores(liste_joueur,nb_joueur,liste_joueur[numero_joueur]->couleur);
+    afficherGrille(grille, NULL,*endroit_pose);
+
+    //à enlever si on veut être rapide
+    //sleep(2);
     return 1;
 }
 
-int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles){
+int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles, struct Coordonnee * endroit_pose){
     char reponse_tourner;
-    struct Joueur * joueur = liste_joueur[numero_joueur];
     struct ListeChaineeCoordonnes * liste_coord;
     int emplacement_pose, nb_emplacement_dispo;
-    
-    char * couleur;
-    if(joueur->couleur == 'b') couleur = "Bleu  ";
-    if(joueur->couleur == 'r') couleur = "Rouge ";
-    if(joueur->couleur == 'v') couleur = "Vert  ";
-    if(joueur->couleur == 'n') couleur = "Noir  ";
-    if(joueur->couleur == 'j') couleur = "Jaune ";
 
-    printf("==========\nJoueur %s\n==========",couleur);
+    struct ListeChaineeCoordonnes *old_liste_coord;
+    int tmpx, tmpy;
+
     afficherInformations();
-    afficherScores(liste_joueur,nb_joueur);
-    afficherGrille(grille, (*pioche)->tuile);
+    afficherScores(liste_joueur,nb_joueur,liste_joueur[numero_joueur]->couleur);
+    afficherGrille(grille, (*pioche)->tuile,*endroit_pose);
     printf("Votre tuile : \n");
     afficherTuile((*pioche)->tuile);
 
@@ -229,9 +231,9 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
         
     
     if(reponse_tourner== 'h'){
-        rotationTuile(*(*pioche)->tuile,1);
+        rotationTuile((*pioche)->tuile,1);
     }else if (reponse_tourner== 't'){
-        rotationTuile(*(*pioche)->tuile,-1);
+        rotationTuile((*pioche)->tuile,-1);
     }else{
         //Si on tourne pas, on continue le tour
 
@@ -259,6 +261,9 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
         int x = tmp_liste_coord->x;
         int y = tmp_liste_coord->y;
 
+        endroit_pose->x = x;
+        endroit_pose->y = y;
+
         poserTuile(grille,&(*pioche)->tuile,x,y);
 
         //on s'occupe du meeple
@@ -274,10 +279,9 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
 
         if(liste_joueur[numero_joueur]->meeple>0 && posable){
             do{
-                printf("==========\nJoueur %s\n==========",couleur);
                 afficherInformations();
-                afficherScores(liste_joueur,nb_joueur);
-                afficherGrille(grille, NULL);
+                afficherScores(liste_joueur,nb_joueur,liste_joueur[numero_joueur]->couleur);
+                afficherGrille(grille, NULL,*endroit_pose);
                 printf("Voulez-vous poser un meeple ? si oui où ? (non (-1)");
                 if(tab_meeple[0])  printf(", nord (0)");
                 if(tab_meeple[1])  printf(", est (1)");
@@ -286,10 +290,10 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
                 if(tab_meeple[4])  printf(", centre (4)");
                 printf(")\n");
                 scanf("%d",&emplacement_meeple);
-                if(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0){
+                if(emplacement_meeple<-1 || emplacement_meeple>4 || (emplacement_meeple>-1 && tab_meeple[emplacement_meeple] == 0)){
                     printf("Emplacement invalide...\n");
                 }
-            }while(emplacement_meeple<-1 || emplacement_meeple>4 || tab_meeple[emplacement_meeple] == 0);
+            }while(emplacement_meeple<-1 || emplacement_meeple>4 || (emplacement_meeple>-1 && tab_meeple[emplacement_meeple] == 0));
             
             if(emplacement_meeple != -1){
                 //on pose le meeple et on l'enleve de la main du joueur
@@ -300,20 +304,31 @@ int tourJoueur(struct Tuile *** grille, struct Joueur ** liste_joueur , int nume
             }
         }
         finTour(grille,liste_joueur,nb_joueur,x,y,nb_tuiles);
+        
+        while(liste_coord != NULL){
+            old_liste_coord = liste_coord;
+            liste_coord = liste_coord->suivant; 
+            supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
+        }
         return 1;
+    }
+    while(liste_coord != NULL){
+        old_liste_coord = liste_coord;
+        liste_coord = liste_coord->suivant; 
+        supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
     }
     return 0;
 }
 
-void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles){
+void tour(struct Tuile *** grille, struct Joueur ** liste_joueur , int numero_joueur, int nb_joueur, struct ListeChainee ** pioche, int nb_tuiles, struct Coordonnee * endroit_pose){
     struct Joueur * joueur = liste_joueur[numero_joueur];
     int action_valide = 0; 
 
     do {
         if(joueur->type == 'h'){
-            action_valide = tourJoueur(grille,liste_joueur,numero_joueur,nb_joueur,pioche,nb_tuiles); 
+            action_valide = tourJoueur(grille,liste_joueur,numero_joueur,nb_joueur,pioche,nb_tuiles,endroit_pose); 
         }else{
-            action_valide = tourRobot(grille,liste_joueur,numero_joueur,nb_joueur,pioche,nb_tuiles); 
+            action_valide = tourRobot(grille,liste_joueur,numero_joueur,nb_joueur,pioche,nb_tuiles,endroit_pose); 
         }
     }while(!action_valide);
 
@@ -382,9 +397,26 @@ int main(){
     --nb_tuiles;
 
     //Jeu tour par tour
+    struct Coordonnee * endroit_pose = (struct Coordonnee *) malloc(sizeof(struct Coordonnee));
+    endroit_pose->x =-1;
+    endroit_pose->y = -1;
 
     for(int i=0; i<nb_tuiles; ++i){
         printf("---- TOUR %d ----\n",i);
+        char * couleur;
+        if(liste_joueur[i%nb_joueur]->couleur == 'b') couleur = "Bleu  ";
+        if(liste_joueur[i%nb_joueur]->couleur == 'r') couleur = "Rouge ";
+        if(liste_joueur[i%nb_joueur]->couleur == 'v') couleur = "Vert  ";
+        if(liste_joueur[i%nb_joueur]->couleur == 'n') couleur = "Noir  ";
+        if(liste_joueur[i%nb_joueur]->couleur == 'j') couleur = "Jaune ";
+
+        if(liste_joueur[i%nb_joueur]->type == 'h'){
+            printf("==========\nJoueur %s\n==========\n",couleur);
+        }else{
+            printf("==========\nRobot %s\n==========\n",couleur);
+        }
+
+        //TODO que le numéro du tour et du joueur n'apparaisse qu'une fois !
         int maxi_emplacement_dispo = 0;
 
         // Vérification de si la tuile est posable
@@ -405,25 +437,25 @@ int main(){
                     supprimerElementLCC(&old_liste_coord,0,&tmpx,&tmpy);
                 }
                 maxi_emplacement_dispo = max(tmp_emplacement_dispo,maxi_emplacement_dispo);
-                rotationTuile(*pioche->tuile,1);
+                rotationTuile(pioche->tuile,1);
             }
             
             if(maxi_emplacement_dispo == 0){
                 printf("==!!!!!!!!!!!!!!!==\nLa tuile que vous avez pioché n'est pas posable\n==!!!!!!!!!!!!!!!==\n");
-                supprimerElementLC(&pioche,0);
+                struct Tuile * tuile_suppr =  supprimerElementLC(&pioche,0);
+                detruireTuile(&tuile_suppr);
                 --nb_tuiles;
             }
 
         }
         while(maxi_emplacement_dispo == 0);
 
-        tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, taille_grille);
+        tour(grille, liste_joueur, i%nb_joueur, nb_joueur, &pioche, taille_grille,endroit_pose);
     }
     
-    //TODO c'est un print et 2 afficher de debug
     printf("Grille avant décompte final");
-    afficherScores(liste_joueur,nb_joueur);
-    afficherGrille(grille,NULL);
+    afficherScores(liste_joueur,nb_joueur,'a');
+    afficherGrille(grille,NULL,*endroit_pose);
     // Décompte final de points
 
     char * tab_joueur = (char *) calloc(nb_joueur,sizeof(char));
@@ -463,13 +495,14 @@ int main(){
     free(tab_joueur);
 
     printf("=== SCORE FINAL ===\n");
-    afficherScores(liste_joueur,nb_joueur);
-    afficherGrille(grille,NULL);
+    afficherScores(liste_joueur,nb_joueur,'a');
+    afficherGrille(grille,NULL,*endroit_pose);
 
     detruireGrille(&grille, taille_grille);
     for(int i=0; i<nb_joueur; ++i){
         detruireJoueur(&liste_joueur[i]);
     }
     free(liste_joueur);
+    free(endroit_pose);
     return 0;
 }

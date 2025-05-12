@@ -8,9 +8,9 @@ void afficherTitre2();
 void afficherCase(struct Tuile *t, int emplacement);
 void afficherTuile(struct Tuile *tuile);
 void afficherScoreJoueur(struct Joueur *joueur);
-void afficherScores(struct Joueur** joueurs, int n);
+void afficherScores(struct Joueur** joueurs, int n, char couleur_actuelle);
 void afficherInformations();
 struct Coordonnees* detecterSousGrille(struct Tuile ***g,int taille);
-void afficherGrille(struct Tuile *** g, struct Tuile *ta);
+void afficherGrille(struct Tuile*** g, struct Tuile *ta, struct Coordonnee coos_poses);
 
 #endif
