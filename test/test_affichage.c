@@ -19,8 +19,6 @@ int main(){
     struct Tuile *tuile3 = creerTuile(t3);
     struct Tuile *tuile4 = creerTuile(t4);
 
-    printf("rotation de tuile3 : %d\n",tuile3->rotation);
-
     //Création des joueurs
     struct Joueur *b = creerJoueur(0);
     b->couleur = 'b';
@@ -96,18 +94,7 @@ int main(){
     detruireTuile(&tuile4);
     for(int i = 0 ; i < 5 ; ++i){
         detruireJoueur(&j[i]);
-    }free(j);
-
-    struct ListeChainee * tuiles = creerLC();
-    int nb_elements = lireCSV(&tuiles,"data/tuiles_base_simplifiees.csv");
-    printf("Nombre d'éléments: %d.\n",nb_elements);
-
-    while(tuiles->tuile != NULL){
-        afficherTuile(tuiles->tuile);
-        tuiles = tuiles->suivant;
-    }
-    detruireLC(&tuiles);
-    
+    }free(j);   
 
     return 0;
 }

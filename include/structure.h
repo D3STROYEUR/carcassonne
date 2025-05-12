@@ -10,7 +10,6 @@ struct Tuile{
     char * elements;
     struct Meeple * meeple;
     char verif_tuile;
-    int rotation;
 };
 
 

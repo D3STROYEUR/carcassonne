@@ -7,73 +7,60 @@
 #include "gestion.h"
 
 void afficherTitre(){
-    printf("                                                                                                        \n");
-    printf("\x1b[92m     ,gggg,                                                                                                                                      \x1b[0m\n");
-    printf("\x1b[92m   ,88\"\"\"Y8b,                                                                                                                                    \x1b[0m\n");
-    printf("\x1b[92m  d8\"     `Y8                                                                                                                                    \x1b[0m\n");
-    printf("\x1b[92m d8'   8b  d8                                                                                                                                    \x1b[0m\n");
-    printf("\x1b[92m,8I    \"Y88P'                                                                                                                                    \x1b[0m\n");
-    printf("\x1b[92mI8'             ,gggg,gg   ,gggggg,    ,gggg,    ,gggg,gg    ,g,       ,g,       ,ggggg,     ,ggg,,ggg,    ,ggg,,ggg,    ,ggg,                   \x1b[0m\n");
-    printf("\x1b[92md8             dP\"  \"Y8I   dP\"\"\"\"8I   dP\"  \"Yb  dP\"  \"Y8I   ,8'8,     ,8'8,     dP\"  \"Y8ggg ,8\" \"8P\" \"8,  ,8\" \"8P\" \"8,  i8\" \"8i                  \x1b[0m\n");
-    printf("\x1b[92mY8,           i8'    ,8I  ,8'    8I  i8'       i8'    ,8I  ,8'  Yb   ,8'  Yb   i8'    ,8I   I8   8I   8I  I8   8I   8I  I8, ,8I                  \x1b[0m\n");
-    printf("\x1b[92m`Yba,,_____, ,d8,   ,d8b,,dP     Y8,,d8,_    _,d8,   ,d8b,,8'_   8) ,8'_   8) ,d8,   ,d8'  ,dP   8I   Yb,,dP   8I   Yb, `YbadP'                  \x1b[0m\n");
-    printf("\x1b[92m  `\"Y8888888 P\"Y8888P\"`Y88P      `Y8P\"\"Y8888PPP\"Y8888P\"`Y8P' \"YY8P8PP' \"YY8P8PP\"Y8888P\"    8P'   8I   `Y88P'   8I   `Y8888P\"Y888                 \x1b[0m\n");
-    printf("                                                                                                                                                 \n");
-    printf("\x1b[31m================================================================================================================================                 \x1b[0m\n");
+    //Affichage du titre carcassonne en ascii art
+
+    //\x1b[92m représente la couleur verte du titre et \x1b[31m représente la couleur rouge du cadre
+    printf("\x1b[31m||================================================================================================================================||                 \x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m                                                                                                                                \x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m     ,gggg,                                                                                                                     \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m   ,88\"\"\"Y8b,                                                                                                                   \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m  d8\"     `Y8                                                                                                                   \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m d8'   8b  d8                                                                                                                   \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m,8I    \"Y88P'                                                                                                                   \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92mI8'             ,gggg,gg   ,gggggg,    ,gggg,    ,gggg,gg    ,g,       ,g,       ,ggggg,     ,ggg,,ggg,    ,ggg,,ggg,    ,ggg,  \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92md8             dP\"  \"Y8I   dP\"\"\"\"8I   dP\"  \"Yb  dP\"  \"Y8I   ,8'8,     ,8'8,     dP\"  \"Y8ggg ,8\" \"8P\" \"8,  ,8\" \"8P\" \"8,  i8\" \"8i \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92mY8,           i8'    ,8I  ,8'    8I  i8'       i8'    ,8I  ,8'  Yb   ,8'  Yb   i8'    ,8I   I8   8I   8I  I8   8I   8I  I8, ,8I \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m`Yba,,_____, ,d8,   ,d8b,,dP     Y8,,d8,_    _,d8,   ,d8b,,8'_   8) ,8'_   8) ,d8,   ,d8'  ,dP   8I   Yb,,dP   8I   Yb, `YbadP' \x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m\x1b[92m  `\"Y8888888 P\"Y8888P\"`Y88P      `Y8P\"\"Y8888PPP\"Y8888P\"`Y8P' \"YY8P8PP' \"YY8P8PP\"Y8888P\"    8P'   8I   `Y88P'   8I   `Y8888P\"Y888\x1b[0m\x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||\x1b[0m                                                                                                                                \x1b[31m||\x1b[0m\n");
+    printf("\x1b[31m||================================================================================================================================||                 \x1b[0m\n");
     printf("                                                                                                        \n");
 }
 
-void afficherTitre2(){
-    printf("\x1b[48;5;196m                                                                                                                                                                       \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                                                                                                                                                                   \x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m     \x1b[48;5;232m      \x1b[0m\x1b[0m\x1b[48;5;15m                                                                                                                                      \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m   \x1b[48;5;232m          \x1b[0m\x1b[48;5;15m                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m  \x1b[48;5;232m   \x1b[0m\x1b[48;5;15m     \x1b[48;5;232m   \x1b[0m\x1b[48;5;15m                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m \x1b[48;5;232m   \x1b[0m\x1b[48;5;15m   \x1b[48;5;232m  \x1b[0m\x1b[48;5;15m  \x1b[48;5;232m  \x1b[0m\x1b[48;5;15m                                                                                                                                    \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[0m\x1b[92m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m    \x1b[48;5;232m      \x1b[0m\x1b[48;5;15m                                                                                                                                    \x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m             \x1b[48;5;232m        \x1b[0m\x1b[48;5;15m   \x1b[48;5;232m        \x1b[0m\x1b[48;5;15m    \x1b[48;5;232m      \x1b[0m\x1b[48;5;15m    \x1b[48;5;232m        \x1b[0m\x1b[48;5;15m    \x1b[48;5;232m   \x1b[0m\x1b[48;5;15m       \x1b[48;5;232m   \x1b[0m\x1b[48;5;15m       \x1b[48;5;232m       \x1b[0m\x1b[48;5;15m     \x1b[48;5;232m          \x1b[0m\x1b[48;5;15m    \x1b[48;5;232m          \x1b[0m\x1b[48;5;15m    \x1b[48;5;232m     \x1b[0m\x1b[48;5;15m                   \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m             \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m        \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m     \x1b[0m\x1b[48;5;15m     \x1b[0m\x1b[48;5;232m     \x1b[0m\x1b[48;5;15m     \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m      \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m                  \x1b[0m\x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m           \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m    \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m    \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m       \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m    \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m    \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m   \x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m                  \x1b[0m\x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m\x1b[48;5;232m            \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m        \x1b[0m\x1b[48;5;15m     \x1b[0m\x1b[48;5;232m        \x1b[0m\x1b[48;5;15m    \x1b[0m\x1b[48;5;232m     \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m        \x1b[0m    \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m   \x1b[0m    \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m    \x1b[0m\x1b[48;5;15m  \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m      \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m       \x1b[0m\x1b[48;5;15m                  \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                  \x1b[92m  \x1b[48;5;232m          \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m              \x1b[0m\x1b[48;5;15m      \x1b[0m\x1b[48;5;232m                           \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m         \x1b[0m\x1b[48;5;15m \x1b[0m\x1b[48;5;232m                \x1b[0m\x1b[48;5;15m    \x1b[0m\x1b[48;5;232m   \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m      \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m  \x1b[0m\x1b[48;5;15m   \x1b[0m\x1b[48;5;232m            \x1b[0m\x1b[48;5;15m                 \x1b[0m\x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m  \x1b[0m\x1b[48;5;15m                                                                                                                                                                   \x1b[0m\x1b[48;5;196m  \x1b[0m\n");
-    printf("\x1b[48;5;196m                                                                                                                                                                       \x1b[0m\n");
-}
 
 void afficherCase(struct Tuile *t, int emplacement) {
-    /////Affiche la case d'une tuile selon l'emplacement passé en paramètre.
-    if (t == NULL || t->elements == NULL) {
+    /* Input : struct Tuile * t, int emplacement 
+    Output : void
+    But : Affiche la case d'une tuile t selon son emplacement (entre 0 et 4)
+    */
+    if (t == NULL || t->elements == NULL) { //On vérifie si la tuile est bien allouuée
         printf("Erreur : Tuile ou éléments de la tuile non alloués.\n");
     }
 
-    if (emplacement < 0 || emplacement >= 5) { // Vérifier les limites de `elements`
+    if (emplacement < 0 || emplacement >= 5) { // On vérifie si l'emplacement est bien entre 0 et 4
         printf("Erreur : Emplacement invalide (%d).\n", emplacement);
     }
 
     else{
-        int meeple_emp;
-        char *Case = (char *)malloc(42 * sizeof(char));
+        int meeple_emp; //emplacement du meeple
+        char *Case = (char *)malloc(42 * sizeof(char)); 
+        //Case servira à print une chaîne de caractère   (donc la case) avec 
+        //la bonne couleur et le meeple (s'il existe)
         if (Case == NULL) {
             printf("Erreur d'allocation mémoire.\n");
         }
 
-        char couleur_meeple;
+        char couleur_meeple; //Couleur du meeple
         Case[0] = '\0'; // Initialisation de la chaîne
 
-        if (emplacement == -1) {
-            printf(" ");
-            free(Case);
-            return;
-        }
-
-        if (t->elements[emplacement] == 'v') {
-            strcat(Case, "\x1b[48;5;186m");
-        } else if (t->elements[emplacement] == 'r') {
-            strcat(Case, "\x1b[48;5;254m");
+        if (t->elements[emplacement] == 'v') { 
+            strcat(Case, "\x1b[48;5;186m"); //Si c'est une ville, affichage en jaune/beige
+        } else if (t->elements[emplacement] == 'r') { 
+            strcat(Case, "\x1b[48;5;254m"); //Si c'est une route, affichage de la case en blanc
         } else if (t->elements[emplacement] == 'c') {
-            strcat(Case, "\x1b[48;5;9m");
+            strcat(Case, "\x1b[48;5;9m"); //Si c'est un village, affichage en rouuge clair
         } else if (t->elements[emplacement] == 'b') {
-            strcat(Case, "\x1b[48;5;75m");
+            strcat(Case, "\x1b[48;5;75m"); //Si c'est une ville avec blason, affichage en cleu clair
         } else if (t->elements[emplacement] == 'p') {
             strcat(Case, "\x1b[48;5;46m");
         } else if (t->elements[emplacement] == 'a') {
