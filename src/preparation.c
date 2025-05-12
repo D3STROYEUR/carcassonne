@@ -95,7 +95,7 @@ int batimentsEgaux(char a, char b){
     Output : int (1 si vrai 0 sinon)
     But : Vérifie si les bâtiments a et b sont compatible (par exemple une route est compatible avec une route, un blason est compatible avec une ville)
     */
-    if((a==b) || ((a == 'b' || a== 'v') && (b == 'b' || b == 'v'))){
+    if((a==b) || ((a == 'b' || a  == 'v') && (b == 'b' || b == 'v'))){
         return 1;
     }
     return 0;
@@ -157,7 +157,7 @@ void poserTuile(struct Tuile*** grille, struct Tuile** tuile, int x, int y){
     Output : void
     But : Met le pointeur de tuile dans la grille à ces coordonnées x et y SANS vérification.
     */
-   grille[y][x] = *tuile;
+    grille[y][x] = *tuile;
 }
 
 void rotationTuile(struct Tuile *tuile, int sens){

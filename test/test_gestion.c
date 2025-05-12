@@ -66,8 +66,6 @@ int testGestion(int debug){
 
     supprimerElementLCC(&lcc4, 0, &testx, &testy);
     testUnitaire(lcc4 == NULL && testx == 3 && testy == 4, "supprimerElementLCC 3",&reussi, &echoue,debug);
-
-    // TODO vérifier emplacementPosable, retirerMeepleAbbaye, remiseMeeple, retirerMeepleRoute
     
     // grille 1 (route)
     char t1[5] = {'r','r','r','r','a'},

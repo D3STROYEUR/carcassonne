@@ -5,8 +5,6 @@
 #include "gestion.h"
 #include "preparation.h"
 
-// TODO probleme avec  enlevemeeple de abbaye ou quelque chose en rapport avec l'abbaye
-
 int max(int x, int y){
     if(x>y) return x;
     return y;
@@ -84,10 +82,9 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
         pts_coord[i] = (int *) calloc(maxi_emplacement_dispo,sizeof(int));
     }
     
-    // si maxi_emplacement == 0 alors pas d'emplacement dispo, il faudrait remelanger ?? il faut demander au prof comment l'handle
-
+    // Ce cas est géré avant, cette condition n'est censé jamais être vrai
     if(maxi_emplacement_dispo == 0){
-        printf("ATTENTION PAS D'EMPLACEMENTS DISPO\nooooo\nooooo\nooooo\nooooo\nooooo\nooooo\nooooo\n");
+        printf("ATTENTION PAS D'EMPLACEMENTS DISPO\n");
     }
 
     //on test tous les emplacements (en faisant avec les 4 rotations)
@@ -186,7 +183,7 @@ int tourRobot(struct Tuile *** grille, struct Joueur ** liste_joueur , int numer
     afficherGrille(grille, NULL,*endroit_pose);
 
     //à enlever si on veut être rapide
-    //sleep(2);
+    sleep(2);
     return 1;
 }
 
@@ -416,7 +413,6 @@ int main(){
             printf("==========\nRobot %s\n==========\n",couleur);
         }
 
-        //TODO que le numéro du tour et du joueur n'apparaisse qu'une fois !
         int maxi_emplacement_dispo = 0;
 
         // Vérification de si la tuile est posable
